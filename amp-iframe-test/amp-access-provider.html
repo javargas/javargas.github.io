@@ -14,7 +14,7 @@ var ctrl = {
   authorize: function() {
     return new Promise(function(success) {
       // main logic checking if cookie exists
-      let showPaywall = document.cookie.indexOf('test_cookie') > -1 ? false : true;
+      let showPaywall = !/(^|;\s*)test_cookie=/.test(document.cookie);
 
       success({ showPaywall });
     });
