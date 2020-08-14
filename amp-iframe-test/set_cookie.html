@@ -1,0 +1,23 @@
+<html>
+<head>
+</head>
+<body>
+  <button>Set Cookie</button>
+  <div class="cookieSet"></div>
+  <script type="text/javascript">
+    window.onload = (event) => {
+      let cookies = document.cookie.split(';');
+      let button = document.querySelector('button');
+      let cookieText = document.querySelector('.cookieSet');
+
+
+      cookieText.innerText = "Current cookies: " + document.cookie;
+      button.addEventListener("click", (e) => { 
+        e.preventDefault();
+        document.cookie = 'test_cookie=true';
+        location.reload(); 
+      });
+    }
+  </script>
+</body>
+</html>
