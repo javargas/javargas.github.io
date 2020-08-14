@@ -2,19 +2,26 @@
 <head>
 </head>
 <body>
-  <button>Set Cookie</button>
+  <div><button id="set_plain">Set Cookie: Plain</button></div>
+  <div><button id="set_samesite">Set Cookie: SameSite=None</button></div>
   <div class="cookieSet"></div>
   <script type="text/javascript">
     window.onload = (event) => {
-      let cookies = document.cookie.split(';');
-      let button = document.querySelector('button');
-      let cookieText = document.querySelector('.cookieSet');
+      let cookies = document.cookie.split(';'),
+          b_plain = document.querySelector('button#set_plain'),
+          b_ss = document.querySelector('button#set_samesite'),
+          cookieText = document.querySelector('.cookieSet');
 
 
       cookieText.innerText = "Current cookies: " + document.cookie;
-      button.addEventListener("click", (e) => { 
+      b_plain.addEventListener("click", e => { 
         e.preventDefault();
         document.cookie = 'test_cookie=true';
+        location.reload(); 
+      });
+      b_ss.addEventListener('click', e => {
+        e.preventDefault();
+        document.cookie = 'test_cookie=true; SameSite=None; Secure';
         location.reload(); 
       });
     }
