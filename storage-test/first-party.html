@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>JS Bin</title>
+
+  <script>
+  document.addEventListener('DOMContentLoaded', () => {
+    let b_set = document.querySelector('#sto-set');
+    let b_rm = document.querySelector('#sto-remove');
+    let disp = document.querySelector('#disp');
+
+    b_set.addEventListener('click', e => {
+      e.preventDefault();
+      localStorage.setItem('foo', 'bar');
+    });
+    b_rm.addEventListener('click', e => {
+      e.preventDefault();
+      localStorage.removeItem('foo');
+    });
+    disp.textContent = localStorage.getItem('foo');
+  });
+  </script>
+</head>
+<body>
+  <div><button id="sto-set">Set</button></div>
+  <div><button id="sto-remove">Remove</button></div>
+  <div id="disp"></div>
+</body>
+</html>
