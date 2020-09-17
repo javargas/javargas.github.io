@@ -14,10 +14,12 @@
     b_set.addEventListener('click', e => {
       e.preventDefault();
       localStorage.setItem('foo', 'bar');
+      location.reload();
     });
     b_rm.addEventListener('click', e => {
       e.preventDefault();
       localStorage.removeItem('foo');
+      location.reload();
     });
     disp.textContent = localStorage.getItem('foo');
   });
