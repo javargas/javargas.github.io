@@ -1,6 +1,6 @@
 <!doctype html>
 <html ⚡>
-<!-- host this file on a separate domain to test 3rd-party cookie restrictions-->
+<!-- host this file on a separate domain to test 3rd-party cookie restrictions -->
 <head>
   <meta charset="utf-8">
   <script async src="https://cdn.ampproject.org/v0.js"></script>
@@ -10,13 +10,16 @@
         "type": "iframe",
         "iframeSrc": "https://kliuless.github.io/amp-iframe-test/amp-access-provider.html",
         "iframeVars": ["READER_ID", "CANONICAL_URL", "DOCUMENT_REFERRER"],
-        "defaultResponse": { "showPaywall": false }
+        "defaultResponse": { "showPaywall": false, "storageRead": false }
       }
   </script> 
-  <link rel="canonical" href="https://jsbin.com/vehegosode/embed?html,js,output">
+  <link rel="canonical" href="https://jsbin.com/veqopemiki/embed?html,output">
   <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
   
   <style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style>
+  <style>
+    .trb_apw { border: 1px dashed black } .trb_asto { border: 1px dashed yellow }
+  </style>
 
   <noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>
 </head>
@@ -26,6 +29,12 @@
   </div>
   <div class="trb_apw" amp-access="NOT showPaywall" amp-access-hide>
     no paywall
+  </div>
+  <div class="trb_asto" amp-access="storageRead" amp-access-hide>
+    storage filled
+  </div>
+  <div class="trb_asto" amp-access="NOT storageRead" amp-access-hide>
+    storage empty
   </div>
 </body>
 </html>
