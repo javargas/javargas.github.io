@@ -23,7 +23,7 @@ var ctrl = {
       // use a param to write LS, because Safari ITP maintains separate sandboxes for each pair of containing page + iframe origins.
       switch (params.get('stoAction')) {
       case 'set':
-        localStorage.setItem(stoKey, true); break;
+        localStorage.setItem(stoKey, '1'); break;
       case 'remove':
         localStorage.removeItem(stoKey); break;
       }
