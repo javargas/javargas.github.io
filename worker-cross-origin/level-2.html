@@ -1,0 +1,32 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<script>
+addEventListener('message', e => {
+  // TODO: allow a different level-1 origin
+  if (e.origin === window.origin) {
+    console.log(location.href, '| Got message from', e.source, '| data:', e.data);
+  }
+}, false);
+
+</script>
+
+<style>
+.box {
+  width: 400px;
+  height: 100px;
+  border: 1px black solid;
+}
+</style>
+</head>
+
+<body>
+<div>Level-2</div>
+<div>Status</div>
+<div id="status" class="box"></div>
+<div>Content</div>
+<div id="content" class="box"></div>
+<div>Log</div>
+<div id="log" class="box"></div>
+</body>
+</html>

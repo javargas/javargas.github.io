@@ -1,0 +1,21 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<script>
+document.addEventListener('DOMContentLoaded', _ => {
+  document.querySelector('button').addEventListener('click', e => {
+    // TODO: allow sending a custom target origin
+    document.querySelector('iframe').contentWindow.postMessage({abc: 'DEF'}, window.origin);
+  });
+});
+</script>
+</head>
+
+<body>
+<div>Level-1</div>
+<div>
+  <button>Send</button>
+</div>
+<iframe src="level-2.html" width="500" height="700">
+</body>
+</html>

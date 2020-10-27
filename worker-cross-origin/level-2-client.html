@@ -1,0 +1,108 @@
+<html>
+<head>
+<meta charset="utf-8"/>
+<script>
+  var ChromeSamples = {
+    log: function() {
+      var line = Array.prototype.slice.call(arguments).map(function(argument) {
+        return typeof argument === 'string' ? argument : JSON.stringify(argument);
+      }).join(' ');
+
+      document.querySelector('#log').textContent += line + '\n';
+    },
+
+    clearLog: function() {
+      document.querySelector('#log').textContent = '';
+    },
+
+    setStatus: function(status) {
+      document.querySelector('#status').textContent = status;
+    },
+
+    setContent: function(newContent) {
+      var content = document.querySelector('#content');
+      while(content.hasChildNodes()) {
+        content.removeChild(content.lastChild);
+      }
+      content.appendChild(newContent);
+    }
+  };
+</script>
+<script>
+addEventListener('message', e => {
+  // TODO: allow a different level-1 origin
+  if (e.origin === window.origin) {
+    console.log(location.href, '| Got message from', e.source, '| data:', e.data);
+  }
+}, false);
+
+function sendMessage(message) {
+  // This wraps the message posting/response in a promise, which will resolve if the response doesn't
+  // contain an error, and reject with the error if it does. If you'd prefer, it's possible to call
+  // controller.postMessage() and set up the onmessage handler independently of a promise, but this is
+  // a convenient wrapper.
+  return new Promise(function(resolve, reject) {
+    var messageChannel = new MessageChannel();
+    messageChannel.port1.onmessage = function(event) {
+      if (event.data.error) {
+        reject(event.data.error);
+      } else {
+        resolve(event.data);
+      }
+    };
+
+    // This sends the message data as well as transferring messageChannel.port2 to the service worker.
+    // The service worker can then use the transferred port to reply via postMessage(), which
+    // will in turn trigger the onmessage handler on messageChannel.port1.
+    // See https://html.spec.whatwg.org/multipage/workers.html#dom-worker-postmessage
+    navigator.serviceWorker.controller.postMessage(message,
+      [messageChannel.port2]);
+  });
+}
+
+document.addEventListener('DOMContentLoaded', _ => {
+if ('serviceWorker' in navigator) {
+  // Set up a listener for messages posted from the service worker.
+  // The service worker is set to post a message to all its clients once it's run its activation
+  // handler and taken control of the page, so you should see this message event fire once.
+  // You can force it to fire again by visiting this page in an Incognito window.
+  navigator.serviceWorker.addEventListener('message', event => {
+    ChromeSamples.setStatus(event.data);
+  });
+
+  navigator.serviceWorker.register('svc-worker.js')
+    // Wait until the service worker is active.
+    .then(() => {
+      return navigator.serviceWorker.ready;
+    })
+    // ...and then show the interface for the commands once it's ready.
+    .catch(function(error) {
+      // Something went wrong during registration. The service-worker.js file
+      // might be unavailable or contain a syntax error.
+      ChromeSamples.setStatus(error);
+    });
+} else {
+  ChromeSamples.setStatus('This browser does not support service workers.');
+}
+});
+</script>
+
+<style>
+.box {
+  width: 400px;
+  height: 100px;
+  border: 1px black solid;
+}
+</style>
+</head>
+
+<body>
+<div>Level-2 client</div>
+<div>Status</div>
+<div id="status" class="box"></div>
+<div>Content</div>
+<div id="content" class="box"></div>
+<div>Log</div>
+<div id="log" class="box"></div>
+</body>
+</html>
