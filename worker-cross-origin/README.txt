@@ -7,3 +7,8 @@ Goals: Determine ITP behavior in the following scenarios (simulate google.com/am
   - NOTE: ServiceWorker cannot access client cookies.
   - A cross-origin 2-level deep iframe can communicate with the ServiceWorker?
   - The same iframe can retrieve a cookie value via the ServiceWorker via postMessage?
+
+
+Misc
+Testing ServiceWorker in Chrome with self-signed cert:
+/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --user-data-dir=/tmp/chrome-tmp --ignore-certificate-errors
