@@ -9,7 +9,14 @@
       crossorigin="anonymous"></script>  
     <script src="https://ssor.trb.stage.tribdev.com/reg/tribune/chiarc.js" async></script>
     <script src="https://dss-recurly.p2p.stage.int.tribops.com/meter/chkout001.js" async></script>
-    
+
+    <script>
+      ((window.trb || (trb = {})).registration || (trb.registration = [])).push(function(reg) {
+        console.log('testing on reg init');
+      });
+      ((window.trb || (trb = {})).metering || (trb.metering = [])).push('handle-checkout_page');
+    </script>
+
     <div data-reg-role="checkout_page"></div>
   </body>
 </html>
