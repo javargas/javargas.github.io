@@ -1,0 +1,78 @@
+<style>
+
+  #app {
+      background-image: url("data:image/svg+xml,%3Csvg%20width%3D%221280%22%20height%3D%22250%22%20viewBox%3D%220%200%201280%20250%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Cpath%20fill-rule%3D%22evenodd%22%20clip-rule%3D%22evenodd%22%20d%3D%22M1280%200H0V181.278C-32.246%20187.061%20-50%20193.38%20-50%20200C-50%20227.614%20258.924%20250%20640%20250C1021.08%20250%201330%20227.614%201330%20200C1330%20193.38%201312.25%20187.061%201280%20181.278V0Z%22%20fill%3D%22%23002D51%22%20fill-opacity%3D%220.88%22%2F%3E%0A%3C%2Fsvg%3E");
+      background-size: 100% auto;
+      background-repeat: no-repeat;
+  }
+
+  .footer_bkg {
+    height: 377px;
+    width: 100%;
+    left: 0px;
+    top: 1195px;
+
+    /* Dark Tribune Blue */
+	margin-top: 50px;
+    background: #002D51;
+  }
+  
+  .center {
+       margin: 0 auto;
+      max-width: 100%;
+      max-height: 100%;
+  }
+
+</style>
+<div id="app">
+  {{ message }}
+  
+  <div data-reg-role="${module_1}">
+  </div>
+  
+  <div data-reg-role="${module_2}">
+  </div>
+  
+  <div data-reg-role="${module_3}">
+  </div>
+</div>
+  
+<script>
+
+  
+Vue.use(Vuex);  
+Vue.use(window.vuelidate.default)
+const { required, email, numeric } = window.validators
+  var app = new Vue({
+    el: '#app',
+    data: {
+      message: 'Hello Vue!'
+    },    
+    methods:{
+        loadModules: function() {
+          console.log("Loading from vue");
+          
+          (()=>{
+              const S=trb.metering;
+              ["${module_1}", "${module_2}", "${module_3}"]
+                .forEach(
+                D=>{
+                  console.log("Loading module "+D),D&&S.push("handle-"+D)
+                })
+            })();
+        }
+    },
+    created: function(){
+        this.loadModules()
+    }
+  })
+  
+  const store = new Vuex.Store({
+    state: {
+        
+    }
+  });
+
+
+  
+</script>
