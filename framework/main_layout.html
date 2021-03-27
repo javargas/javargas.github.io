@@ -35,14 +35,17 @@
   
   <div data-reg-role="${module_3}">
   </div>
+  
+  <div data-reg-role="${module_4}">
+  </div>
 </div>
   
 <script>
 
   
 Vue.use(Vuex);  
-Vue.use(window.vuelidate.default)
-const { required, email, numeric } = window.validators
+Vue.use(vuelidate.default)
+const { required, email, numeric } = validators
   var app = new Vue({
     el: '#app',
     data: {
@@ -54,7 +57,7 @@ const { required, email, numeric } = window.validators
           
           (()=>{
               const S=trb.metering;
-              ["${module_1}", "${module_2}", "${module_3}"]
+              ["${module_1}", "${module_2}", "${module_3}", "${module_4}"]
                 .forEach(
                 D=>{
                   console.log("Loading module "+D),D&&S.push("handle-"+D)

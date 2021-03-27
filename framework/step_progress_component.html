@@ -1,0 +1,129 @@
+<script>
+    Vue.component('step-progress', {
+      template :  `
+        <div class=" page_step_1 center">
+            <div class="progress-container">     
+                <div class="progress-bg"></div>
+                <div class="progress-ball progress-ball1 ball-active" :style="ballStyle"></div> 
+                <div class="progress-bar progress-bar1" :style="barStyle"></div>
+                <div class="progress-ball progress-ball2 ball-pending" :style="ballStyle"></div> 
+                <div class="progress-bar progress-bar2" :style="barStyle"></div>
+                <div class="progress-ball progress-ball3 ball-pending" :style="ballStyle"></div>   
+                
+                <div class="progress-card">
+                    <div class="progress-title">Step 1 of 3</div>
+                    <div class="progress-text">Provide email</div>
+                </div>
+            </div>   
+        </div>
+    `,
+      data: function () {
+        return {
+          count: 98989
+        }
+      },
+      mounted: function(){
+          var css_text = `
+            .page_step_1 {
+                    margin-top: 50px;   
+                    width: 580px;
+                }
+
+                .progress-container {
+                    position: relative;
+                }
+
+                .progress-bg {
+                    top: 60px;
+                    width: 100%;
+                    height: 22px;
+                }
+
+                .progress-bar {
+                    position: absolute;
+                    width: 255px;
+                    height: 3px;
+                    background: #CDD2DE;
+
+                }
+
+                .progress-bar1 {
+                    top: 10px;
+                    left: 25px;
+                }
+
+                .progress-bar2 {
+                    top: 10px;
+                    left: 308px;
+                }
+
+                .progress-ball {
+                    position: absolute;
+                    width: 21px;
+                    height: 21px;
+
+                    box-sizing: border-box;
+                    border-radius: 50%;
+                }
+
+                .ball-active {
+                    background: #FFFFFF;
+                    border: 5px solid #004E87;
+                }
+
+                .ball-pending {
+                    background: #CDD2DE;
+                    border: 1px solid #FFFFFF;
+                }
+
+                .progress-ball1 {
+                    left: 1px;
+                    top: 1px;
+                }       
+
+                .progress-ball2 {
+                    left: 283px;
+                    top: 1px;
+                }
+
+                .progress-ball3 {
+                    left: 560px;
+                    top: 1px;
+                }
+                .progress-card {
+                    position: absolute;
+                    left: 1px;
+                    top: 30px;
+                }
+
+                .progress-title {
+                    width: 94px;
+                    height: 20px;
+
+                    font-family: Open Sans;
+                    font-style: normal;
+                    font-weight: bold;
+                    font-size: 15px;
+                    line-height: 20px;
+                    text-transform: uppercase;
+                    color: #004E87;
+                }
+
+                .progress-text {
+                    font-family: Open Sans;
+                    font-style: normal;
+                    font-weight: normal;
+                    font-size: 18px;
+                    line-height: 26px;
+                    color: #36393D;
+                }
+          `;
+          var css = document.createElement('style');
+          css.type='text/css';
+          css.setAttributeNode( document.createAttribute('scopped') );
+          css.appendChild(    document.createTextNode( css_text )     );
+          this.$el.appendChild(   css     );
+      }
+    })
+  </script>
+  <step-progress></step-progress>

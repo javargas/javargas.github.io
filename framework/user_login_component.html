@@ -1,0 +1,193 @@
+<script>
+    Vue.component('user-login', {
+      template :  `
+      <div class="login_module center" id='${planBlockId}'>
+        <div class="login_text_1">
+        Let's start with your email
+        </div>
+        
+        <div class="login_text_2">
+        This will be used to log in to our website and app. 
+        </div>
+        
+        <input type="text" 
+               class="login_input" 
+               placeholder="Email address"
+               v-model="email"
+                :error-messages="emailErrors"
+                @input="$v.email.$touch()"
+                @blur="$v.email.$touch()"
+                required />
+
+        <span class="login_errors">{{emailErrors}}</span>
+
+        <div class="input-wrapper">
+            <input  :type="type"
+                    v-if="blnIsRegister"
+                    class="login_input login_password"
+                    placeholder="Password"
+                    v-model="password"
+                    id="password"
+                    required />
+
+                <label for="password" 
+                    v-if="blnIsRegister"
+                    @click="showPassword = !showPassword"
+                    class="fa input-icon"
+                    :class="[showPassword ? 'fa-eye' : 'fa-eye-slash']">
+                </label>
+        </div>
+            
+        
+        <input type="button" class="login_button" value="Continue" @click="submit">
+    </div>
+    `,
+      data: function () {
+        return {    
+            email: '',
+            blnIsRegister: false,      
+            password: '',  
+            showPassword: false,   
+        }
+      },
+
+        validations: {
+           
+            email: {
+                required,
+                email
+            }
+        },
+
+
+        computed: {
+            emailErrors () {
+                if (!this.$v.email.$dirty) return ''
+                if (!this.$v.email.required) return 'E-mail is required';
+                if (!this.$v.email.email) return 'Must be valid e-mail';
+            },
+
+            type() {
+                return (this.showPassword) ? 'text' : 'password';
+            },
+        },
+
+        methods: {
+            submit () {
+                    
+                this.$v.$touch();
+
+                if (!this.$v.$invalid) {
+                    this.blnIsRegister = true;
+                }
+            },
+            clear () {
+                this.$v.$reset()
+                this.email = ''
+            }
+        },
+
+      mounted: function(){
+          var css_text = `
+          .login_module {
+            width: 580px;
+            margin-top: 100px;
+           }
+        
+            .login_text_1 {
+                left: 355px;
+                display: block;
+                width: 570px;
+                height: 38px;
+                font-family: Spectral;
+                font-style: normal;
+                font-weight: bold;
+                font-size: 30px;
+                margin-top: 50px;
+                line-height: 38px;
+                text-align: center;
+                color: #36393D;
+            }
+
+            .login_errors {
+                font-family: Open Sans;
+                font-style: normal;
+                font-weight: normal;
+                font-size: 13px;
+                line-height: 18px;
+                color: #B63125;
+                margin-top:
+            }
+
+            .login_text_2 {
+                width: 570px;
+                height: 26px;
+                display: block;
+                font-family: Open Sans;
+                font-style: normal;
+                font-weight: normal;
+                margin-top: 20px;
+                font-size: 18px;
+                line-height: 26px;
+                text-align: center;
+                color: #60666C;
+            }
+
+            .login_input {
+                width: 570px;
+                height: 60px;  display: block;
+                background: #F9F9F9;
+                border: 1px solid #9BA1B3;
+                box-sizing: border-box;
+                box-shadow: inset 0px 1px 4px rgba(0, 0, 0, 0.2);
+                margin-top: 20px;
+                border-radius: 4px;
+                font-family: Open Sans;
+                font-style: normal;
+                font-weight: normal;
+                font-size: 16px;
+                line-height: 24px;
+                color: #36393D;
+                opacity: 0.6;
+                margin-bottom: 6px;
+            }
+            .input-wrapper{
+                position: relative;
+            }
+
+            .input-icon{
+                position: absolute;
+                left: 543px;
+                opacity: 0.6;
+                top: calc(50% - 0.5em); /* Keep icon in center of input, regardless of the input height */
+            }
+
+            .login_password {
+                padding-right: 17px;
+            }
+
+            .login_button {
+                width: 570px;
+                height: 60px;
+                background: #004E87;
+                border-radius: 4px;font-family: Open Sans;
+                font-style: normal;
+                font-weight: 600;
+                font-size: 18px;
+                line-height: 24px;
+                margin-top: 20px;
+                margin-bottom: 20px;
+                text-align: center;
+                color: #FFFFFF;
+
+            }
+          `;
+          var css = document.createElement('style');
+          css.type='text/css';
+          css.setAttributeNode( document.createAttribute('scopped') );
+          css.appendChild(    document.createTextNode( css_text )     );
+          this.$el.appendChild(   css     );
+      }
+    })
+  </script>
+  <user-login></user-login>
