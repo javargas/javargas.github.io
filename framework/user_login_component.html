@@ -21,9 +21,8 @@
 
         <span class="login_errors">{{emailErrors}}</span>
 
-        <div class="input-wrapper">
+        <div class="input-wrapper" v-if="blnIsRegister">
             <input  :type="type"
-                    v-if="blnIsRegister"
                     class="login_input login_password"
                     placeholder="Password"
                     v-model="password"
@@ -31,7 +30,6 @@
                     required />
 
                 <label for="password" 
-                    v-if="blnIsRegister"
                     @click="showPassword = !showPassword"
                     class="fa input-icon"
                     :class="[showPassword ? 'fa-eye' : 'fa-eye-slash']">
@@ -73,12 +71,31 @@
         },
 
         methods: {
-            submit () {
-                    
+            submit () {                   
+
                 this.$v.$touch();
 
                 if (!this.$v.$invalid) {
-                    this.blnIsRegister = true;
+                    if (!this.blnIsRegister) {
+
+                        // To change here:
+                        // Validate if login is registered, 
+                        // or if it's a new user
+
+                        this.blnIsRegister = true;
+
+
+                        this.$store.dispatch("nextStep");
+                    } else {
+
+                        // To change here:
+                        // Validate the password
+
+                        // If it's authenticated then, go to step 2
+
+                        this.$store.dispatch("nextStep");
+
+                    }
                 }
             },
             clear () {

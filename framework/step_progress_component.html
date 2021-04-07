@@ -4,15 +4,35 @@
         <div class=" page_step_1 center">
             <div class="progress-container">     
                 <div class="progress-bg"></div>
-                <div class="progress-ball progress-ball1 ball-active" :style="ballStyle"></div> 
-                <div class="progress-bar progress-bar1" :style="barStyle"></div>
-                <div class="progress-ball progress-ball2 ball-pending" :style="ballStyle"></div> 
-                <div class="progress-bar progress-bar2" :style="barStyle"></div>
-                <div class="progress-ball progress-ball3 ball-pending" :style="ballStyle"></div>   
+                <div class="progress-ball progress-ball1"
+                     :class="classStep1">
+                </div> 
+                <div class="progress-bar progress-bar1"
+                    :class="step == 1 ? 'progress-bar-pending' : 'progress-bar-completed'">
+                </div>
+                <div class="progress-ball progress-ball2"
+                     :class="classStep2">
+                </div> 
+                <div class="progress-bar progress-bar2"
+                    :class="step == 3 ? 'progress-bar-completed' : 'progress-bar-pending'">
+                </div>
+                <div class="progress-ball progress-ball3"
+                     :class="classStep3">
+                </div>   
                 
-                <div class="progress-card">
+                <div class="progress-card card-step1" v-if="step == 1">
                     <div class="progress-title">Step 1 of 3</div>
                     <div class="progress-text">Provide email</div>
+                </div>
+
+                <div class="progress-card card-step2" v-if="step == 2">
+                    <div class="progress-title">Step 2 of 3</div>
+                    <div class="progress-text">Log In</div>
+                </div>
+
+                <div class="progress-card card-step3" v-if="step == 3">
+                    <div class="progress-title">Step 3 of 3</div>
+                    <div class="progress-text">Pay & subscribe</div>
                 </div>
             </div>   
         </div>
@@ -22,6 +42,30 @@
           count: 98989
         }
       },
+      computed: {
+          step(){
+              return this.$store.state.activeStep;
+          },
+          classStep1() {
+            if(this.$store.state.activeStep == 1)
+                return 'ball-active';
+            else
+                return 'ball-completed fas fa-check';
+          },
+          classStep2() {
+            switch(this.$store.state.activeStep) {
+                case 1: return 'ball-pending';
+                case 2: return 'ball-active';
+                case 3: return 'ball-completed fas fa-check';
+            }
+          },
+          classStep3() {
+            if(this.$store.state.activeStep == 3)
+                return 'ball-active';
+            else
+                return 'ball-pending';
+          }
+      },  
       mounted: function(){
           var css_text = `
             .page_step_1 {
@@ -43,8 +87,14 @@
                     position: absolute;
                     width: 255px;
                     height: 3px;
-                    background: #CDD2DE;
+                }
 
+                .progress-bar-completed {
+                    background: #57A635;
+                }
+
+                .progress-bar-pending{
+                    background: #CDD2DE;
                 }
 
                 .progress-bar1 {
@@ -64,6 +114,21 @@
 
                     box-sizing: border-box;
                     border-radius: 50%;
+                }
+
+                .ball-completed {
+                    background: #57A635;
+                    border: 1px solid #FFFFFF;
+                    font-family: Font Awesome 5 Pro;
+                    font-style: normal;
+                    font-weight: 900;
+                    font-size: 10px;
+                    line-height: 12px;
+                    /* identical to box height, or 120% */
+
+                    text-align: center;
+
+                    color: #FFFFFF;
                 }
 
                 .ball-active {
@@ -92,8 +157,19 @@
                 }
                 .progress-card {
                     position: absolute;
-                    left: 1px;
                     top: 30px;
+                }
+
+                .card-step1 {
+                    left: 1px;
+                }
+
+                .card-step2 {
+                    left: 250px;
+                }
+
+                .card-step3 {
+                    left: 490px;
                 }
 
                 .progress-title {
