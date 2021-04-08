@@ -259,7 +259,7 @@
                 content: "+";
               } 
 
-              #minus,#show_full_access,#content_full_access{display:none;}
+              #minus,#show_full_access,#content_full_access,#show_offers,#aditional_offers{display:none;}
               
               #show_full_access:checked ~ #content_full_access{
                 display:block;
@@ -271,6 +271,10 @@
               #show_full_access:not(checked) ~ #content_full_access {
                 display: none;
               }
+              
+              #show_offers:checked ~ #aditional_offers{
+                display:block;
+              }  
             </style>
             <div  class="digital_access center" id="${planBlockId}">
               <div class="offer">
@@ -316,9 +320,162 @@
               </div>  
 
               <hr>
-              <div class="aditional_offers">
-                Additional offers
-              </div>
+              <div >
+
+                <label for="show_offers" class="aditional_offers">
+                  Additional offers
+                </label>
+                <input type="checkbox" name="two" id="show_offers">
+              
+              <div id="aditional_offers">
+                  
+                  <div data-reg-role="${module_promotional_offer}">
+                            <style>
+                              .promotional_offer {
+                                  background: #F8F8F8;
+                                  border: 1px solid #BBBBBB;
+                                  box-sizing: border-box;
+                                  border-radius: 4px;
+                              }
+                          
+                              .title_offer {
+                                  font-family: Open Sans;
+                                  font-style: normal;
+                                  font-weight: bold;
+                                  font-size: 13px;
+                                  line-height: 18px;
+                                  text-transform: uppercase;
+                                  color: #8990A1;
+                                  margin-top: 20px;
+                                  margin-left: 67px;
+                              }
+
+                              .offer_head {
+                                padding-right: 10px;
+                                height: 104px;    
+                                margin-left: 70px;
+                                margin-top: -20px;
+                                font-family: Spectral;
+                                font-style: normal;
+                                font-weight: bold;
+                                font-size: 22px;
+                                line-height: 26px;
+                                text-transform: uppercase;
+                                color: #36393D;
+                              }
+
+                              .switch {
+                                display: inline-block;
+                                height: 24px;
+                                position: relative;
+                                width: 40px;
+                                margin-left: 15px;
+                                margin-top: 10px;
+                              }
+
+                              .switch input {
+                                display:none;
+                              }
+
+                              .slider {
+                                background-color: #ccc;
+                                bottom: 0;
+                                cursor: pointer;
+                                left: 0;
+                                position: absolute;
+                                right: 0;
+                                top: 0;
+                                transition: .4s;
+                              }
+
+                              .slider:before {
+                                background-color: #fff;
+                                content: "";
+                                height: 23px;
+                                left: 1x;
+                                position: absolute;
+                                transition: .4s;
+                                width: 23px;
+                              }
+
+                              input:checked + .slider {
+                                background-color: #004E87;
+                              }
+
+                              input:checked + .slider:before {
+                                transform: translateX(16px);
+                              }
+
+                              .slider.round {
+                                border-radius: 34px;
+                              }
+
+                              .slider.round:before {
+                                border-radius: 50%;
+                              }
+
+                              .best_value {
+                                font-family: Open Sans;
+                                font-style: normal;
+                                font-weight: 300;
+                                font-size: 13px;
+                                line-height: 10px;
+                                text-transform: uppercase;
+                                color: #FFFFFF;
+                                width: 88px;
+                                background: #57A635;
+                                border-radius: 18px;
+                                margin-left: 60px;
+                                padding: 11px;
+                              }
+                              .offer-price {  
+                                  margin-top: 30px;
+                                  margin-left: 60px;
+                                }
+                                
+                                .offer-number-price {
+                                  font-family: Open Sans;
+                                  font-style: normal;
+                                  font-weight: bold;
+                                  font-size: 22px;
+                                  line-height: 26px;
+                                  text-transform: uppercase;
+                                  color: #36393D;
+                                }
+                                
+                                .offer-text-price {
+                                  font-family: Open Sans;
+                                  font-style: normal;
+                                  font-weight: bold;
+                                  font-size: 16px;
+                                  line-height: 20px;
+                                }
+                          </style>
+                          <div class="promotional_offer">
+                              <div class="title_offer">
+                                  Home Delivery
+                              </div>
+
+                              <label class="switch" for="checkbox">
+                                <input type="checkbox" id="checkbox"/>
+                                <div class="slider round"></div>
+                              </label>
+
+                              <div class="offer_head">
+                                Sunday & Wednesday + Full Digital Access
+                              </div>
+
+                              <div class="best_value">
+                                Best Value
+                              </div>
+
+                              <div class="offer-price">
+                                <span class="offer-number-price ">99¢</span>&nbsp;
+                                <span class="offer-text-price">for 8 weeks</span>
+                              </div>
+                          </div>
+                  </div>
+                  
             </div>
       </div>
           </div>
@@ -536,7 +693,7 @@
                 margin-top: 100px;
               }
               
-              .login_text_1 {
+              #login_text_1 {
                   left: 355px;
                   display: block;
                   width: 570px;
@@ -558,10 +715,9 @@
                   font-size: 13px;
                   line-height: 18px;
                   color: #B63125;
-                  margin-top:
               }
               
-              .login_text_2 {
+              #login_text_2 {
                   width: 570px;
                   height: 26px;
                   display: block;
@@ -601,7 +757,7 @@
                   position: absolute;
                   left: 543px;
                   opacity: 0.6;
-                  top: calc(50% - 0.5em); /* Keep icon in center of input, regardless of the input height */
+                  top: calc(50% + 1.5em); /* Keep icon in center of input, regardless of the input height */
               }
               
               .login_password {
@@ -629,11 +785,11 @@
               }
               </style>
               <div class="login_module center" id='${planBlockId}'>
-                  <div class="login_text_1">
+                  <div id="login_text_1">
                   Let's start with your email
                   </div>
                   
-                  <div class="login_text_2">
+                  <div id="login_text_2">
                   This will be used to log in to our website and app. 
                   </div>
                   
@@ -652,9 +808,8 @@
                               id="password"
                               required />
               
-                          <label for="password" 
-                              onclick="showPassword = !showPassword"
-                              class="fa input-icon">
+                          <label for="password" id="eyePwd" onclick="toogleEye()"
+                              class="fa input-icon fa-eye-slash">
                           </label>
                   </div>
                           
@@ -666,14 +821,40 @@
                   var strMail = (document.getElementById("login_email")).value;
               
                   if (ValidateEmail(strMail)) {
+
+                      /*  PENDING... REQUEST 
+                      * Validate if the emails exists as an account 
+                      */
+
                       (document.getElementById("login_error")).style.display = 'none';
                       (document.getElementById("divPassword")).style.display = 'inline';
               
+                      // Goto step # 2
                       state.nextStep();
+
+                      (document.getElementById("login_text_1")).innerHTML = 'You’re almost there!';
+                      (document.getElementById("login_text_2")).innerHTML = 'Create a password for your account.';
               
                   } else {
                       var strMessageError = "You have entered an invalid email address!";
                       (document.getElementById("login_error")).innerHTML = strMessageError;
+                  }
+              }
+
+              function toogleEye(){
+                  var eyePwd = document.getElementById("eyePwd");
+                  var password = document.getElementById("password");
+
+                  if (eyePwd.classList.contains('fa-eye-slash')) {
+                      eyePwd.classList.remove('fa-eye-slash');
+                      eyePwd.classList.add('fa-eye');
+
+                      password.type = 'text';
+                  } else {
+                      eyePwd.classList.remove('fa-eye');
+                      eyePwd.classList.add('fa-eye-slash');
+
+                      password.type = 'password';
                   }
               }
               

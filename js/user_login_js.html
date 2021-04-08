@@ -5,7 +5,7 @@
       margin-top: 100px;
     }
     
-    .login_text_1 {
+    #login_text_1 {
         left: 355px;
         display: block;
         width: 570px;
@@ -27,10 +27,9 @@
         font-size: 13px;
         line-height: 18px;
         color: #B63125;
-        margin-top:
     }
     
-    .login_text_2 {
+    #login_text_2 {
         width: 570px;
         height: 26px;
         display: block;
@@ -70,7 +69,7 @@
         position: absolute;
         left: 543px;
         opacity: 0.6;
-        top: calc(50% - 0.5em); /* Keep icon in center of input, regardless of the input height */
+        top: calc(50% + 1.5em); /* Keep icon in center of input, regardless of the input height */
     }
     
     .login_password {
@@ -98,11 +97,11 @@
     }
     </style>
     <div class="login_module center" id='${planBlockId}'>
-        <div class="login_text_1">
+        <div id="login_text_1">
         Let's start with your email
         </div>
         
-        <div class="login_text_2">
+        <div id="login_text_2">
         This will be used to log in to our website and app. 
         </div>
         
@@ -121,9 +120,8 @@
                     id="password"
                     required />
     
-                <label for="password" 
-                    onclick="showPassword = !showPassword"
-                    class="fa input-icon">
+                <label for="password" id="eyePwd" onclick="toogleEye()"
+                    class="fa input-icon fa-eye-slash">
                 </label>
         </div>
                 
@@ -135,14 +133,40 @@
         var strMail = (document.getElementById("login_email")).value;
     
         if (ValidateEmail(strMail)) {
+
+            /*  PENDING... REQUEST 
+            * Validate if the emails exists as an account 
+            */
+
             (document.getElementById("login_error")).style.display = 'none';
             (document.getElementById("divPassword")).style.display = 'inline';
     
+            // Goto step # 2
             state.nextStep();
+
+            (document.getElementById("login_text_1")).innerHTML = 'You’re almost there!';
+            (document.getElementById("login_text_2")).innerHTML = 'Create a password for your account.';
     
         } else {
             var strMessageError = "You have entered an invalid email address!";
             (document.getElementById("login_error")).innerHTML = strMessageError;
+        }
+    }
+
+    function toogleEye(){
+        var eyePwd = document.getElementById("eyePwd");
+        var password = document.getElementById("password");
+
+        if (eyePwd.classList.contains('fa-eye-slash')) {
+            eyePwd.classList.remove('fa-eye-slash');
+            eyePwd.classList.add('fa-eye');
+
+            password.type = 'text';
+        } else {
+            eyePwd.classList.remove('fa-eye');
+            eyePwd.classList.add('fa-eye-slash');
+
+            password.type = 'password';
         }
     }
     
