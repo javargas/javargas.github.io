@@ -450,6 +450,20 @@
                                   font-size: 16px;
                                   line-height: 20px;
                                 }
+
+                                #show_detail_offer,#content_detail_offer{display:none;}
+    
+                                #show_detail_offer:checked ~ #content_detail_offer{
+                                  display:block;
+                                }               
+                                #show_detail_offer:checked ~ #label_see_details:before{
+                                  content: "-";
+                                }  
+                                .see_details {
+                                  margin-bottom: 30px;
+                                  margin-top: 10px;
+                                  margin-left: 60px;
+                                }
                           </style>
                           <div class="promotional_offer">
                               <div class="title_offer">
@@ -473,11 +487,41 @@
                                 <span class="offer-number-price ">99¢</span>&nbsp;
                                 <span class="offer-text-price">for 8 weeks</span>
                               </div>
+
+                              <hr style="width: 85%;  color: #EEEEEE;"> 
+
+                              <div class="see_details">
+                                  <label for="show_detail_offer" class="what_included" id="label_see_details">
+                                    See details
+                                  </label>
+                                  <input type="checkbox" name="one" id="show_detail_offer">
+                                  
+                                  <div id="content_detail_offer">
+                                      <ul class="list">
+                                          <li class="item">
+                                            Sunday & Wednesday home delivery
+                                          </li>
+                                          <li class="item">
+                                            Full access to all digital content
+                                          </li>
+                                          <li class="item">
+                                              TFewer ads
+                                          </li>
+                                          <li class="item">
+                                            The eNewspaper, emailed daily
+                                          </li>
+                                          <li class="item">
+                                            Our app with breaking news alerts
+                                          </li>
+                                      </ul>
+                                  </div>
+                              </div>
                           </div>
                   </div>
                   
+                  </div>
             </div>
-      </div>
+          </div>
           </div>
         
           <!-- Step Progress -->
