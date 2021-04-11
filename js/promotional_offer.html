@@ -1,224 +1,231 @@
-<style>
-  .promotional_offer {
-      background: #F8F8F8;
-      border: 1px solid #BBBBBB;
-      box-sizing: border-box;
-      border-radius: 4px;
-      max-width: 570px;
-  }
-  .promotional_offer_active {
-      background: rgba(0, 78, 135, 0.08);
-      border: 1px solid #004E87;
-      box-sizing: border-box;
-      border-radius: 4px;
-      max-width: 570px;
-  }
+    <style>
+      .promotional_offer {
+        background: #F8F8F8;
+        border: 1px solid #BBBBBB;
+        box-sizing: border-box;
+        border-radius: 4px;
+        max-width: 570px;
+      }
 
-  .title_offer {
-      font-family: Open Sans;
-      font-style: normal;
-      font-weight: bold;
-      font-size: 13px;
-      line-height: 18px;
-      text-transform: uppercase;
-      color: #8990A1;
-      margin-top: 20px;
-      margin-left: 67px;
-  }
+      .promotional_offer_active {
+        background: rgba(0, 78, 135, 0.08);
+        border: 1px solid #004E87;
+        box-sizing: border-box;
+        border-radius: 4px;
+        max-width: 570px;
+      }
 
-  .offer_head {
-    padding-right: 10px;  
-    margin-left: 70px;
-    margin-top: -20px;
-    font-family: Spectral;
-    font-style: normal;
-    font-weight: bold;
-    font-size: 22px;
-    line-height: 26px;
-    text-transform: uppercase;
-    color: #36393D;
-    margin-bottom: 20px;
-  }
+      .title_offer {
+        font-family: Open Sans;
+        font-style: normal;
+        font-weight: bold;
+        font-size: 13px;
+        line-height: 18px;
+        text-transform: uppercase;
+        color: #8990A1;
+        margin-top: 20px;
+        margin-left: 67px;
+      }
 
-  .switch {
-    display: inline-block;
-    height: 24px;
-    position: relative;
-    width: 40px;
-    margin-left: 15px;
-    margin-top: 10px;
-  }
+      .offer_head {
+        padding-right: 10px;
+        margin-left: 70px;
+        margin-top: -20px;
+        font-family: Spectral;
+        font-style: normal;
+        font-weight: bold;
+        font-size: 22px;
+        line-height: 26px;
+        text-transform: uppercase;
+        color: #36393D;
+        margin-bottom: 20px;
+      }
 
-  .switch input {
-    display:none;
-  }
+      .switch {
+        display: inline-block;
+        height: 24px;
+        position: relative;
+        width: 40px;
+        margin-left: 15px;
+        margin-top: 10px;
+      }
 
-  .slider {
-    background-color: #ccc;
-    bottom: 0;
-    cursor: pointer;
-    left: 0;
-    position: absolute;
-    right: 0;
-    top: 0;
-    transition: .4s;
-  }
+      .switch input {
+        display: none;
+      }
 
-  .slider:before {
-    background-color: #fff;
-    content: "";
-    height: 23px;
-    left: 1x;
-    position: absolute;
-    transition: .4s;
-    width: 23px;
-  }
+      .slider {
+        background-color: #ccc;
+        bottom: 0;
+        cursor: pointer;
+        left: 0;
+        position: absolute;
+        right: 0;
+        top: 0;
+        transition: .4s;
+      }
 
-  input:checked + .slider {
-    background-color: #004E87;
-  }
+      .slider:before {
+        background-color: #fff;
+        content: "";
+        height: 23px;
+        left: 1x;
+        position: absolute;
+        transition: .4s;
+        width: 23px;
+      }
 
-  input:checked + .slider:before {
-    transform: translateX(16px);
-  }
+      input:checked+.slider {
+        background-color: #004E87;
+      }
 
-  .slider.round {
-    border-radius: 34px;
-  }
+      input:checked+.slider:before {
+        transform: translateX(16px);
+      }
 
-  .slider.round:before {
-    border-radius: 50%;
-  }
+      .slider.round {
+        border-radius: 34px;
+      }
 
-  .best_value {
-    font-family: Open Sans;
-    font-style: normal;
-    font-weight: 300;
-    font-size: 13px;
-    line-height: 10px;
-    text-transform: uppercase;
-    color: #FFFFFF;
-    width: 88px;
-    background: #57A635;
-    border-radius: 18px;
-    margin-left: 60px;
-    padding: 11px;
-  }
-  .offer-price {  
-      margin-top: 30px;
-      margin-left: 60px;
-    }
-    
-    .offer-number-price {
-      font-family: Open Sans;
-      font-style: normal;
-      font-weight: bold;
-      font-size: 22px;
-      line-height: 26px;
-      text-transform: uppercase;
-      color: #36393D;
-    }
-    
-    .offer-text-price {
-      font-family: Open Sans;
-      font-style: normal;
-      font-weight: bold;
-      font-size: 16px;
-      line-height: 20px;
-    }
+      .slider.round:before {
+        border-radius: 50%;
+      }
 
-    #show_detail_offer,#content_detail_offer{display:none;}
+      .best_value {
+        font-family: Open Sans;
+        font-style: normal;
+        font-weight: 300;
+        font-size: 13px;
+        line-height: 10px;
+        text-transform: uppercase;
+        color: #FFFFFF;
+        width: 88px;
+        background: #57A635;
+        border-radius: 18px;
+        margin-left: 60px;
+        padding: 11px;
+      }
 
-    #show_detail_offer:checked ~ #content_detail_offer{
-      display:block;
-    }               
-    #show_detail_offer:checked ~ #label_see_details:before{
-      content: "-";
-    }  
-    .see_details {
-      margin-bottom: 30px;
-      margin-top: 10px;
-      margin-left: 60px;
-    }
+      .offer-price {
+        margin-top: 30px;
+        margin-left: 60px;
+      }
 
-    .title-offer{
-      font-family: Spectral;
-      font-style: normal;
-      font-weight: bold;
-      font-size: 26px;
-      line-height: 30px;
-      color: #36393D;    
-      width: 570px;
-      margin-top: 30px;
-      margin-bottom: 15px;
-    }
-</style>
-<div class="title-offer center">
-  Promotional offers
-</div>
+      .offer-number-price {
+        font-family: Open Sans;
+        font-style: normal;
+        font-weight: bold;
+        font-size: 22px;
+        line-height: 26px;
+        text-transform: uppercase;
+        color: #36393D;
+      }
 
-<div id="layer_offer" class="promotional_offer center">
-  <div class="title_offer">
-      Home Delivery
-  </div>
+      .offer-text-price {
+        font-family: Open Sans;
+        font-style: normal;
+        font-weight: bold;
+        font-size: 16px;
+        line-height: 20px;
+      }
 
-  <label class="switch" for="checkbox">
-    <input type="checkbox" id="checkbox" onclick="toogleActive(this.checked) "/>
-    <div class="slider round"></div>
-  </label>
+      #show_detail_offer,
+      #content_detail_offer {
+        display: none;
+      }
 
-  <div class="offer_head">
-    Sunday & Wednesday + Full Digital Access
-  </div>
+      #show_detail_offer:checked~#content_detail_offer {
+        display: block;
+      }
 
-  <div class="best_value">
-    Best Value
-  </div>
+      #show_detail_offer:checked~#label_see_details:before {
+        content: "-";
+      }
 
-  <div class="offer-price">
-    <span class="offer-number-price ">99¢</span>&nbsp;
-    <span class="offer-text-price">for 8 weeks</span>
-  </div>
+      .see_details {
+        margin-bottom: 30px;
+        margin-top: 10px;
+        margin-left: 60px;
+      }
 
-  <hr style="width: 85%;  color: #EEEEEE;"> 
+      .title-offer {
+        font-family: Spectral;
+        font-style: normal;
+        font-weight: bold;
+        font-size: 26px;
+        line-height: 30px;
+        color: #36393D;
+        width: 570px;
+        margin-top: 30px;
+        margin-bottom: 15px;
+      }
+    </style>
+    <div class="title-offer center">
+      Promotional offers
+    </div>
 
-  <div class="see_details">
-      <label for="show_detail_offer" class="what_included" id="label_see_details">
-        See details
-      </label>
-      <input type="checkbox" name="one" id="show_detail_offer">
-      
-      <div id="content_detail_offer">
-          <ul class="list">
-              <li class="item">
-                Sunday & Wednesday home delivery
-              </li>
-              <li class="item">
-                Full access to all digital content
-              </li>
-              <li class="item">
-                  TFewer ads
-              </li>
-              <li class="item">
-                The eNewspaper, emailed daily
-              </li>
-              <li class="item">
-                Our app with breaking news alerts
-              </li>
-          </ul>
+    <div id="layer_offer" class="promotional_offer center">
+      <div class="title_offer">
+        Home Delivery
       </div>
-  </div>
-</div>
-<script>
-    let toogleActive = (blnActive) => {
+
+      <label class="switch" for="checkbox">
+        <input type="checkbox" id="checkbox" onclick="toogleActive(this.checked) " />
+        <div class="slider round"></div>
+      </label>
+
+      <div class="offer_head">
+        Sunday & Wednesday + Full Digital Access
+      </div>
+
+      <div class="best_value">
+        Best Value
+      </div>
+
+      <div class="offer-price">
+        <span class="offer-number-price ">99¢</span>&nbsp;
+        <span class="offer-text-price">for 8 weeks</span>
+      </div>
+
+      <hr style="width: 85%;  color: #EEEEEE;">
+
+      <div class="see_details">
+        <label for="show_detail_offer" class="what_included" id="label_see_details">
+          See details
+        </label>
+        <input type="checkbox" name="one" id="show_detail_offer">
+
+        <div id="content_detail_offer">
+          <ul class="list">
+            <li class="item">
+              Sunday & Wednesday home delivery
+            </li>
+            <li class="item">
+              Full access to all digital content
+            </li>
+            <li class="item">
+              TFewer ads
+            </li>
+            <li class="item">
+              The eNewspaper, emailed daily
+            </li>
+            <li class="item">
+              Our app with breaking news alerts
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <script>
+      let toogleActive = (blnActive) => {
         if (blnActive) {
-            (document.getElementById('layer_offer')).classList.remove('promotional_offer');
-            (document.getElementById('layer_offer')).classList.add('promotional_offer_active');
+          (document.getElementById('layer_offer')).classList.remove('promotional_offer');
+          (document.getElementById('layer_offer')).classList.add('promotional_offer_active');
         } else {
-            (document.getElementById('layer_offer')).classList.remove('promotional_offer_active');
-            (document.getElementById('layer_offer')).classList.add('promotional_offer');
+          (document.getElementById('layer_offer')).classList.remove('promotional_offer_active');
+          (document.getElementById('layer_offer')).classList.add('promotional_offer');
 
         }
 
-    }
-</script>
+      }
+    </script>
