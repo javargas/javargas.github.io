@@ -4,6 +4,14 @@
       border: 1px solid #BBBBBB;
       box-sizing: border-box;
       border-radius: 4px;
+      max-width: 570px;
+  }
+  .promotional_offer_active {
+      background: rgba(0, 78, 135, 0.08);
+      border: 1px solid #004E87;
+      box-sizing: border-box;
+      border-radius: 4px;
+      max-width: 570px;
   }
 
   .title_offer {
@@ -19,8 +27,7 @@
   }
 
   .offer_head {
-    padding-right: 10px;
-    height: 104px;    
+    padding-right: 10px;  
     margin-left: 70px;
     margin-top: -20px;
     font-family: Spectral;
@@ -30,6 +37,7 @@
     line-height: 26px;
     text-transform: uppercase;
     color: #36393D;
+    margin-bottom: 20px;
   }
 
   .switch {
@@ -132,14 +140,30 @@
       margin-top: 10px;
       margin-left: 60px;
     }
+
+    .title-offer{
+      font-family: Spectral;
+      font-style: normal;
+      font-weight: bold;
+      font-size: 26px;
+      line-height: 30px;
+      color: #36393D;    
+      width: 570px;
+      margin-top: 30px;
+      margin-bottom: 15px;
+    }
 </style>
-<div class="promotional_offer">
+<div class="title-offer center">
+  Promotional offers
+</div>
+
+<div id="layer_offer" class="promotional_offer center">
   <div class="title_offer">
       Home Delivery
   </div>
 
   <label class="switch" for="checkbox">
-    <input type="checkbox" id="checkbox"/>
+    <input type="checkbox" id="checkbox" onclick="toogleActive(this.checked) "/>
     <div class="slider round"></div>
   </label>
 
@@ -185,3 +209,16 @@
       </div>
   </div>
 </div>
+<script>
+    let toogleActive = (blnActive) => {
+        if (blnActive) {
+            (document.getElementById('layer_offer')).classList.remove('promotional_offer');
+            (document.getElementById('layer_offer')).classList.add('promotional_offer_active');
+        } else {
+            (document.getElementById('layer_offer')).classList.remove('promotional_offer_active');
+            (document.getElementById('layer_offer')).classList.add('promotional_offer');
+
+        }
+
+    }
+</script>

@@ -1,203 +1,218 @@
 <style>
-    .digital_access {
-      background: #FFFFFF;
-      border: 1px solid #9BA1B3;
-      box-sizing: border-box;
-      box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.13);
-      border-radius: 4px;
-      padding: 25px;
-      width: 570px;
-    }
-    
-    .offer {
+  .digital_access {
+    background: #FFFFFF;
+    border: 1px solid #9BA1B3;
+    box-sizing: border-box;
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.13);
+    border-radius: 4px;
+    padding: 25px;
+    width: 570px;
+  }
+  
+  .offer {
+    font-family: Open Sans;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 15px;
+    line-height: 22px;
+    text-transform: uppercase;
+    color: #AAAAAA;
+  }
+  
+  .full_access {
+      font-family: Spectral;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 30px;
+    line-height: 34px;
+    margin-top: 10px;
+
+    text-transform: uppercase;
+
+    color: #36393D;
+  }
+  
+  .price {  
+    background: #36393D;
+    border-radius: 18px;
+    padding: 8px;
+    color: #FFFFFF;
+    width: 170px;
+    margin-top: 20px;
+  }
+  
+  .number-price {
+    font-family: Open Sans;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 22px;
+    line-height: 26px;
+    margin-top: 20px;
+    text-transform: uppercase;  
+  }
+  
+  .text-price {
+    font-family: Open Sans;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 20px;
+  }
+  
+  .fineText {
+    font-family: Open Sans;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 15px;
+    line-height: 22px;
+    margin-top: 10px;
+    color: #888888;
+  }
+  
+  .what_included {
+    font-family: Open Sans;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 20px;
+    margin-top: 20px;
+    color: #004E87;
+  }
+  
+  .aditional_offers {
+    font-family: Open Sans;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 15px;
+    line-height: 22px;
+    margin-top: 20px;
+    color: #004E87;
+
+  } 
+
+  .list { list-style: none; margin: 1em 0; }
+
+  .item:before {
+      content: '\2713'; 
+      display: inline-block; 
+      position: relative;
+      width: 18px; 
+      height: 18px; 
+      margin-right: 8px; 
+      padding: 2px;
+    font-size: 12px; 
+      font-weight: bold; 
+      line-height: 14px; 
+      border-radius: 50%; 
+      text-align: center;
+      color: #ffffff;
+      background-color: #669933;
+      border: 2px solid #669933;
+      text-align: center; 
+  }
+
+  .item {
       font-family: Open Sans;
       font-style: normal;
-      font-weight: bold;
+      font-weight: normal;
       font-size: 15px;
-      line-height: 22px;
-      text-transform: uppercase;
-      color: #AAAAAA;
-    }
-    
-    .full_access {
-        font-family: Spectral;
-      font-style: normal;
-      font-weight: bold;
-      font-size: 30px;
-      line-height: 34px;
-      margin-top: 10px;
-  
-      text-transform: uppercase;
-  
+      line-height: 18px;
       color: #36393D;
-    }
-    
-    .price {  
-      background: #36393D;
-      border-radius: 18px;
-      padding: 8px;
-      color: #FFFFFF;
-      width: 170px;
-      margin-top: 20px;
-    }
-    
-    .number-price {
-      font-family: Open Sans;
-      font-style: normal;
-      font-weight: bold;
-      font-size: 22px;
-      line-height: 26px;
-      margin-top: 20px;
-      text-transform: uppercase;  
-    }
-    
-    .text-price {
-      font-family: Open Sans;
-      font-style: normal;
-      font-weight: normal;
-      font-size: 16px;
-      line-height: 20px;
-    }
-    
-    .fineText {
-      font-family: Open Sans;
-      font-style: normal;
-      font-weight: normal;
-      font-size: 15px;
-      line-height: 22px;
       margin-top: 10px;
-      color: #888888;
-    }
-    
-    .what_included {
-      font-family: Open Sans;
-      font-style: normal;
-      font-weight: 600;
-      font-size: 16px;
-      line-height: 20px;
-      margin-top: 20px;
-      color: #004E87;
-    }
-    
-    .aditional_offers {
-      font-family: Open Sans;
-      font-style: normal;
-      font-weight: normal;
-      font-size: 15px;
-      line-height: 22px;
-      margin-top: 20px;
-      color: #004E87;
+  }
+
+  .what_included:before{
+    content: "+";
+  } 
+
+  #minus,#show_full_access,#content_full_access,#aditional_offers{display:none;}
   
-    } 
+  #show_full_access:checked ~ #content_full_access{
+    display:block;
+  }               
+  #show_full_access:checked ~ .what_included:before{
+    content: "-";
+  }  
 
-    .list { list-style: none; margin: 1em 0; }
-
-    .item:before {
-        content: '\2713'; 
-        display: inline-block; 
-        position: relative;
-        width: 18px; 
-        height: 18px; 
-        margin-right: 8px; 
-        padding: 2px;
-      font-size: 12px; 
-        font-weight: bold; 
-        line-height: 14px; 
-        border-radius: 50%; 
-        text-align: center;
-        color: #ffffff;
-        background-color: #669933;
-        border: 2px solid #669933;
-        text-align: center; 
-    }
-
-    .item {
-        font-family: Open Sans;
-        font-style: normal;
-        font-weight: normal;
-        font-size: 15px;
-        line-height: 18px;
-        color: #36393D;
-        margin-top: 10px;
-    }
-
-    .what_included:before{
-      content: "+";
-    } 
-
-    #minus,#show_full_access,#content_full_access,#show_offers,#aditional_offers{display:none;}
+  #show_full_access:not(checked) ~ #content_full_access {
+    display: none;
+  }
+</style>
+<div  class="digital_access center" id="${planBlockId}">
+  <div class="offer">
+      offer Summary
+  </div>
+  <div class="full_access">
+    FUll Digital Access
+  </div>
+  
+  <div class="price">
+    <span class="number-price ">99¢</span>&nbsp;
+    <span class="text-price">for 4 weeks</span>
+  </div>
+  
+  <div class="fineText">
+    Then $3.99/week, billed every 4 weeks. Cancel anytime.
+  </div>
+  
+  <div >
     
-    #show_full_access:checked ~ #content_full_access{
-      display:block;
-    }               
-    #show_full_access:checked ~ .what_included:before{
-      content: "-";
-    }  
-
-    #show_full_access:not(checked) ~ #content_full_access {
-      display: none;
-    }
+      <label for="show_full_access" class="what_included">
+        What’s included
+      </label>
+      <input type="checkbox" name="one" id="show_full_access">
     
-    #show_offers:checked ~ #aditional_offers{
-      display:block;
-    }  
-  </style>
-  <div  class="digital_access center" id="${planBlockId}">
-    <div class="offer">
-        offer Summary
+    <div id="content_full_access">
+        <ul class="list">
+            <li class="item">
+                Full access to all digital content
+            </li>
+            <li class="item">
+                Fewer ads
+            </li>
+            <li class="item">
+                The eNewspaper, emailed daily
+            </li>
+            <li class="item">
+                Our app with breaking news alerts
+            </li>
+        </ul>
     </div>
-    <div class="full_access">
-      FUll Digital Access
-    </div>
-    
-    <div class="price">
-      <span class="number-price ">99¢</span>&nbsp;
-      <span class="text-price">for 4 weeks</span>
-    </div>
-    
-    <div class="fineText">
-      Then $3.99/week, billed every 4 weeks. Cancel anytime.
-    </div>
-    
-    <div >
+
+  </div>  
+
+  <hr>
+  <div >
+
+      <a href="javascript:toogleAditionalOffers()" class="aditional_offers">
+        Additional offers
+      </a>             
+
+  </div>
+</div>
+
+<div id="aditional_offers">                    
+<div data-reg-role="${module_promotional_offer}">
       
-        <label for="show_full_access" class="what_included">
-          What’s included
-        </label>
-        <input type="checkbox" name="one" id="show_full_access">
-      
-      <div id="content_full_access">
-          <ul class="list">
-              <li class="item">
-                  Full access to all digital content
-              </li>
-              <li class="item">
-                  Fewer ads
-              </li>
-              <li class="item">
-                  The eNewspaper, emailed daily
-              </li>
-              <li class="item">
-                  Our app with breaking news alerts
-              </li>
-          </ul>
-      </div>
+</div>            
+</div>
+<script>
+let toogleAditionalOffers = () => {
+  let offers = document.getElementById('aditional_offers');
 
-    </div>  
+  if (offers.style.display != 'inline') {
+    offers.style.display = 'inline';
+  } else {
+    offers.style.display = 'none';
+  }
+}
 
-    <hr>
-    <div >
-
-          <label for="show_offers" class="aditional_offers">
-            Additional offers
-          </label>
-          <input type="checkbox" name="two" id="show_offers">
-        
-          <div id="aditional_offers">
-              
-              <div data-reg-role="${module_promotional_offer}">
-              </div>
-              
-          </div>
-    </div>
-  </div>   
+(()=>{
+      const S=trb.metering;
+      ["${module_promotional_offer}"]
+        .forEach(
+        D=>{
+          console.log("Loading module "+D),D&&S.push("handle-"+D)
+        })
+    })();
+</script>
