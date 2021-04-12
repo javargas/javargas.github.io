@@ -3,6 +3,7 @@
     .login_module {
       width: 580px;
       margin-top: 100px;
+      background-color: #FFFFFF;
     }
     
     #login_text_1 {
@@ -96,7 +97,7 @@
     
     }
     </style>
-    <div class="login_module center" id='${planBlockId}'>
+    <div class="login_module center" id='login_module'>
         <div id="login_text_1">
         Let's start with your email
         </div>
@@ -174,4 +175,11 @@
     {
      return /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(mail);
     }
+
+    state.subscribe((step) => {
+        if (step == 3) {
+            let login_module = document.getElementById('login_module');
+            login_module.style.display = 'none';
+        }
+    });
     </script>

@@ -1,133 +1,140 @@
 <style>
-    .page_step_1 {
-      margin-top: 50px;
-      width: 580px;
-      height: 100px;
-    }
+  .step_progress {
+    margin-top: 50px;
+    width: 670px;
+    background-color: #fff;
+    padding-top: 30px;
+  }
 
-    .progress-container {
-      position: relative;
-    }
+  .page_step_1 { 
+    margin-left: 46px;
+  }
 
-    .progress-bg {
-      top: 60px;
-      width: 100%;
-      height: 22px;
-    }
+  .progress-container {
+    position: relative;
+    height: 80px;
+  }
 
-    .progress-bar {
-      position: absolute;
-      width: 255px;
-      height: 3px;
-    }
+  .progress-bg {
+    top: 60px;
+    width: 100%;
+    height: 22px;
+  }
 
-    .progress-bar-completed {
-      background: #57A635;
-    }
+  .progress-bar {
+    position: absolute;
+    width: 255px;
+    height: 3px;
+  }
 
-    .progress-bar-pending {
-      background: #CDD2DE;
-    }
+  .progress-bar-completed {
+    background: #57A635;
+  }
 
-    .progress-bar1 {
-      top: 10px;
-      left: 25px;
-    }
+  .progress-bar-pending {
+    background: #CDD2DE;
+  }
 
-    .progress-bar2 {
-      top: 10px;
-      left: 308px;
-    }
+  .progress-bar1 {
+    top: 10px;
+    left: 25px;
+  }
 
-    .progress-ball {
-      position: absolute;
-      width: 21px;
-      height: 21px;
+  .progress-bar2 {
+    top: 10px;
+    left: 308px;
+  }
 
-      box-sizing: border-box;
-      border-radius: 50%;
-    }
+  .progress-ball {
+    position: absolute;
+    width: 21px;
+    height: 21px;
 
-    .ball-completed {
-      background: #57A635;
-      border: 1px solid #FFFFFF;
-      font-family: Font Awesome 5 Pro;
-      font-style: normal;
-      font-weight: 900;
-      font-size: 10px;
-      line-height: 12px;
-      /* identical to box height, or 120% */
+    box-sizing: border-box;
+    border-radius: 50%;
+  }
 
-      text-align: center;
+  .ball-completed {
+    background: #57A635;
+    border: 1px solid #FFFFFF;
+    font-family: Font Awesome 5 Pro;
+    font-style: normal;
+    font-weight: 900;
+    font-size: 10px;
+    line-height: 12px;
+    /* identical to box height, or 120% */
 
-      color: #FFFFFF;
-    }
+    text-align: center;
 
-    .ball-active {
-      background: #FFFFFF;
-      border: 5px solid #004E87;
-    }
+    color: #FFFFFF;
+  }
 
-    .ball-pending {
-      background: #CDD2DE;
-      border: 1px solid #FFFFFF;
-    }
+  .ball-active {
+    background: #FFFFFF;
+    border: 5px solid #004E87;
+  }
 
-    .progress-ball1 {
-      left: 1px;
-      top: 1px;
-    }
+  .ball-pending {
+    background: #CDD2DE;
+    border: 1px solid #FFFFFF;
+  }
 
-    .progress-ball2 {
-      left: 283px;
-      top: 1px;
-    }
+  .progress-ball1 {
+    left: 1px;
+    top: 1px;
+  }
 
-    .progress-ball3 {
-      left: 560px;
-      top: 1px;
-    }
+  .progress-ball2 {
+    left: 283px;
+    top: 1px;
+  }
 
-    .progress-card {
-      position: absolute;
-      top: 30px;
-    }
+  .progress-ball3 {
+    left: 560px;
+    top: 1px;
+  }
 
-    #card-step1 {
-      left: 1px;
-    }
+  .progress-card {
+    position: absolute;
+    top: 30px;
+  }
 
-    #card-step2 {
-      left: 250px;
-    }
+  #card-step1 {
+    left: 1px;
+  }
 
-    #card-step3 {
-      left: 490px;
-    }
+  #card-step2 {
+    left: 250px;
+  }
 
-    .progress-title {
-      width: 94px;
-      height: 20px;
+  #card-step3 {
+    left: 490px;
+  }
 
-      font-family: Open Sans;
-      font-style: normal;
-      font-weight: bold;
-      font-size: 15px;
-      line-height: 20px;
-      text-transform: uppercase;
-      color: #004E87;
-    }
+  .progress-title {
+    width: 94px;
+    height: 20px;
 
-    .progress-text {
-      font-family: Open Sans;
-      font-style: normal;
-      font-weight: normal;
-      font-size: 18px;
-      line-height: 26px;
-      color: #36393D;
-    }
-  </style>
-  <div class=" page_step_1 center">
+    font-family: Open Sans;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 15px;
+    line-height: 20px;
+    text-transform: uppercase;
+    color: #004E87;
+  }
+
+  .progress-text {
+    font-family: Open Sans;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 26px;
+    color: #36393D;
+  }
+</style>
+<div class="step_progress  center" id="step_progress">
+  <div class="page_step_1 ">
     <div class="progress-container">
       <div class="progress-bg"></div>
       <div class="progress-ball progress-ball1  ball-active" id="ballStep1">
@@ -156,46 +163,50 @@
       </div>
     </div>
   </div>
-  <script>
+</div>
+<script>
 
-    state.subscribe((step) => {
-      console.log("step changed: ", step);
+  state.subscribe((step) => {
+    console.log("step changed: ", step);
 
-      switch (step) {
-        case 2:
-          (document.getElementById("ballStep1")).classList.remove('ball-active');
-          (document.getElementById("ballStep1")).classList.add('ball-completed');
-          (document.getElementById("ballStep1")).classList.add('fas');
-          (document.getElementById("ballStep1")).classList.add('fa-check');
-          (document.getElementById("ballStep2")).classList.remove('ball-pending');
-          (document.getElementById("ballStep2")).classList.add('ball-active');
+    switch (step) {
+      case 2:
+        (document.getElementById("ballStep1")).classList.remove('ball-active');
+        (document.getElementById("ballStep1")).classList.add('ball-completed');
+        (document.getElementById("ballStep1")).classList.add('fas');
+        (document.getElementById("ballStep1")).classList.add('fa-check');
+        (document.getElementById("ballStep2")).classList.remove('ball-pending');
+        (document.getElementById("ballStep2")).classList.add('ball-active');
 
-          (document.getElementById("barStep1")).classList.remove('progress-bar-pending');
-          (document.getElementById("barStep1")).classList.add('progress-bar-completed');
+        (document.getElementById("barStep1")).classList.remove('progress-bar-pending');
+        (document.getElementById("barStep1")).classList.add('progress-bar-completed');
 
-          (document.getElementById("card-step2")).style.display = 'inline';
-          (document.getElementById("card-step1")).style.display = 'none';
-          break;
-        case 3:
-          (document.getElementById("ballStep2")).classList.remove('ball-active');
-          (document.getElementById("ballStep2")).classList.add('ball-completed');
-          (document.getElementById("ballStep2")).classList.add('fas');
-          (document.getElementById("ballStep2")).classList.add('fa-check');
-          (document.getElementById("ballStep3")).classList.remove('ball-pending');
-          (document.getElementById("ballStep3")).classList.add('ball-active');
+        (document.getElementById("card-step2")).style.display = 'inline';
+        (document.getElementById("card-step1")).style.display = 'none';
+        break;
+      case 3:
+        (document.getElementById("ballStep2")).classList.remove('ball-active');
+        (document.getElementById("ballStep2")).classList.add('ball-completed');
+        (document.getElementById("ballStep2")).classList.add('fas');
+        (document.getElementById("ballStep2")).classList.add('fa-check');
+        (document.getElementById("ballStep3")).classList.remove('ball-pending');
+        (document.getElementById("ballStep3")).classList.add('ball-active');
 
-          (document.getElementById("barStep2")).classList.remove('progress-bar-pending');
-          (document.getElementById("barStep2")).classList.add('progress-bar-completed');
+        (document.getElementById("barStep2")).classList.remove('progress-bar-pending');
+        (document.getElementById("barStep2")).classList.add('progress-bar-completed');
 
-          (document.getElementById("card-step2")).style.display = 'none';
-          (document.getElementById("card-step3")).style.display = 'inline';
-          break;
-      }
-    });
+        (document.getElementById("card-step2")).style.display = 'none';
+        (document.getElementById("card-step3")).style.display = 'inline';
+        break;
+        case 4: 
+          document.getElementById('step_progress').classList.add('hide');
+        break;
+    }
+  });
 
-    (() => {
-      (document.getElementById("card-step2")).style.display = 'none';
-      (document.getElementById("card-step3")).style.display = 'none';
-    })();
+  (() => {
+    (document.getElementById("card-step2")).style.display = 'none';
+    (document.getElementById("card-step3")).style.display = 'none';
+  })();
 
-  </script>
+</script>

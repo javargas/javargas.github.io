@@ -9,6 +9,10 @@
       background-repeat: no-repeat;
   }
   
+  .hide {
+    display: none;
+  }
+  
     .footer_bkg {
       height: 377px;
       width: 100%;
@@ -23,7 +27,7 @@
   .center {
        margin: 0 auto;
       max-width: 100%;
-      max-height: 100%;
+      /*max-height: 100%; */
   }
   </style>
           <script>
@@ -63,6 +67,12 @@
   
     <div data-reg-role="${module_3}">
     </div>
+      
+    <div data-reg-role="${module_payment}">
+    </div>    
+  
+    <div data-reg-role="${module_order_summary}">
+    </div>
   
     <div data-reg-role="${module_4}">
     </div>
@@ -78,10 +88,16 @@
   <script>
     (()=>{
       const S=trb.metering;
-      ["${module_1}","${module_2}","${module_3}","${module_4}","${module_5}","${module_6}"]
+      ["${module_1}","${module_2}","${module_3}"
+       ,"${module_4}","${module_5}","${module_6}"
+       , "${module_payment}", "${module_order_summary}"]
         .forEach(
         D=>{
           console.log("Loading module "+D),D&&S.push("handle-"+D)
         })
+
+        // JS Global Object
+        let state = {'activeStep': 1};
+        sessionStorage.setItem('state', JSON.stringify(state));
     })();
   </script>

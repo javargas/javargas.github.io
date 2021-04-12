@@ -147,7 +147,7 @@
     display: none;
   }
 </style>
-<div class="digital_access center" id="${planBlockId}">
+<div class="digital_access center" id="digital_access">
   <div class="offer">
     offer Summary
   </div>
@@ -217,4 +217,19 @@
       offers.style.display = 'none';
     }
   }
+  (()=>{
+      const S=trb.metering;
+      ["${module_promotional_offer}"]
+        .forEach(
+        D=>{
+          console.log("Loading module "+D),D&&S.push("handle-"+D)
+        })
+    })();
+
+    state.subscribe((step) => {
+        if (step == 3) {
+            let digital_access = document.getElementById('digital_access');
+            digital_access.style.display = 'none';
+        }
+    });
 </script>
