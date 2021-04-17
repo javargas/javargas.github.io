@@ -160,6 +160,7 @@
         margin-bottom: 15px;
       }
     </style>
+    <div id="promotional_offer">
     <div class="title-offer center">
       Promotional offers
     </div>
@@ -216,6 +217,7 @@
         </div>
       </div>
     </div>
+  </div>
     <script>
       let toogleActive = (blnActive) => {
         if (blnActive) {
@@ -228,4 +230,13 @@
         }
 
       }
+
+      state.subscribe((step) => {
+            let payment = document.getElementById('promotional_offer');
+            if (step == 3) {
+              payment.classList.remove('hide');
+            } else {
+              payment.classList.add('hide');
+            }
+          });
     </script>
