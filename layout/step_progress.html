@@ -1,0 +1,12 @@
+<div id='idStepProgress'>
+    Step # <span id="numStep">1</span>
+</div>
+<script>
+    (() => {
+      recDssState.subscribe((step) => {
+            document.getElementById('numStep').innerHTML = step;
+            console.log("Execute action from module. step_progress");
+        });
+      
+    })();  
+</script>

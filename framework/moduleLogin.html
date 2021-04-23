@@ -1,0 +1,78 @@
+<style>
+    #password {
+      display : none;
+    }
+  </style>
+  <div id='${planBlockId}'>
+    <div id="id_login_text1">
+      ${login_text_1}
+    </div>
+    
+    <div id="id_login_text2">
+      ${login_text_2} 
+    </div>
+    
+    <input type="email" placeholder="Email address" id="email">
+    <br>
+    <input type="password" placeholder="Password" id="password">
+    <br>
+    <input type="button" value="Continue" onclick="submitLogin()">
+    <input type="hidden" id="isNewUser" name="isNewUser" value="0">
+</div>
+  <script>
+
+    function submitLogin() {
+      recDssState.nextStep();
+    }
+  
+  (() => {
+       
+    function validateEmail(){
+      console.log("Validating email");
+
+        let email = document.getElementById('email').value;
+        if ( /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(email)){
+            recDssState.data["login"] = {
+                    email : email
+            };
+        
+
+            document.getElementById("isNewUser").value = 1;
+
+            return true;
+        }
+        alert('Invalid email');
+
+        return false;
+    }
+    recDssState.addValidator(1, validateEmail);
+    
+     recDssState.subscribe((step) => {
+         let isNewUser = parseInt(document.getElementById("isNewUser").value);
+
+          if (step == 2) {
+            if (isNewUser) {
+                // adding registerUser
+                recDssState.addValidator(step, function(){
+                    console.log("Registering user");
+                    return true;
+                });
+            } else {
+                recDssState.addValidator(step, () => {
+                    console.log("Validating password");
+                    return true;
+                });
+            }
+        
+            document.getElementById('password').style.display = 'inherit';
+          }
+
+          if (step == 3) {
+              document.getElementById('${planBlockId}').style.display = 'none';
+          }
+  
+          console.log("Execute action from module.");
+      });
+    
+  })();  
+  </script>

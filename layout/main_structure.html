@@ -1,22 +1,151 @@
+${css_url}
+<style>
+  .met-rule-${i} {
+    border: blue 1px solid;
+    padding: 5px;
+  }
+</style>
+<div> Number of modules: ${numModules}</div>
+<hr>
 
-<div>
-  
   <div data-reg-role="${module_1}">
   </div>
+  <hr>
 
   <div data-reg-role="${module_2}">
   </div>
+  <hr>
 
   <div data-reg-role="${module_3}">
   </div>
+  <hr>
 
   <div data-reg-role="${module_4}">
   </div>
+  <hr>
   
   <div data-reg-role="${module_5}">
   </div>
-
+  <hr>
+  
   <div data-reg-role="${module_6}">
   </div>
+  <hr>
   
-</div>
+  <div data-reg-role="${module_7}">
+  </div>
+  <hr>
+  
+  <div data-reg-role="${module_8}">
+  </div>
+  
+<script>
+  
+  var required = function(){ throw new Error("Implement!"); };
+    class RecDssState {
+        constructor(marketCode, planId) {
+          this.activeStep = 1;
+          this.productCode = null,
+          this.marketCode = marketCode,
+          this.planId = planId;
+          this.login = {
+            "email" : '',
+            "ssorid" : 0,
+            "isNew" : false,
+            "authenticated" : false,
+            "validEmail" : false
+          }
+          this.payment = {
+            "confirmid" : null,
+            "rec_token" : null,
+            "method" : null
+          },
+          this.observers = [];
+
+          /* Methods required */
+          this.validateEmail = null
+
+        }
+  
+        subscribe(f) {
+          this.observers.push(f);
+        }
+  
+        unsubscribe(f) {
+          this.observers = this.observers.filter(subscriber => subscriber !== f);
+        }
+  
+        notify(data) {
+          this.observers.forEach(observer => observer(data));
+        }
+        
+        can(methodName)
+        {
+            return ((typeof this[methodName]) == "function");
+        }
+  
+        nextStep () {
+          let canContinue = false;
+          /* General validations*/
+          if (this.activeStep == 1) {
+              if (this.can ("validateEmail")) {
+                if (this.validateEmail(this.login.email)) {
+                  canContinue = true;
+                }
+              } else {
+                return required();
+              }
+             
+          }
+
+          if (this.activeStep == 2) {
+            // 
+          }
+
+          if (canContinue) {
+              this.notify(++this.activeStep);
+          }
+        }
+
+        can(obj, methodName)
+        {
+            return ((typeof obj[methodName]) == "function");
+        }
+
+        loadPlan(planBlockId, marketOverride){
+
+          var mkt = marketOverride;
+          if (!mkt || 0 === mkt.length || mkt.includes(marketOverride)) {
+            console.log('Display Plan Block: ' + planBlockId);
+            document.getElementById(planBlockId).innerHTML='Using Ajax to load <b>'+planBlockId+'</b> block from the input Plan <b>'+this.planId+'</b> for the market <b>'+this.marketCode +'</b>...';
+          } else {
+            console.log('Market mismatch. vaild market:' +marketOverride +' does not contain '+ this.marketCode);
+          }
+        }
+      }
+  
+  if (typeof marketCode == "undefined") {
+    marketCode = "marketCode";
+  }
+  
+  if (typeof mtrParam == "undefined") {
+    mtrParam = "mtrParam";
+  }
+  
+  var recDssState = new RecDssState(marketCode, mtrParam);
+  
+  (()=>{
+    /*
+    let arrModules = [];
+    for (i = 1; i <= ${numModules}; i++) {
+      arrModules.push("${module_"+i+"}");
+    }*/
+    
+    const S=trb.metering;
+    ["${module_1}","${module_2}","${module_3}","${module_4}","${module_5}","${module_6}","${module_7}","${module_8}"]
+    .forEach(
+      D=>{
+        console.log("Loading module "+D),D&&S.push("handle-"+D)
+      })
+  })();
+</script>

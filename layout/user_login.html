@@ -1,0 +1,50 @@
+<style>
+  #password {
+    display : none;
+  }
+</style>
+<div id='${planBlockId}'>
+  <div id="id_login_text1">
+    ${login_text_1}
+  </div>
+  
+  <div id="id_login_text2">
+    ${login_text_2} 
+  </div>
+  
+  <input type="email" placeholder="Email address" id="email">
+  <br>
+  <input type="password" placeholder="Password" id="password">
+  <br>
+  <input type="button" value="Continue" onclick="submitLogin()">
+</div>
+<script>            
+  function submitLogin() {
+    recDssState.login.email = document.getElementById('email').value;
+    recDssState.login.password = document.getElementById('password').value;
+
+    if (recDssState.activeStep == 1){
+      recDssState.nextStep((e) => { 
+        console.log("Validando email");
+        return true;
+      });
+    } else {
+      recDssState.nextStep((e) => { 
+        console.log("Validando password");
+        return true;
+      });
+    }
+  }
+
+(() => {
+  recDssState.subscribe((step) => {
+        if (step == 2) {
+          document.getElementById('password').style.display = 'inherit';
+        }
+
+        console.log("Execute action from module.");
+    });
+  
+  console.log("ssroid", recDssState.login.ssorid);
+})();  
+</script>

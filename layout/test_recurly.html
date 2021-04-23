@@ -7,47 +7,286 @@
     
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>  
     <script src="https://ssor.trb.stage.tribdev.com/reg/tribune/chiarc.js" async></script>
+    <script src="RecDssState.js"></script>
+    
 
     <div data-reg-role="checkout_page">
       <!-- Main Structure -->
+      ${css_url}
       <style>
         .met-rule-${i} {
           border: blue 1px solid;
           padding: 5px;
         }
       </style>
-        <div>
-          <div data-reg-role="${module_1}">
-            Module 1
-          </div>
-          <hr>
-
-          <div data-reg-role="${module_2}">
-            Module 2
-          </div>
-          <hr>
-
-          <div data-reg-role="${module_3}">
-            Module 3
-          </div>
-          <hr>
-
-          <div data-reg-role="${module_4}">
-            Module 4
-          </div>
-          <hr>
-          
-          <div data-reg-role="${module_5}">
-            Module 5
-          </div>
-          <hr>
-          
-          <div data-reg-role="${module_6}">
-            Module 6
-          </div>
-          <hr>
-          
+      <div> Number of modules: ${numModules}</div>
+      <hr>
+      
+        <div data-reg-role="${module_1}">
+          <!-- Header -->
+          <style>
+            .header {
+            /*   background-image: url(${url_background1}),
+                 url(${url_background2});
+              */ background-size: 100% auto;
+               background-repeat: no-repeat;
+           }
+               
+           .center {
+                margin: 0 auto;
+               max-width: 100%;
+               max-height: 100%;
+           }
+           
+           .header_logo {
+             padding-top: 30px;
+             width: 198px;
+           }
+           
+           .header_texto {
+             text-align: center;
+             color: black;
+             margin-top: 20px;
+             padding-bottom: 40px
+           }
+         </style>
+         <div class="header">
+           <div class="center">
+           ${header_logo}
+           </div>
+           
+           <div class="header_text center">
+             ${header_text}
+           </div>
+         </div>
+          <!-- Fin Header -->
         </div>
+        <hr>
+      
+        <div data-reg-role="${module_2}">
+          <!-- Plan loaded from market -->
+          <div id='planBlockId'></div>
+          <script>
+          (() => {
+            
+            if (typeof recDssState != "undefined"){
+              recDssState.loadPlan('planBlockId','marketOverride' );
+            }
+
+            recDssState.subscribe((step) => {
+                  console.log("Execute action from module.");
+              });
+          })();  
+          </script>
+
+          <!-- End Plan loaded from market -->
+        </div>
+        <hr>
+      
+        <div data-reg-role="${module_3}">
+          <!-- Step progress -->
+          <div id='idStepProgress'>
+            Step # <span id="numStep"></span>
+          </div>
+          <script>
+              (() => {
+                recDssState.subscribe((step) => {
+                      document.getElementById('numStep').innerHTML = step;
+                      console.log("Execute action from module. step_progress");
+                  });
+                
+              })();  
+          </script>
+          <!-- end step progress -->
+        </div>
+        <hr>
+      
+        <div data-reg-role="${module_4}">
+          <!-- User Login -->
+          <style>
+            #password {
+              display : none;
+            }
+          </style>
+          <div id='idLoginModule'>
+            <div id="id_login_text1">
+              ${login_text_1}
+            </div>
+            
+            <div id="id_login_text2">
+              ${login_text_2} 
+            </div>
+            
+            <input type="email" placeholder="Email address" id="email">
+            <br>
+            <input type="password" placeholder="Password" id="password">
+            <br>
+            <input type="button" value="Continue" onclick="submitLogin()">
+          </div>
+          <script>            
+            function submitLogin() {
+              recDssState.login.email = document.getElementById('email').value;
+              recDssState.login.password = document.getElementById('password').value;
+
+              if (recDssState.activeStep == 1){
+                recDssState.nextStep((e) => { 
+                  console.log("Validando email");
+                  return true;
+                });
+              } else {
+                recDssState.nextStep((e) => { 
+                  console.log("Validando password");
+                  return true;
+                });
+              }
+            }
+
+          (() => {
+            recDssState.subscribe((step) => {
+                  if (step == 2) {
+                    document.getElementById('password').style.display = 'inherit';
+                  }
+
+                  console.log("Execute action from module.");
+              });
+            
+            console.log("ssroid", recDssState.login.ssorid);
+          })();  
+          </script>
+          <!-- End User Login -->
+        </div>
+        <hr>
+        
+        <div data-reg-role="${module_5}">
+        </div>
+        <hr>
+        
+        <div data-reg-role="${module_6}">
+        </div>
+        <hr>
+        
+        <div data-reg-role="${module_7}">
+        </div>
+        <hr>
+        
+        <div data-reg-role="${module_8}">
+          <!-- Footer -->
+          <style>
+  
+            .footer_lock {
+              width: 170px;
+              height: 36px;
+              left: calc(50% - 170px/2);
+              top: 1297px;
+          
+              background: #00213C;
+              box-shadow: inset 0px 1px 4px rgba(0, 0, 0, 0.13);
+              border-radius: 18px;
+              
+              font-family: Open Sans;
+              font-style: normal;
+              font-weight: 600;
+              font-size: 13px;
+              line-height: 18px;
+              margin-top: 20px;
+              margin-bottom: 20px;
+              padding-top: 10px;
+          
+              color: #FFFFFF;
+            }
+            
+            .footer_lock-text {
+              width: 114px;
+            }
+            
+            
+            .footer_logo {
+              padding-top: 30px;
+              width: 198px;
+            }
+            
+            .footer_texto {
+              line-height: 24px;
+              text-align: center;
+              color: ${text_color};
+              margin-top: 5px;
+              padding-bottom: 7px
+            }
+            
+            .footer_copyright {
+            height: 18px;
+              line-height: 18px;
+              margin-top: 50px;
+              text-align: center;
+              color: ${text_color};
+            }
+            
+            .footer_bkg {
+                height: 377px;
+                width: 100%;
+                left: 0px;
+                top: 1195px;
+              margin-top: 50px;
+              background: ${background_color};
+              }
+              
+            .center {
+                 margin: 0 auto;
+                max-width: 100%;
+                max-height: 100%;
+            }
+          </style>
+          <div class="footer_bkg center">
+            <div  class="center footer_logo">
+            <img src="${footer_logo_img}">
+            </div>  
+            
+            <div class="footer_lock center">
+              <div class="footer_lock-text center">
+                <img src="${secure_checkout_img}">
+          
+                Secure checkout
+              </div>
+            </div>
+            
+            <div class="footer_texto">
+              Do not sell my personal information
+            </div>
+            <div class="footer_texto">
+              Contact us
+            </div>
+            <div class="footer_texto">
+              Terms of service
+            </div>
+            <div class="footer_texto">
+              Privacy policy
+            </div>
+            
+            <div class="footer_copyright">
+              ${copyright}
+            </div>
+            
+          </div>
+          <!-- End footer -->
+        </div>
+        
+      <script>
+        
+        (()=>{
+          /*
+          let arrModules = [];
+          for (i = 1; i <= ${numModules}; i++) {
+            arrModules.push("${module_"+i+"}");
+          }*/
+          
+          const S=trb.metering;
+          ["${module_1}","${module_2}","${module_3}","${module_4}","${module_5}","${module_6}","${module_7}","${module_8}"]
+          .forEach(
+            D=>{
+              console.log("Loading module "+D),D&&S.push("handle-"+D)
+            })
+        })();
+      </script>
       <!-- END Main Structure -->
     </div>
   </body>
