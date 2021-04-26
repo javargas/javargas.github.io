@@ -1,0 +1,28 @@
+<div id='${planBlockId}'></div>
+<script>
+(() => { 
+  
+  marketCode = 'marketCode'
+  mtrParam = 'mtrParam'
+  function loadPlan(planBlockId, marketOverride){
+	
+    var mkt = marketOverride;
+    if (!mkt || 0 === mkt.length || mkt.includes(marketOverride)) {
+      console.log('Display Plan Block: ' + planBlockId);
+      document.getElementById(planBlockId).innerHTML='Using Ajax to load <b>'+planBlockId+'</b> block from the input Plan <b>'+mtrParam+'</b> for the market <b>'+marketCode +'</b>...';
+    } else {
+      console.log('Market mismatch. vaild market:' +marketOverride +' does not contain '+ marketCode);
+    }
+  }
+  
+  
+  if (typeof recDssState != "undefined"){
+    
+    loadPlan('${planBlockId}','${marketOverride}' );
+
+    recDssState.subscribe((step) => {
+      console.log("Execute action from module.");
+    });
+  }
+})();  
+</script>
