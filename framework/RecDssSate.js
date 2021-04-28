@@ -34,6 +34,13 @@ class RecDssState {
     this.observers = []; // observers modules
     this.data = []; // List of data objects for each module
     this.validators = []; // Validator functions per step
+
+    this.states = ['email', 'login', 'payment', 'summary'];
+
+    if(sessionStorage.recDssState)
+    {
+     this.data = JSON.parse(sessionStorage.getItem('recDssState'));
+    }
   }
 
   subscribe(f) {
@@ -71,9 +78,15 @@ class RecDssState {
     if (canContinue) {
         console.log("continue to the next step: ", this.data);
         this.notify(++this.activeStep);
+
+        this.saveData();
     }
 
     return canContinue;
+  }
+
+  saveData() {
+    sessionStorage.setItem('recDssState', JSON.stringify(this.data));
   }
 }
 
