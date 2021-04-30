@@ -14,9 +14,6 @@
       });
       ((window.trb || (trb = {})).metering || (trb.metering = [])).push('handle-checkout_page');
 
-      fetch('https://dss-recurly.p2p.stage.int.tribops.com/meter/plan0001.json')
-                .then(response => response.json())
-                .then(data => console.log(data));
     </script>
 
     <div data-reg-role="checkout_page"></div>
