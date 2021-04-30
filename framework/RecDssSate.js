@@ -1,43 +1,73 @@
 
-class RecDssState {
-  constructor() {
-    this.activeStep = ${initial_step}; // current step in the checkout process
-    this.observers = []; // observers modules
-    this.validators = []; // Validator functions per step
+/* ============================
+// HO TO USE IN MODULES
+==============================
+/* * /
 
-    // Get the existing data
-    let existing = sessionStorage.getItem("recDssState");
+//  Pass to nex step in the process
+recDssState.nextStep();
 
-    // If no existing data, use the value by itself
-	  // Otherwise, add the new value to it
-    this.data = existing ? JSON.parse(existing) : {};
+// Register an observer
+recDssState.subscribe((step) => {
+    // handler code here
+});
+
+// Add a validation function
+recDssState.addValidator(step, validateFunction );
+
+// Save data in global object
+recDssState.setData( key ,  localDataObject); 
+/* */
+
+/* ==========================
+// Framework global object
+===========================*/
+
+const RecDssState = function() {
+  // Private variables
+  var activeStep = 1; // current step in the checkout process
+  var observers = []; // observers modules
+  var validators = []; // Validator functions per step
+
+  // Get the existing data
+  var existing = sessionStorage.getItem("recDssState");
+
+  // If no existing data, use the value by itself
+  // Otherwise, add the new value to it
+  var data = existing ? JSON.parse(existing) : {};
+
+  /* Private functions */
+  function saveData() {
+    console.log("saving data ", data);
+    sessionStorage.setItem("recDssState", JSON.stringify(data));
   }
 
-  subscribe(f) {
-    this.observers.push(f);
+  function notify(data) {
+    observers.forEach((observer) => observer(data));
+  }
+  
+  /* Public functions */
+  function subscribe(f) {
+    observers.push(f);
   }
 
-  unsubscribe(f) {
-    this.observers = this.observers.filter((subscriber) => subscriber !== f);
+  function unsubscribe(f) {
+    observers = observers.filter((subscriber) => subscriber !== f);
   }
 
-  notify(data) {
-    this.observers.forEach((observer) => observer(data));
-  }
-
-  addValidator(step, validate){
-    if (typeof this.validators[step] == "undefined") {
-        this.validators[step] = [];
+  function addValidator(step, validate){
+    if (typeof validators[step] == "undefined") {
+        validators[step] = [];
     }
 
-    this.validators[step].push(validate);
+    validators[step].push(validate);
   }
 
-  nextStep() {
+  function nextStep() {
     let canContinue = true;
 
-    if (typeof this.validators[this.activeStep] != "undefined") {
-      this.validators[this.activeStep]
+    if (typeof validators[activeStep] != "undefined") {
+      validators[activeStep]
       .forEach(
           (validator) => {
               if (!validator()) {
@@ -48,18 +78,38 @@ class RecDssState {
     }
 
     if (canContinue) {
-        console.log("continue to the next step: ", this.data);
-        this.saveData();
-        this.notify(++this.activeStep);
+        console.log("continue to the next step: ", data);
+        saveData();
+        notify(++activeStep);
     }
 
     return canContinue;
   }
 
-  saveData() {
-    console.log("saving data ", this.data);
-    sessionStorage.setItem("recDssState", JSON.stringify(this.data));
+  function getData(key = null) {
+    if (key == null) {
+      return data;
+    }
+    
+    if (typeof data[key] != "undefined") {
+      return data[key];
+    } else {
+      return null;
+    }
   }
-}
 
-var recDssState = new RecDssState();
+  function setData(key, value) {
+    data[key] = value;
+  }
+
+  return {
+    subscribe: subscribe,
+    unsubscribe: unsubscribe,
+    addValidator: addValidator,
+    nextStep: nextStep,
+    getData: getData,
+    setData: setData
+  };
+};
+
+recDssState = RecDssState();
