@@ -1,0 +1,55 @@
+<html>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>  
+<body>
+<div id='planBlockId'></div>
+<script>
+(() => { 
+    
+    let defaultName = "DefaultConfig";
+    const regexpParams = /\$\{\w+\}/g;
+    const urlJson = "http://127.0.0.1:8081/js/ww21.json";
+
+    let productData;
+	fetch(urlJson)
+      .then(response => response.json())
+      .then(data => { productData = data;
+                     console.log("productData", productData);
+
+                    // Identify the rule
+                    let rule = productData.rules.filter((elem) => elem.name == defaultName);
+
+                    console.log("Rule: ", rule);
+
+                    if (typeof rule[0] !== "undefined") {
+                        console.log(rule[0].id);
+                        let layout = productData.reactions.exceed[rule[0].id];
+
+                        console.log("layoutId: ", layout.layoutID); 
+
+                        let codeLayout = productData.layouts[layout.layoutID].value;
+                        console.log("layout "+layout.layoutID+": ", codeLayout);
+
+                        // Searching patterns ${footer_bg_color}
+                        let listVariables = codeLayout.match(regexpParams);
+                        console.log("listVariables: " , listVariables);
+                        listVariables.forEach(element => {
+                            let variableName = element.replace("$", "");
+                            variableName = variableName.replace("{", "");
+                            variableName = variableName.replace("}", "");
+
+                            codeLayout = codeLayout.replace(element, layout[variableName]);
+                        });
+                        
+                        console.log("layout replaced "+layout.layoutID+": ", codeLayout);
+                        let block = $('#planBlockId');
+                        $(codeLayout).appendTo(block);
+                        
+                    }
+            });
+    
+    
+  
+})();  
+</script>
+</body>
+</html>
