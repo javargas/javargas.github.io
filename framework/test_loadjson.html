@@ -8,6 +8,7 @@
     let defaultName = "DefaultConfig";
     const regexpParams = /\$\{\w+\}/g;
     const urlJson = "http://127.0.0.1:8081/js/ww21.json";
+    const regPattern = /\$|\{|\}/g;
 
     let productData;
 	fetch(urlJson)
@@ -33,11 +34,9 @@
                         let listVariables = codeLayout.match(regexpParams);
                         console.log("listVariables: " , listVariables);
                         listVariables.forEach(element => {
-                            let variableName = element.replace("$", "");
-                            variableName = variableName.replace("{", "");
-                            variableName = variableName.replace("}", "");
+                            let variableName = element.replace(regPattern, "");
 
-                            codeLayout = codeLayout.replace(element, layout[variableName]);
+                            codeLayout = codeLayout.replaceAll(element, layout[variableName]);
                         });
                         
                         console.log("layout replaced "+layout.layoutID+": ", codeLayout);
@@ -46,8 +45,6 @@
                         
                     }
             });
-    
-    
   
 })();  
 </script>
