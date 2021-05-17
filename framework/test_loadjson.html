@@ -20,66 +20,65 @@
 	fetch(urlJson)
       .then(response => response.json())
       .then(data => { productData = data;
-                     console.log("productData", productData);
 
-                    // Identify the rules (default and market)
-                    let defaultRule = productData.rules.filter((elem) => elem.name == defaultName).shift();
-                    let marketRule = productData.rules.filter((elem) => elem.name == market).shift();
+                // Identify the rules (default and market)
+                let defaultRule;
+                let marketRule;
 
-                    console.log("Default Rule: ", defaultRule);
-                    console.log("Market Rule: ", marketRule);
-
-                    let layout = [];
-                    if (typeof marketRule != "undefined") {
-                        layout = productData.reactions.exceed[marketRule.id];
-
-                        // First we need to merge values from default config with 
-                        // values from specific market config (If there exists)
-                        if (typeof defaultRule !== "undefined") {
-                            console.log(defaultRule.id);
-                            let layoutDefault = productData.reactions.exceed[defaultRule.id];
-
-                            console.log("layout: " , layout);
-
-                            // merging default values in market
-                            Object.entries(layout).forEach(entry => {
-                                const [key, value] = entry;
-                                console.log(key, value);
-
-                                if (typeof value == 'undefined' || value === null){
-                                    if (typeof layoutDefault[key] != "undefined") {
-                                        layout[key] = layoutDefault[key];
-                                    } 
-                                }
-                            });
-                        }
-                    } else { 
-                        if (typeof defaultRule != "undefined") {
-                            layout = productData.reactions.exceed[defaultRule.id];
-                        }
+                for(let rule of productData.rules) {
+                    if(defaultRule !== undefined && marketRule !== undefined){
+                        break;
                     }
+                    if(rule.name === defaultName){
+                        defaultRule = rule;
+                        continue;
+                    }
+                    if(rule.name === market){
+                        marketRule = rule;
+                        continue;
+                    }
+                };
 
-                    console.log("layoutId: ", layout.layoutID); 
+                let layout = [];
+                if (typeof marketRule != "undefined") {
+                    layout = productData.reactions.exceed[marketRule.id];
 
-                    let codeLayout = productData.layouts[layout.layoutID].value;
-                    console.log("layout "+layout.layoutID+": ", codeLayout);
+                    // First we need to merge values from default config with 
+                    // values from specific market config (If there exists)
+                    if (typeof defaultRule !== "undefined") {
+                        let layoutDefault = productData.reactions.exceed[defaultRule.id];
 
-                    // Searching patterns ${footer_bg_color}
-                    let listVariables = codeLayout.match(regexpParams);
-                    console.log("listVariables: " , listVariables);
+                        // merging default values in market
+                        Object.entries(layout).forEach(entry => {
+                            const [key, value] = entry;
 
-                    listVariables.forEach(element => {
-                        // ${footer_bg_color}  ---> footer_bg_color
-                        let variableName = element.replace(regPattern, "");
-                        codeLayout = codeLayout.replace(element, layout[variableName]);
-                    });
-                    
-                    console.log("layout replaced "+layout.layoutID+": ", codeLayout);
+                            if (typeof value == 'undefined' || value === null){
+                                if (typeof layoutDefault[key] != "undefined") {
+                                    layout[key] = layoutDefault[key];
+                                } 
+                            }
+                        });
+                    }
+                } else { 
+                    if (typeof defaultRule != "undefined") {
+                        layout = productData.reactions.exceed[defaultRule.id];
+                    }
+                }
 
-                    let block = $('#planBlockId');
-                    $(codeLayout).appendTo(block);
-                    
+                let codeLayout = productData.layouts[layout.layoutID].value;
+
+                // Searching patterns ${footer_bg_color}
+                let listVariables = codeLayout.match(regexpParams);
+
+                listVariables.forEach(element => {
+                    // ${footer_bg_color}  ---> footer_bg_color
+                    let variableName = element.replace(regPattern, "");
+                    codeLayout = codeLayout.replace(element, layout[variableName]);
+                });
                 
+                let block = $('#planBlockId');
+                $(codeLayout).appendTo(block);
+                    
             });
   
 })();  
