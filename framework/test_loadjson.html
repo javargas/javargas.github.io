@@ -1,87 +1,81 @@
 <html>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>  
 <body>
-<div id='planBlockId'></div>
-<script>
-(() => { 
+    <div id='${planBlockId}'></div>
+    <script>
+    (() => { 
+        
+        // This variables come from url params (DSS-15805)
+        var planID = recDssState.getData("params").planCode;
+        var market = recDssState.getData("params").market;
+      
+        const regexpParams = /\$\{\w+\}/g;  // ${algo}
+        const urlJson = '${domain}'+planID+".json";
+        // const urlJson = "https://dss-recurly.p2p.stage.int.tribops.com/meter/ww21.json"
+        const regPattern = /\$|\{|\}/g;  // $ { }  => 
     
-    // This variables come from url params (DSS-15805)
-    let planID = "ww21";
-    let market = "ChicagoTribune ";
+        let productData;
+        fetch(urlJson)
+          .then(response => response.json())
+          .then(data => { productData = data;
     
-    let defaultName = "DefaultConfig";
+                    // Identify the rules (default and market)
+                    let defaultRule;
+                    let marketRule;
 
-    const regexpParams = /\$\{\w+\}/g;  // ${algo}
-    const urlJson = "http://127.0.0.1:8081/js/"+planID+".json";
-    // const urlJson = "https://dss-recurly.p2p.stage.int.tribops.com/meter/ww21.json"
-    const regPattern = /\$|\{|\}/g;  // $ { }  => 
-
-    let productData;
-	fetch(urlJson)
-      .then(response => response.json())
-      .then(data => { productData = data;
-
-                // Identify the rules (default and market)
-                let defaultRule;
-                let marketRule;
-
-                for(let rule of productData.rules) {
-                    if(defaultRule !== undefined && marketRule !== undefined){
-                        break;
+                    let re = new RegExp(market);
+    
+                    for(let rule of productData.rules) {
+                        if(defaultRule !== undefined && marketRule !== undefined){
+                            break;
+                        }
+                        if(/defaultconfig/.test(rule.name)){
+                            defaultRule = rule;
+                            continue;
+                        }
+                        if(re.test(rule.name)){
+                            marketRule = rule;
+                        }
+                    };
+    
+                    let layoutConfig = [];
+                    if (typeof marketRule != "undefined") {
+                        layoutConfig = productData.reactions.exceed[marketRule.id];
+    
+                        // First we need to merge values from default config with 
+                        // values from specific market config (If there exists)
+                        if (typeof defaultRule !== "undefined") {
+                            let layoutDefault = productData.reactions.exceed[defaultRule.id];
+    
+                            // merging default values in market
+                            Object.entries(layoutConfig).forEach(entry => {
+                                const [key, value] = entry;
+    
+                                if (typeof value == 'undefined' || value === null){
+                                    if (typeof layoutDefault[key] != "undefined") {
+                                        layoutConfig[key] = layoutDefault[key];
+                                    } 
+                                }
+                            });
+                        }
+                    } else { 
+                        if (typeof defaultRule != "undefined") {
+                            layoutConfig = productData.reactions.exceed[defaultRule.id];
+                        }
                     }
-                    if(rule.name === defaultName){
-                        defaultRule = rule;
-                        continue;
-                    }
-                    if(rule.name === market){
-                        marketRule = rule;
-                        continue;
-                    }
-                };
-
-                let layout = [];
-                if (typeof marketRule != "undefined") {
-                    layout = productData.reactions.exceed[marketRule.id];
-
-                    // First we need to merge values from default config with 
-                    // values from specific market config (If there exists)
-                    if (typeof defaultRule !== "undefined") {
-                        let layoutDefault = productData.reactions.exceed[defaultRule.id];
-
-                        // merging default values in market
-                        Object.entries(layout).forEach(entry => {
-                            const [key, value] = entry;
-
-                            if (typeof value == 'undefined' || value === null){
-                                if (typeof layoutDefault[key] != "undefined") {
-                                    layout[key] = layoutDefault[key];
-                                } 
-                            }
-                        });
-                    }
-                } else { 
-                    if (typeof defaultRule != "undefined") {
-                        layout = productData.reactions.exceed[defaultRule.id];
-                    }
-                }
-
-                let codeLayout = productData.layouts[layout.layoutID].value;
-
-                // Searching patterns ${footer_bg_color}
-                let listVariables = codeLayout.match(regexpParams);
-
-                listVariables.forEach(element => {
-                    // ${footer_bg_color}  ---> footer_bg_color
-                    let variableName = element.replace(regPattern, "");
-                    codeLayout = codeLayout.replace(element, layout[variableName]);
-                });
-                
-                let block = $('#planBlockId');
-                $(codeLayout).appendTo(block);
+    
+                    /* Doing the replace with template.parse */                
+                    console.log("Doing the replace with template.parse");
+                    let codeLayout = productData.layouts[layoutConfig.layoutID].value;
+                    trb.registration.template.templates.dss['plan'] = codeLayout;
+                    let layoutParsed = trb.registration.template.parse('dss.plan', layoutConfig);     
                     
-            });
-  
-})();  
-</script>
+                    let block = $('#${planBlockId}');
+                    $(layoutParsed).appendTo(block);
+                        
+                });
+      
+    })();  
+    </script>${subscribeUrl}
 </body>
 </html>
