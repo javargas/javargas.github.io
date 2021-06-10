@@ -4,8 +4,10 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
   </head>
   <body>  
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>  
+    <script src="/recurly/js/jquery.js"></script>  
     <script>
+
+    let planData;
     (function(){
         const loc = location;
         path = loc.pathname.split('/'),
@@ -26,14 +28,27 @@
           temp = window.location.hostname.split('.');
           market = temp[temp.length - 2];
         }
+ 
+        fetch(domain2 + '/meter/' +planCode + '.json'/*, {mode: 'no-cors'}*/)
+        .then(response => response.json())
+        .then(data => { 
+            planData = data; 
+            console.log("planData: ", planData);  // 
+
+            if (typeof loadplanJson != "undefined"){
+              loadplanJson(planData)
+            }
+
+        } );
+
         (document.head || document.documentElement).appendChild(ssor);
-        (document.head || document.documentElement).appendChild(dss);
+        (document.head || document.documentElement).appendChild(dss); // 
+        
     })();
 
     </script>
 
     <script src="https://ssor.trb.stage.tribdev.com/reg/tribune/chiarc.js" async></script>
-    <!--<script src="https://dss-recurly.p2p.stage.int.tribops.com/meter/chckout002.js" async></script>-->
     <script>
       ((window.trb || (trb = {})).registration || (trb.registration = [])).push(function(reg) {
         console.log('testing on reg init');

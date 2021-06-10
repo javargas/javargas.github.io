@@ -1,81 +1,24 @@
 <html>
-<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>  
-<body>
-    <div id='${planBlockId}'></div>
+  <head>
+    <meta charset="utf-8" />
+  </head>
+  <body> 
     <script>
-    (() => { 
-        
-        // This variables come from url params (DSS-15805)
-        var planID = recDssState.getData("params").planCode;
-        var market = recDssState.getData("params").market;
-      
-        const regexpParams = /\$\{\w+\}/g;  // ${algo}
-        const urlJson = '${domain}'+planID+".json";
-        // const urlJson = "https://dss-recurly.p2p.stage.int.tribops.com/meter/ww21.json"
-        const regPattern = /\$|\{|\}/g;  // $ { }  => 
-    
-        let productData;
-        fetch(urlJson)
-          .then(response => response.json())
-          .then(data => { productData = data;
-    
-                    // Identify the rules (default and market)
-                    let defaultRule;
-                    let marketRule;
 
-                    let re = new RegExp(market);
-    
-                    for(let rule of productData.rules) {
-                        if(defaultRule !== undefined && marketRule !== undefined){
-                            break;
-                        }
-                        if(/defaultconfig/.test(rule.name)){
-                            defaultRule = rule;
-                            continue;
-                        }
-                        if(re.test(rule.name)){
-                            marketRule = rule;
-                        }
-                    };
-    
-                    let layoutConfig = [];
-                    if (typeof marketRule != "undefined") {
-                        layoutConfig = productData.reactions.exceed[marketRule.id];
-    
-                        // First we need to merge values from default config with 
-                        // values from specific market config (If there exists)
-                        if (typeof defaultRule !== "undefined") {
-                            let layoutDefault = productData.reactions.exceed[defaultRule.id];
-    
-                            // merging default values in market
-                            Object.entries(layoutConfig).forEach(entry => {
-                                const [key, value] = entry;
-    
-                                if (typeof value == 'undefined' || value === null){
-                                    if (typeof layoutDefault[key] != "undefined") {
-                                        layoutConfig[key] = layoutDefault[key];
-                                    } 
-                                }
-                            });
-                        }
-                    } else { 
-                        if (typeof defaultRule != "undefined") {
-                            layoutConfig = productData.reactions.exceed[defaultRule.id];
-                        }
-                    }
-    
-                    /* Doing the replace with template.parse */                
-                    console.log("Doing the replace with template.parse");
-                    let codeLayout = productData.layouts[layoutConfig.layoutID].value;
-                    trb.registration.template.templates.dss['plan'] = codeLayout;
-                    let layoutParsed = trb.registration.template.parse('dss.plan', layoutConfig);     
-                    
-                    let block = $('#${planBlockId}');
-                    $(layoutParsed).appendTo(block);
-                        
-                });
-      
-    })();  
-    </script>${subscribeUrl}
-</body>
+    let planData;
+    (function(){
+        fetch('http://dss.p2p.local/meter/ww21.json'/*, {mode: 'no-cors'}*/)
+        .then(response => response.json())
+        .then(data => { 
+            planData = data; 
+            console.log("planData: ", planData);  
+            strCodeHTML = "<pre><code>"+JSON.stringify(planData)+"</code></pre>"
+            document.getElementById("render").innerHTML = strCodeHTML;
+        } );
+        
+    })();
+
+    </script>
+    <div id="render"></div>
+  </body>
 </html>

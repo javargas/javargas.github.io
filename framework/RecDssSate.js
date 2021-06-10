@@ -116,12 +116,3 @@ const RecDssState = function() {
 };
 
 recDssState = RecDssState();
-
-params = {};  
-if (typeof market !== "undefined") {
-    params["market"] = market;
-}  
-if (typeof mtrParam !== "undefined") {
-    params["mtrParam"] = mtrParam;
-}  
-recDssState.setData("params", params);
