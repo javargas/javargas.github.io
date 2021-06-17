@@ -136,14 +136,13 @@ if (typeof market !== "undefined") {
 recDssState.setData("params", params);
 
 </script>
-<div> Number of modules: ${numModules}</div>
-<hr>
-
 <div id="modules"></div>
 
 <script>
   
   (()=>{
+    const S=trb.metering;    
+    const regexpParams = /\$\{\w+\}/g; // ${algo}
     
     function renderModule(module) {
         let strModule = (module.u.split("/"))[2];
@@ -152,21 +151,27 @@ recDssState.setData("params", params);
         console.log("Loading module "+strModule),strModule&&S.push("handle-"+strModule)
     }
 
-    const S=trb.metering;
-    console.log('checkout_layout', '${checkout_layout}' );
-    const regexpParams = /\$\{\w+\}/g; // ${algo}
-    const valid_market = '${valid_market}'
-    console.log('valid_market: ', '${valid_market}' );
+    if (typeof market == "undefined") {
+    	market = "";
+    }
+    
+   	checkout_layout = '${checkout_layout}' ;
+   	valid_market = '${valid_market}' ;
+    
+    console.log('checkout_layout', checkout_layout);
+    console.log('valid_market: ', valid_market);
     console.log('current_market: ', market );
 
+    
   // load the rules
-  if (/^true$/.test('${checkout_layout}') // always defined as a true
-      && !/^$/.test(valid_market)    // should always define on this layout 
+  if (checkout_layout != '' // always defined as a true
+      && valid_market != ''    // should always define on this layout 
       && valid_market.includes(market)) {
 
     let modules = trb.registration.config.get('rules');
     let reactions = trb.registration.config.get('reactions');
     let layouts = trb.registration.config.get('layouts');
+    
     console.log("Rules: ", modules);
     
     // load a div for each rule, depend of the criteria in DSS-15758
@@ -175,15 +180,16 @@ recDssState.setData("params", params);
       console.log("Module: ", module);
 
       layoutConfig = reactions.within[module.i];
-/*
+    
+	  /*
       if (typeof layoutConfig == "undefined" || typeof layoutConfig.marketOverride == "undefined") {
         layoutConfig = reactions.exceed[module.i];;
       }
 
       if (typeof layoutConfig == "undefined" || typeof layoutConfig.marketOverride == "undefined") {
         layoutConfig = reactions.abandon[module.i];;
-      }
-  */    
+      }*/
+      
       let marketOverride = "";;
       if (typeof layoutConfig != "undefined" && typeof layoutConfig.marketOverride != "undefined") {
       	marketOverride = layoutConfig.marketOverride;
@@ -214,6 +220,8 @@ recDssState.setData("params", params);
       }
      });
     }
-
+    
   })();
+  
+  
 </script>
