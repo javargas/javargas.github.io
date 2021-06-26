@@ -1,25 +1,15 @@
 /* MCall Market Styles  */
 body {
-    background-color: white !important;;
-    color: black !important;;
+    background-color: white;
+    color: black;
 }
 
 .layout {
-    background-color: #0090d2 !important;;
-    color: white !important;;
+    background-color: #0090d2;
+    color: white;
 }
 
 .button_next_step {
-    width: 570px;
-    height: 60px;
-    background-color: #002d51 !important;;
-    border-radius: 4px;font-family: Open Sans;
-    font-style: normal;
-    font-weight: 600;
-    font-size: 18px;
-    line-height: 24px;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    text-align: center;
-    color: white !important;;
+    background-color: #0090d2;
+    color: white;
 }
