@@ -1,0 +1,61 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+  </head>
+  <body>  
+    <script src="/recurly/js/jquery.js"></script>  
+    <script>
+
+    let planData;
+    (function(){
+        const loc = location;
+        path = loc.pathname.split('/'),
+        productCode = path[3];
+        planCode = path[4];
+        const dom = loc.hostname,
+        ssor = document.createElement('script'), 
+        dss = document.createElement('script'), 
+        stage = true; //~dom.indexOf('stage');
+        domain = 'https://ssor.' + ( stage ? 'trb.stage.tribdev' : 'tribdss' ) + '.com';
+        domain2 = 'https://dss-recurly.p2p.' + ( stage ? 'stage.int.tribops' : 'tribops' ) + '.com';
+        //ssor.src = domain + '/reg/tribune/' + productCode + '-commerce.min.js';
+        dss.src = domain2 + '/meter/' + productCode + '.min.js';
+        url = new URL(loc.href);
+        market = url.searchParams.get("market");
+        params = url.searchParams.get("someotherparams");
+        if(!market || market== ""){
+          temp = window.location.hostname.split('.');
+          market = temp[temp.length - 2];
+        }
+ 
+        fetch(domain2 + '/meter/' +planCode + '.json'/*, {mode: 'no-cors'}*/)
+        .then(response => response.json())
+        .then(data => { 
+            planData = data; 
+            console.log("planData: ", planData);  // 
+
+            if (typeof loadplanJson != "undefined"){
+              loadplanJson(planData)
+            }
+
+        } );
+
+        (document.head || document.documentElement).appendChild(ssor);
+        (document.head || document.documentElement).appendChild(dss); // 
+        
+    })();
+
+    </script>
+
+    <script src="https://ssor.trb.stage.tribdev.com/reg/tribune/chiarc.js" async></script>
+    <script>
+      ((window.trb || (trb = {})).registration || (trb.registration = [])).push(function(reg) {
+        console.log('testing on reg init');
+      });
+      ((window.trb || (trb = {})).metering || (trb.metering = [])).push('handle-checkout_page');
+    </script>
+
+    <div data-reg-role="checkout_page"></div>
+  </body>
+</html>

@@ -1,9 +1,36 @@
 ${css_url}
 <style>
-  .met-rule-${i} {
+  /*.met-rule-${i} {
     border: blue 1px solid;
     padding: 5px;
+  }*/
+  
+  	/* Estilos generales */
+  body {
+      background-color: '${general_background_color}';
+      color: '${general_text_color}';
   }
+  
+  .layout {
+  	  background-color: '${layout_background_color}';
+      color: '${layout_text_color}';
+  }
+  
+  .button_next_step {
+  	    width: 570px;
+        height: 60px;
+        background-color: '${button_background_color}';
+        border-radius: 4px;font-family: Open Sans;
+        font-style: normal;
+        font-weight: 600;
+        font-size: 18px;
+        line-height: 24px;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        text-align: center;
+        color: '${button_text_color}';
+  }
+
 </style>
 <script>        
 
@@ -139,6 +166,12 @@ recDssState.setData("params", params);
     
    	checkout_layout = '${checkout_layout}' ;
    	valid_market = '${valid_market}' ;
+    logo_url = "https://recurly-checkout.s3.amazonaws.com/" + market + "-logo.svg";
+    
+    contact_us_url = "${" + market + "_contact_url}" + "chale";
+    terms_url = "${" + market + "_terms_url}";
+    privacy_url = "${" + market + "_privacy_url}";
+   
     
     console.log('checkout_layout', checkout_layout);
     console.log('valid_market: ', valid_market);
