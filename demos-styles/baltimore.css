@@ -1,0 +1,15 @@
+/* MCall Market Styles  */
+body {
+    background-color: white;
+    color: black;
+}
+
+.layout {
+    background-color: #eed3a2;
+    color: white;
+}
+
+.button_next_step {
+    background-color: #eed3a2;
+    color: white;
+}
