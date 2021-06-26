@@ -1,12 +1,12 @@
 /* MCall Market Styles  */
 body {
-    background-color: white;
-    color: black;
+    background-color: rgb(231, 225, 225);
+    color: rgb(65, 9, 9);
 }
 
 .layout {
     background-color: #eed3a2;
-    color: white;
+    color: rgb(44, 44, 78);
 }
 
 .button_next_step {
