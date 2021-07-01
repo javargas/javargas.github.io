@@ -1,0 +1,34 @@
+<style>
+  #${buttonId} {
+      display : none;
+  }
+</style>
+
+<button class="button_next_step center" id='${buttonId}' onclick="nextStep()">
+${content}
+</button>
+
+<script>
+  function nextStep() {
+      recDssState.nextStep();
+  }
+
+(() => {  
+    recDssState.subscribe((step) => {
+      console.log("Execute action from module Payment.");
+    
+      if (step == ${subscribe_step}) {
+        document.getElementById('${buttonId}').style.display = 'inherit';
+        document.getElementById('${buttonId}').innerHTML = '${subscribe_text}';
+      }
+      
+      if (step == ${continue_step}) {
+        document.getElementById('${buttonId}').innerHTML = '${continue_text}';
+      }
+      
+      if (step == ${end_step}) {
+        document.getElementById('${buttonId}').style.display = 'none';
+      }
+    });
+})(); 
+</script>
