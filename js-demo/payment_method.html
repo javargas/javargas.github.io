@@ -441,10 +441,10 @@
           }
 
           let start_suscription = () => {
-            state.nextStep();
+            recDssState.nextStep();
           }
       
-          state.subscribe((step) => {
+          recDssState.subscribe((step) => {
             let payment = document.getElementById('payment_method');
             if (step == 3) {
               payment.classList.remove('hide');

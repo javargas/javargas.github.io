@@ -1,0 +1,26 @@
+<style>
+    #${planBlockId} {
+        display : none;
+    }
+</style>
+<div id='${planBlockId}'>
+
+
+
+    
+<script>
+(() => {
+  
+  if (typeof recDssState != "undefined"){
+    recDssState.subscribe((step) => {
+        console.log("Execute action from module Payment.");
+      	if (step == ${step_payment}) {
+          document.getElementById('${planBlockId}').style.display = 'inherit';
+        } else {
+          document.getElementById('${planBlockId}').style.display = 'none';
+        }
+      });
+  }
+
+})();  
+</script>
