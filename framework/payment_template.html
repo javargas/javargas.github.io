@@ -1,10 +1,7 @@
 <style>
+  
   #${planBlockId} {
       display : none;
-  }
-
-  .payment_method {
-    width: 570px;
   }
 
   .back_cart {
@@ -20,8 +17,8 @@
     font-family: Spectral;
     font-style: normal;
     font-weight: bold;
-    font-size: 30px;
     line-height: 38px;
+    text-align: center;
   } 
     
   .payment_method>.secure {
@@ -31,13 +28,12 @@
     font-size: 11px;
     line-height: 18px;
     color: #57A635;
-    width: 100px;
     margin-top: 20px;
-    margin-bottom: 20px;
+    text-align: center;
   }
 
   .input_text {
-    width: 220px;
+    width: 100%;
     height: 60px;
     background: #F9F9F9;
     border: 1px solid #9BA1B3;
@@ -49,38 +45,146 @@
     line-height: 24px;
     color: #36393D;
     opacity: 0.6;
-    margin-bottom: 6px;
-    grid-column: 1 / 2;
-    margin-right: 5px;
-    margin-left: 5px;
   }
 
-.payment_method>.button_method {
-  width: 460px;
-  height: 50px;
-  border: 1px solid #004E87;
-  box-sizing: border-box;
-  border-radius: 4px;
-  margin-top: 20px;
-  margin-bottom: 20px;
-  text-align: center;
-  padding: 15px;
-}
+  .payment_method>.button_method {
+    height: 50px;
+    border: 1px solid #004E87;
+    box-sizing: border-box;
+    border-radius: 4px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+    padding: 15px;
+  }
 
-.payment_method>.bar-container {
-  position: relative;
-  height: 80px;
-}
+  .payment_method>.bar-container {
+    position: relative;
+    height: 80px;
+  }
 
-.head_method {
-  display: grid;
-  grid-template-columns: auto 43%;
-  margin-top: 22px;
-}
+  .head_method {
+    display: grid;
+    grid-template-columns: auto 50%;
+    margin-top: 22px;
+  }
 
-#body_credit_card {
-  grid-template-columns: auto 43%;
-}
+  #body_credit_card>div{
+    margin-top: -8px;
+    width: 95%;
+  }
+
+  .head_method>.cards{
+    text-align: right;
+  }
+  
+  .card-number>fieldset {
+    position: relative;
+  }
+
+  .card-number>fieldset:before {
+    content: "";
+    position: absolute;
+    left: 10px;
+    top: 0;
+    bottom: 0;
+    width: 20px;
+    background: url("data:image/svg+xml,%0A%3Csvg width='23' height='19' viewBox='0 0 23 19' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath opacity='0.6' d='M20.5859 0.75H1.875C0.820312 0.75 0 1.60938 0 2.625V16.375C0 17.4297 0.820312 18.25 1.875 18.25H20.5859C21.6406 18.25 22.5 17.4297 22.5 16.375V2.625C22.5 1.60938 21.6406 0.75 20.5859 0.75ZM20.3516 16.375H2.10938C1.95312 16.375 1.875 16.2969 1.875 16.1406V2.85938C1.875 2.74219 1.95312 2.625 2.10938 2.625H20.3516C20.5078 2.625 20.5859 2.74219 20.5859 2.85938V16.1406C20.5859 16.2969 20.5078 16.375 20.3516 16.375ZM7.5 13.7188C7.5 13.4844 7.26562 13.25 7.03125 13.25H4.21875C3.94531 13.25 3.75 13.4844 3.75 13.7188V14.0312C3.75 14.3047 3.94531 14.5 4.21875 14.5H7.03125C7.26562 14.5 7.5 14.3047 7.5 14.0312V13.7188ZM15 13.7188C15 13.4844 14.7656 13.25 14.5312 13.25H9.21875C8.94531 13.25 8.75 13.4844 8.75 13.7188V14.0312C8.75 14.3047 8.94531 14.5 9.21875 14.5H14.5312C14.7656 14.5 15 14.3047 15 14.0312V13.7188ZM10.1562 12C10.3906 12 10.625 11.8047 10.625 11.5312V9.96875C10.625 9.73438 10.3906 9.5 10.1562 9.5H7.96875C7.69531 9.5 7.5 9.73438 7.5 9.96875V11.5312C7.5 11.8047 7.69531 12 7.96875 12H10.1562ZM11.25 11.5312C11.25 11.8047 11.4453 12 11.7188 12H13.9062C14.1406 12 14.375 11.8047 14.375 11.5312V9.96875C14.375 9.73438 14.1406 9.5 13.9062 9.5H11.7188C11.4453 9.5 11.25 9.73438 11.25 9.96875V11.5312ZM3.75 11.5312C3.75 11.8047 3.94531 12 4.21875 12H6.40625C6.64062 12 6.875 11.8047 6.875 11.5312V9.96875C6.875 9.73438 6.64062 9.5 6.40625 9.5H4.21875C3.94531 9.5 3.75 9.73438 3.75 9.96875V11.5312ZM18.75 9.96875C18.75 9.73438 18.5156 9.5 18.2812 9.5H15.4688C15.1953 9.5 15 9.73438 15 9.96875V11.5312C15 11.8047 15.1953 12 15.4688 12H18.2812C18.5156 12 18.75 11.8047 18.75 11.5312V9.96875ZM18.75 4.8125C18.75 4.30469 18.3203 3.875 17.8125 3.875H14.6875C14.1406 3.875 13.75 4.30469 13.75 4.8125V6.6875C13.75 7.23438 14.1406 7.625 14.6875 7.625H17.8125C18.3203 7.625 18.75 7.23438 18.75 6.6875V4.8125Z' fill='%2336393D'/%3E%3C/svg%3E%0A") center / contain no-repeat;
+  }
+  .card-number>fieldset>legend>label, .card-number>fieldset>input {
+    padding-left: 30px;
+  }
+
+  .card-number>fieldset>input:not(:placeholder-shown) ~ legend  {
+    padding-left: 0px;
+  }
+
+  @media (max-width: 460px) {
+    .payment_method {
+      width: 280px;
+    }
+
+    .payment_method>.title {
+      font-size: 26px;
+    }
+
+    .payment_method>.button_method {
+      width: 280px;
+    }
+    
+    #body_credit_card {
+      width: 280px;
+    }
+  }
+
+  @media (min-width: 460px)  and (max-width: 960px) {
+    .payment_method {
+      width: 460px;
+    }
+
+    .payment_method>.title {
+      font-size: 30px;
+    }
+    
+    .payment_method>.button_method {
+      width: 460px;
+    }
+
+    #body_credit_card {
+      display: grid;
+      grid-template-columns: auto 50%;
+      width: 470px;
+    }
+
+    #body_credit_card>.card-number{
+      grid-column: auto / span 2;
+      width: 97.5%;
+    }
+  }
+
+  @media (min-width: 960px) {
+    .payment_method {
+      width: 570;
+    }
+
+    .payment_method>.title {
+      font-size: 30px;
+    }
+    
+    .payment_method>.button_method {
+      width: 570px;
+    }
+
+    #body_credit_card {
+      display: grid;grid-template-columns: 25% 25% 25% 25%;
+      width: 570px;
+    }
+
+    #body_credit_card>.card-item{
+      grid-column: 1 / 3;
+      width: 95%;
+    }
+
+    #body_credit_card>.card-item2{
+      grid-column: 3 / 5;
+      width: 95%;
+    }
+
+    #body_credit_card>.card-number{
+      grid-column: 1 / 3;
+      width: 95%;
+    }
+
+    #body_credit_card>.card-date{
+      grid-column: 3 / 4;
+      width: 95%;
+    }
+
+    #body_credit_card>.card-cvc{
+      width: 95%;
+    }
+  }
+
 </style>
 
 <div class="payment_method center" id='${planBlockId}'>
@@ -136,7 +240,7 @@ Checkout
 </div>
 
 <div>
-  <svg width="460" height="18" viewBox="0 0 460 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <svg width="100%" height="18" viewBox="0 0 460 18" fill="none" xmlns="http://www.w3.org/2000/svg">
     <rect y="9" width="460" height="1" fill="#CDD2DE"/>
     <rect x="145" width="169" height="18" fill="white"/>
     <path d="M164.595 9.34717C164.595 10.8325 164.219 12.0005 163.465 12.8511C162.716 13.7017 161.673 14.127 160.336 14.127C158.969 14.127 157.913 13.7101 157.168 12.8765C156.428 12.0386 156.058 10.8579 156.058 9.33447C156.058 7.82373 156.43 6.65365 157.175 5.82422C157.92 4.99056 158.978 4.57373 160.349 4.57373C161.682 4.57373 162.723 4.99691 163.472 5.84326C164.221 6.68962 164.595 7.85758 164.595 9.34717ZM157.2 9.34717C157.2 10.604 157.467 11.5583 158 12.21C158.537 12.8574 159.316 13.1812 160.336 13.1812C161.364 13.1812 162.141 12.8574 162.666 12.21C163.19 11.5625 163.453 10.6082 163.453 9.34717C163.453 8.0988 163.19 7.15299 162.666 6.50977C162.145 5.8623 161.373 5.53857 160.349 5.53857C159.32 5.53857 158.537 5.86442 158 6.51611C157.467 7.16357 157.2 8.10726 157.2 9.34717ZM167.75 10.1406V14H166.671V4.71973H169.216C170.355 4.71973 171.195 4.93766 171.736 5.37354C172.282 5.80941 172.555 6.46533 172.555 7.34131C172.555 8.56852 171.933 9.39795 170.689 9.82959L173.209 14H171.933L169.686 10.1406H167.75ZM167.75 9.21387H169.229C169.991 9.21387 170.549 9.06364 170.905 8.76318C171.26 8.4585 171.438 8.00358 171.438 7.39844C171.438 6.78483 171.256 6.34261 170.892 6.07178C170.532 5.80094 169.953 5.66553 169.153 5.66553H167.75V9.21387ZM183.968 7.42383C183.968 8.36328 183.647 9.08691 183.003 9.59473C182.364 10.0983 181.448 10.3501 180.255 10.3501H179.163V14H178.084V4.71973H180.49C182.809 4.71973 183.968 5.62109 183.968 7.42383ZM179.163 9.42334H180.134C181.091 9.42334 181.783 9.26888 182.21 8.95996C182.637 8.65104 182.851 8.15592 182.851 7.47461C182.851 6.861 182.65 6.40397 182.248 6.10352C181.846 5.80306 181.22 5.65283 180.369 5.65283H179.163V9.42334ZM191.75 14L190.595 11.0483H186.875L185.733 14H184.641L188.31 4.68164H189.218L192.868 14H191.75ZM190.259 10.0771L189.18 7.20166C189.04 6.83773 188.896 6.39128 188.748 5.8623C188.655 6.26855 188.522 6.71501 188.348 7.20166L187.256 10.0771H190.259ZM196.505 9.35986L198.98 4.71973H200.148L197.051 10.4009V14H195.959V10.4517L192.868 4.71973H194.048L196.505 9.35986ZM204.808 4.71973H207.429C208.661 4.71973 209.551 4.90381 210.102 5.27197C210.652 5.64014 210.927 6.22201 210.927 7.01758C210.927 7.56771 210.772 8.02262 210.463 8.38232C210.159 8.73779 209.712 8.96842 209.124 9.07422V9.1377C210.533 9.37891 211.238 10.1195 211.238 11.3594C211.238 12.1888 210.956 12.8363 210.394 13.3018C209.835 13.7673 209.052 14 208.045 14H204.808V4.71973ZM205.887 8.69336H207.664C208.426 8.69336 208.974 8.57487 209.308 8.33789C209.642 8.09668 209.81 7.69255 209.81 7.12549C209.81 6.60498 209.623 6.23047 209.251 6.00195C208.879 5.76921 208.286 5.65283 207.474 5.65283H205.887V8.69336ZM205.887 9.60742V13.0796H207.823C208.572 13.0796 209.135 12.9357 209.511 12.6479C209.892 12.356 210.083 11.901 210.083 11.2832C210.083 10.7077 209.888 10.2845 209.499 10.0137C209.113 9.74284 208.525 9.60742 207.734 9.60742H205.887ZM215.599 9.35986L218.074 4.71973H219.242L216.145 10.4009V14H215.053V10.4517L211.961 4.71973H213.142L215.599 9.35986ZM227.875 5.55127C226.855 5.55127 226.049 5.89193 225.457 6.57324C224.868 7.25033 224.574 8.1792 224.574 9.35986C224.574 10.5744 224.858 11.5138 225.425 12.1782C225.996 12.8384 226.809 13.1685 227.862 13.1685C228.51 13.1685 229.248 13.0521 230.078 12.8193V13.7651C229.434 14.0063 228.641 14.127 227.697 14.127C226.33 14.127 225.275 13.7122 224.53 12.8828C223.789 12.0534 223.419 10.8748 223.419 9.34717C223.419 8.39079 223.597 7.5529 223.952 6.8335C224.312 6.1141 224.828 5.55973 225.501 5.17041C226.178 4.78109 226.974 4.58643 227.888 4.58643C228.861 4.58643 229.712 4.76416 230.439 5.11963L229.982 6.04639C229.28 5.71631 228.577 5.55127 227.875 5.55127ZM233.182 10.1406V14H232.103V4.71973H234.648C235.786 4.71973 236.626 4.93766 237.168 5.37354C237.714 5.80941 237.987 6.46533 237.987 7.34131C237.987 8.56852 237.365 9.39795 236.121 9.82959L238.641 14H237.365L235.118 10.1406H233.182ZM233.182 9.21387H234.661C235.422 9.21387 235.981 9.06364 236.336 8.76318C236.692 8.4585 236.87 8.00358 236.87 7.39844C236.87 6.78483 236.688 6.34261 236.324 6.07178C235.964 5.80094 235.384 5.66553 234.584 5.66553H233.182V9.21387ZM245.312 14H240.139V4.71973H245.312V5.67822H241.218V8.66797H245.064V9.62012H241.218V13.0352H245.312V14ZM254.783 9.271C254.783 10.8029 254.366 11.9751 253.532 12.7876C252.703 13.5959 251.507 14 249.946 14H247.375V4.71973H250.219C251.662 4.71973 252.783 5.11963 253.583 5.91943C254.383 6.71924 254.783 7.83643 254.783 9.271ZM253.64 9.30908C253.64 8.0988 253.335 7.18685 252.726 6.57324C252.121 5.95964 251.22 5.65283 250.022 5.65283H248.454V13.0669H249.768C251.055 13.0669 252.021 12.7516 252.669 12.1211C253.316 11.4863 253.64 10.549 253.64 9.30908ZM256.858 14V4.71973H257.938V14H256.858ZM263.346 14H262.267V5.67822H259.328V4.71973H266.285V5.67822H263.346V14ZM275.038 5.55127C274.018 5.55127 273.212 5.89193 272.62 6.57324C272.031 7.25033 271.737 8.1792 271.737 9.35986C271.737 10.5744 272.021 11.5138 272.588 12.1782C273.159 12.8384 273.972 13.1685 275.025 13.1685C275.673 13.1685 276.411 13.0521 277.241 12.8193V13.7651C276.597 14.0063 275.804 14.127 274.86 14.127C273.493 14.127 272.438 13.7122 271.693 12.8828C270.952 12.0534 270.582 10.8748 270.582 9.34717C270.582 8.39079 270.76 7.5529 271.115 6.8335C271.475 6.1141 271.991 5.55973 272.664 5.17041C273.341 4.78109 274.137 4.58643 275.051 4.58643C276.024 4.58643 276.875 4.76416 277.603 5.11963L277.146 6.04639C276.443 5.71631 275.741 5.55127 275.038 5.55127ZM285.099 14L283.944 11.0483H280.224L279.082 14H277.99L281.659 4.68164H282.566L286.216 14H285.099ZM283.607 10.0771L282.528 7.20166C282.389 6.83773 282.245 6.39128 282.097 5.8623C282.004 6.26855 281.87 6.71501 281.697 7.20166L280.605 10.0771H283.607ZM288.571 10.1406V14H287.492V4.71973H290.038C291.176 4.71973 292.016 4.93766 292.558 5.37354C293.104 5.80941 293.376 6.46533 293.376 7.34131C293.376 8.56852 292.754 9.39795 291.51 9.82959L294.03 14H292.754L290.507 10.1406H288.571ZM288.571 9.21387H290.05C290.812 9.21387 291.371 9.06364 291.726 8.76318C292.082 8.4585 292.259 8.00358 292.259 7.39844C292.259 6.78483 292.077 6.34261 291.713 6.07178C291.354 5.80094 290.774 5.66553 289.974 5.66553H288.571V9.21387ZM302.936 9.271C302.936 10.8029 302.519 11.9751 301.686 12.7876C300.856 13.5959 299.661 14 298.099 14H295.528V4.71973H298.372C299.815 4.71973 300.937 5.11963 301.736 5.91943C302.536 6.71924 302.936 7.83643 302.936 9.271ZM301.793 9.30908C301.793 8.0988 301.489 7.18685 300.879 6.57324C300.274 5.95964 299.373 5.65283 298.175 5.65283H296.607V13.0669H297.921C299.208 13.0669 300.175 12.7516 300.822 12.1211C301.47 11.4863 301.793 10.549 301.793 9.30908Z" fill="#888888"/>
@@ -182,20 +286,95 @@ Checkout
   </div>
 </div>
 
-<div id="body_credit_card">
-  <input type="text" class="input_text" placeholder="First Name" id="first_name" />
+<div id="body_credit_card" class="payment_container">
+  <div class="card-item">
+    <fieldset>
+      <input type="text" 
+            class="input_text" 
+            placeholder="First Name"
+            id="firstname"
+            />
+      <legend>
+        <label for="firstname">First Name</label>
+      </legend>
+  </fieldset>
+</div>
 
-  <input type="text" class="input_text" placeholder="Last Name" id="last_name" /><br>
+<div class="card-item2">
+  <fieldset>
+    <input type="text" 
+           class="input_text" 
+           placeholder="Last Name"
+           id="lastname"
+           />
+    <legend>
+      <label for="firstname">Last Name</label>
+    </legend>
+ </fieldset>
+</div>
+<div class="card-number">
+  <fieldset>
+    <input type="text" 
+          class="input_text" 
+          placeholder="Credit or debit card"
+          id="credit_card"
+          />
 
-  <input type="text" class="input_text" placeholder="Credit or debit card" id="credit_card" />
+    <legend>
+      <label for="credit_card">Credit or debit card</label>
+    </legend>
+ </fieldset>
+</div>
+<div class="card-date">
+  <fieldset>
+    <input type="text" 
+           class="input_text" 
+           placeholder="MM / YY"
+           id="date"
+           />
+    <legend>
+      <label for="date">MM / YY</label>
+    </legend>
+ </fieldset>
+</div>
+<div class="card-cvc"ß>
+  <fieldset>
+    <input type="text" 
+           class="input_text" 
+           placeholder="CVC"
+           id="cvc"
+           />
+    <legend>
+      <label for="ccv">CVV</label>
+    </legend>
+    </fieldset>
+  </div>
 
-  <input type="text" class="input_text" placeholder="MM / YY" id="date" />
+  <div class="card-item">
+    <fieldset>
+      <input type="text" 
+              class="input_text" 
+              placeholder="Phone number"
+              id="phone_number"
+              />
+      <legend>
+        <label for="phone_number">Phone number</label>
+      </legend>
+    </fieldset>
+  </div>
+  <div class="card-item2">
+    <fieldset>
+      <input type="text" 
+              class="input_text" 
+              placeholder="Zip code"
+              id="zip_code"
+              />
+      <legend>
+        <label for="zip_code">Zip code</label>
+      </legend>
+    </fieldset>
+  </div>
 
-  <input type="text" class="input_text" placeholder="CVV" id="ccv" /><br>
-
-  <input type="text" class="input_text" placeholder="Phone number" id="phone_number" />
-
-  <input type="text" class="input_text" placeholder="Zip code" id="zip_code" />
 </div>
 
 </div>
@@ -214,6 +393,5 @@ if (typeof recDssState != "undefined"){
       }
     });
 }
-
 })();  
 </script>

@@ -1,246 +1,358 @@
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@700&display=swap" rel="stylesheet">
+
 <style>
-  /* General Styles  */
-body {
-    background-color: '${general_background_color}';
-    color: '${general_text_color}';
-}
-
-.layout {
-    background-color: '${layout_background_color}';
-    color: '${layout_text_color}';
-}
-
-.button_next_step {
-      width: 570px;
-      height: 60px;
-      background-color: '${button_background_color}';
-      border-radius: 4px;font-family: Open Sans;
+  	/* General Styles  */
+  body {
+      background-color: '${general_background_color}';
+      color: '${general_text_color}';
+      font-family: 'Open Sans', sans-serif;
       font-style: normal;
-      font-weight: 600;
-      font-size: 18px;
-      line-height: 24px;
-      margin-top: 20px;
-      margin-bottom: 20px;
-      text-align: center;
-      color: '${button_text_color}';
-}
+  }
+  
+  .layout {
+  	  background-color: '${layout_background_color}';
+      color: '${layout_text_color}';
+  }
+  
+  .button_next_step {
+  	    width: 460px;
+        height: 60px;
+        background-color: '${button_background_color}';
+        border-radius: 4px;font-family: Open Sans;
+        font-style: normal;
+        font-weight: 600;
+        font-size: 18px;
+        line-height: 24px;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        text-align: center;
+        color: '${button_text_color}';
+  }
+  
+  .center {
+    margin: 0 auto;
+    max-width: 100%;
+  }
+
+  @media (min-width: 960px) {
+    .payment_wrapper{
+      display: grid;
+      grid-template-columns: auto 50%;
+      width: 960px;
+    }
+
+    .payment_wrapper-item {
+      grid-column: 2 ;
+    }
+    .payment_wrapper-card{
+      grid-column: 1 ;
+      grid-row: 1 / 10;
+    }
+  }
+
 </style>
 
 <!-- Market Styles -->
 <link id="market_css" href="" type="text/css" rel="stylesheet">
 <script>         
-
-/* Market css file */ 
-var link = document.getElementById("market_css");
-link.href = '${css_url}/'+market+'.css';
-
+  
+ /* Market css file */ 
+  var link = document.getElementById("market_css");
+  link.href = '${css_url}/'+market+'.css';
+  
 /* ==========================
 // Framework global object
 ===========================*/
 const RecDssState = function() {
-// Private variables
-var activeStep = 1; // current step in the checkout process
-var observers = []; // observers modules
-var validators = []; // Validator functions per step
+  // Private variables
+  var activeStep = 1; // current step in the checkout process
+  var observers = []; // observers modules
+  var validators = []; // Validator functions per step
 
-// Get the existing data
-var existing = sessionStorage.getItem("recDssState");
+  // Get the existing data
+  var existing = sessionStorage.getItem("recDssState");
 
-// If no existing data, use the value by itself
-// Otherwise, add the new value to it
-var data = existing ? JSON.parse(existing) : {};
+  // If no existing data, use the value by itself
+  // Otherwise, add the new value to it
+  var data = existing ? JSON.parse(existing) : {};
 
-/* Private functions */
-function saveData() {
-  console.log("saving data ", data);
-  sessionStorage.setItem("recDssState", JSON.stringify(data));
-}
-
-function notify(data) {
-  observers.forEach((observer) => observer(data));
-}
-
-/* Public functions */
-function subscribe(f) {
-  observers.push(f);
-}
-
-function unsubscribe(f) {
-  observers = observers.filter((subscriber) => subscriber !== f);
-}
-
-function addValidator(step, validate){
-  if (typeof validators[step] == "undefined") {
-      validators[step] = [];
+  /* Private functions */
+  function saveData() {
+    console.log("saving data ", data);
+    sessionStorage.setItem("recDssState", JSON.stringify(data));
   }
 
-  validators[step].push(validate);
-}
-
-function nextStep() {
-  let canContinue = true;
-
-  if (typeof validators[activeStep] != "undefined") {
-    validators[activeStep]
-    .forEach(
-        (validator) => {
-            if (!validator()) {
-                canContinue = false;
-            }
-        }
-    );
-  }
-
-  if (canContinue) {
-      console.log("continue to the next step: ", data);
-      saveData();
-      notify(++activeStep);
-  }
-
-  return canContinue;
-}
-
-function getData(key = null) {
-  if (key == null) {
-    return data;
+  function notify(data) {
+    observers.forEach((observer) => observer(data));
   }
   
-  if (typeof data[key] != "undefined") {
-    return data[key];
-  } else {
-    return null;
+  /* Public functions */
+  function subscribe(f) {
+    observers.push(f);
   }
-}
 
-function setData(key, value) {
-  data[key] = value;
-}
+  function unsubscribe(f) {
+    observers = observers.filter((subscriber) => subscriber !== f);
+  }
 
-return {
-  subscribe: subscribe,
-  unsubscribe: unsubscribe,
-  addValidator: addValidator,
-  nextStep: nextStep,
-  getData: getData,
-  setData: setData
-};
+  function addValidator(step, validate){
+    if (typeof validators[step] == "undefined") {
+        validators[step] = [];
+    }
+
+    validators[step].push(validate);
+  }
+
+  function nextStep() {
+    let canContinue = true;
+
+    if (typeof validators[activeStep] != "undefined") {
+      validators[activeStep]
+      .forEach(
+          (validator) => {
+              if (!validator()) {
+                  canContinue = false;
+              }
+          }
+      );
+    }
+
+    if (canContinue) {
+        console.log("continue to the next step: ", data);
+        saveData();
+
+        notify(++activeStep);
+    }
+
+    return canContinue;
+  }
+
+  function getData(key = null) {
+    if (key == null) {
+      return data;
+    }
+    
+    if (typeof data[key] != "undefined") {
+      return data[key];
+    } else {
+      return null;
+    }
+  }
+
+  function setData(key, value) {
+    data[key] = value;
+  }
+
+  function setStep(step) {
+  	activeStep = step;
+  }
+
+  return {
+    subscribe: subscribe,
+    unsubscribe: unsubscribe,
+    addValidator: addValidator,
+    nextStep: nextStep,
+    getData: getData,
+    setData: setData,
+    setStep: setStep
+  };
 };
 
 if (typeof recDssState == "undefined") {  
-recDssState = RecDssState();
+	recDssState = RecDssState();
 }
 
-
+  
 params = {};  
 if (typeof productCode !== "undefined") {
-  params["productCode"] = productCode;
+    params["productCode"] = productCode;
 }  
 if (typeof planCode !== "undefined") {
-  params["planCode"] = planCode;
+    params["planCode"] = planCode;
 }  
 if (typeof market !== "undefined") {
-  params["market"] = market;
+    params["market"] = market;
 }  
 recDssState.setData("params", params);
+
+recDssState.setData('markets', {
+    ctc : {
+      name: "Chicago Tribune", 
+      code: "ctc" 
+    },
+    mcall : {
+      name: "Allentown Morning Call", 
+      code: "mcall" 
+    },
+    balt : {
+      name: "Baltimore Sun ", 
+      code: "balt" 
+    },
+    cgt : {
+      name: "Capital Gazette", 
+      code: "cgt" 
+    },
+    cct : {
+      name: "Carroll County Times", 
+      code: "cct" 
+    },
+    dpva : {
+      name: "Daily Press", 
+      code: "dpva" 
+    },
+    hrt : {
+      name: "Hartford Courant", 
+      code: "hrt" 
+    },
+    nydn : {
+      name: "New York Daily News", 
+      code: "nydn" 
+    },
+    orl : {
+      name: "Orlando Sentinel", 
+      code: "orl" 
+    },
+    sofla : {
+      name: "Sun-Sentinel", 
+      code: "sofla" 
+    },
+    vg : {
+      name: "Virginia Gazette", 
+      code: "vg" 
+    },
+    vp : {
+      name: "Virginian-Pilot", 
+      code: "vp" 
+    }
+});
+
 </script>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <div id="modules"></div>
 
 <script>
-
-(()=>{
-  const S=trb.metering;    
-  const regexpParams = /\$\{\w+\}/g; // ${algo}
   
-  markets = {
-    chicago: {
-        full_name: "Chicago Tribune",
-          logo: '${chicago_market_logo_url}',
-          contact_us_url: '${chicago_contact_url}',
-          terms_service_url: '${chicago_terms_url}',
-          privacy_url: '${chicago_privacy_url}'
-      },
-     mcall: {
-        full_name: "The Morning Call",
-          logo: '${mcall_market_logo_url}',
-          contact_us_url: '${mcall_contact_url}',
-          terms_service_url: '${mcall_terms_url}',
-          privacy_url: '${mcall_privacy_url}'
-      },
-  };
-  
-  function renderModule(module) {
-      let strModule = (module.u.split("/"))[2]; // pattern
-      console.log("strModule: ", strModule);
-      document.getElementById('modules').innerHTML += '<div data-reg-role="'+strModule+'"></div>';
-      console.log("Loading module "+strModule),strModule&&S.push("handle-"+strModule)
-  }
-
-  if (typeof market == "undefined") {
-    market = "";
-  }
-  
-   checkout_layout = '${checkout_layout}' ;
-   valid_market = '${valid_market}' ;
-  market_data = markets[market];
-  
-  console.log('checkout_layout', checkout_layout);
-  console.log('valid_market: ', valid_market);
-  console.log('current_market: ', market );
-
-  
-// load the rules
-if (checkout_layout != '' // always defined as a true
-    && valid_market != ''    // should always define on this layout 
-    && valid_market.includes(market)) {
-  
- // let modules = ['${module_1}', '${module_2}']
-  
-  let modules = trb.registration.config.get('rules');
-  let reactions = trb.registration.config.get('reactions');
-  let layouts = trb.registration.config.get('layouts');
-  
-  console.log("Modules(Rules): ", modules);
-  
-  // load a div for each rule, depend of the criteria in DSS-15758
-  modules_rendered = []
-  modules.forEach(module => {
-    console.log("Module: ", module);
-
-    layoutConfig = reactions.within[module.i];
+  (()=>{
+    const S=trb.metering;    
+    const regexpParams = /\$\{\w+\}/g; // ${algo}
     
-    let marketOverride = "";;
-    if (typeof layoutConfig != "undefined" && typeof layoutConfig.marketOverride != "undefined") {
-      marketOverride = layoutConfig.marketOverride;
+    function renderModule(strModule) {
+        console.log("strModule: ", strModule);
+        document.getElementById('modules').innerHTML += '<div data-reg-role="'+strModule+'"></div>';
+        console.log("Loading module "+strModule),strModule&&S.push("handle-"+strModule)
+    }
+
+    if (typeof market == "undefined") {
+    	market = "";
     }
     
-    console.log("marketOverride: ", marketOverride);
-    let re = new RegExp(marketOverride)
-     
-    // Is unique?
-    let isUnique = false;
-    let i = 0
-    while (!isUnique && i < modules.length) {
-      if (re.test(modules[i].u) && modules[i].i != module.i) {
-        isUnique = true;
+   	checkout_layout = '${checkout_layout}' ;
+   	valid_market = '${valid_market}' ;
+    market_data = recDssState.getData('markets')[market];
+    
+    console.log('checkout_layout', checkout_layout);
+    console.log('valid_market: ', valid_market);
+    console.log('current_market: ', market );
+
+    
+  // load the rules
+  if (checkout_layout != '' // always defined as a true
+      && valid_market != ''    // should always define on this layout 
+      && valid_market.includes(market)) {
+    
+   // let modules = ['${module_1}', '${module_2}']
+    
+    let modules = trb.registration.config.get('rules');
+    let reactions = trb.registration.config.get('reactions');
+    let layouts = trb.registration.config.get('layouts');
+    
+    console.log("Modules(Rules): ", modules);
+    
+    // load a div for each rule, depend of the criteria in DSS-15758
+    modules_rendered = []
+    modules.forEach(module => {
+      console.log("Module: ", module);
+
+      layoutConfig = reactions.within[module.i];
+      
+      let marketOverride = "";;
+      if (typeof layoutConfig != "undefined" && typeof layoutConfig.marketOverride != "undefined") {
+      	marketOverride = layoutConfig.marketOverride;
       }
-      i++;
+      
+      console.log("marketOverride: ", marketOverride);
+      let re = new RegExp(marketOverride)
+       
+      // Is unique?
+      let isUnique = false;
+      let i = 0
+      while (!isUnique && i < modules.length) {
+        if (re.test(modules[i].u) && modules[i].i != module.i) {
+          isUnique = true;
+        }
+        i++;
+      }
+
+      if (/^$/.test(marketOverride) || marketOverride.includes(market)) {
+        let strModule = (module.u.split("/"))[2]; // pattern
+        if (isUnique) {
+          renderModule(strModule);
+          modules_rendered.push(strModule);
+        } else {
+          if (!modules_rendered.includes(strModule)) {
+            renderModule(strModule);
+            modules_rendered.push(strModule);
+          } 
+        }
+      }
+     });
+
     }
 
-    if (/^$/.test(marketOverride) || marketOverride.includes(market)) {
-      if (isUnique) {
-        renderModule(module);
-      } else {
-        if (!modules_rendered.includes(module.u)) {
-          renderModule(module);
-          modules_rendered.push(module.u);
-        } 
-      }
-    }
-   });
-  }
+    $( document ).ready(function() {
+
+      let modules = trb.registration.config.get('rules');
+      // `element` is the element you want to wrap
+      var element = document.querySelector('[data-reg-role="payment_info"]');
+      var parent = element.parentNode;
+      var wrapper = document.createElement('div');
+      wrapper.classList.add('payment_wrapper');
+      wrapper.classList.add('center');
+      element.classList.add('payment_wrapper-card')
+
+      // set the wrapper as child (instead of the element)
+      parent.replaceChild(wrapper, element);
+      // set element as child of wrapper
+      wrapper.appendChild(element);
+
+      var blnWrapping = false;
+      modules.forEach(module => {
+        let strModule = (module.u.split("/"))[2]; // pattern
+
+        if (blnWrapping) {
+          let moduleHTML = document.querySelector('[data-reg-role="'+strModule+'"]');
+          moduleHTML.classList.add('payment_wrapper-item')
+          wrapper.appendChild(moduleHTML);
+        }
+        if (strModule == 'payment_info') {
+          blnWrapping = true;  
+        }
+
+        if (strModule == 'subscriber_button') {
+          blnWrapping = false;  
+        }
+
+      });
+    });
+
+    
+  })();
   
-})();
-
-
+  
 </script>

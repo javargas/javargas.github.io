@@ -116,3 +116,7 @@ const RecDssState = function() {
 };
 
 recDssState = RecDssState();
+recDssState.setData('markets', {
+  
+
+});

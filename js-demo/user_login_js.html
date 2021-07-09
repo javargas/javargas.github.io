@@ -69,6 +69,7 @@
     .input-icon{
         position: absolute;
         left: 543px;
+      	cursor: pointer;
         opacity: 0.6;
         top: calc(50% - 1.8em); /* Keep icon in center of input, regardless of the input height */
     }
@@ -96,8 +97,95 @@
         color: #FFFFFF;
     
     }
+  .pwd_pass {
+  		font-size: 16px;
+    	color: #7cba61;
+    	display: block;
+    	font-family: 'Open Sans';
+  }
+  .pwd_error {
+  		font-size: 16px;
+    	color: #ff0000;
+    	display: block;
+    	font-family: 'Open Sans';
+  }
+  fieldset {
+  --typography-size: 14px;
+  --base-ratio: 4px;
+  font-family: monospace;
+  padding: 0;
+  margin: 0;
+  border: none;
+}
+
+input {
+  font-size: var(--typography-size);
+  font-family: inherit;
+  margin: 0;
+  padding: 0;
+  padding-top: calc(var(--base-ratio) * 3);
+  padding-bottom: calc(var(--base-ratio) * 2);
+  padding-left: calc(var(--base-ratio) * 3);
+  border: 1px solid #c3c3c3;
+}
+
+input::placeholder {
+  opacity: 0;
+}
+
+legend {
+  font-size: var(--typography-size);
+  padding: 0 var(--base-ratio);
+  margin-left: calc(2 * var(--base-ratio) + 1px);
+  transform: translateY(calc(245% + 3 * var(--base-ratio) + 1px));
+  background: transparent;
+  transition: all 0.75s ease;
+  color: #60666c;
+  font-family: 'Open Sans';
+}
+
+input:not(:placeholder-shown) ~ legend  {
+  color: #60666c;
+  background: white;
+  transform: translateY(180%);
+/*   padding: 0; */ /* optional */
+}
+
+label {
+  cursor: text;
+  font-size: var(--typography-size);
+  text-transform: capitalize;
+  transition: font-size 0.75s ease;
+}
+
+input:not(:placeholder-shown) ~ legend > label  {
+ font-size: calc(var(--typography-size) * 0.9);
+}
+
+/* Just for demo */
+
+form {
+ margin: 0 auto;
+ width: fit-content;
+}
+
+.title {
+  font-size: 24px;
+  margin: 8px;
+}
+
+.actions {
+  width: 100%;
+  margin: 16px;
+  text-align: justify;
+}
+
+.actions > button {
+  width: 33%;
+  margin: 0 8px;
+}
     </style>
-    <div class="login_module center" id='login_module'>
+    <div class="login_module center" id='${planBlockId}'>
         <div id="login_text_1">
         Let's start with your email
         </div>
@@ -105,81 +193,218 @@
         <div id="login_text_2">
         This will be used to log in to our website and app. 
         </div>
-        
+        <fieldset>
         <input type="text" 
                class="login_input" 
                placeholder="Email address"
                id="login_email"
                  />
-    
+    	<legend><label for="username">Email address</label></legend>
+ </fieldset>
         <span class="login_errors" id="login_error"></span>
     
         <div class="input-wrapper" id="divPassword">
+          <fieldset>
             <input  type="password"
                     class="login_input login_password"
                     placeholder="Password"
                     id="password"
+                    onkeyup="validatePass()"
                     required />
-    
-                <label for="password" id="eyePwd" onclick="toogleEye()"
+    		<legend><label for="username">Password</label></legend>
+                <label for="password" id="eyePwd" onClick="toogleEye()"
                     class="fa input-icon fa-eye-slash">
                 </label>
+            
+ </fieldset>
+          		<span class="pwd_pass" id="minLength"><i class="fa fa-exclamation-circle" aria-hidden="true"></i>Minimum length is 6</span>
+                <span class="pwd_pass" id="reqLetter">Include at least 1 letter</span>
+                <span class="pwd_pass" id="reqNumber">Include at least 1 number</span>
         </div>
                 
         <input type="button" class="login_button" value="Continue" onClick="submitLogin()">
+        <input type="hidden" id="isNewUser" name="isNewUser" value="0">
     </div>
     <script>
-    
-    function submitLogin(){
-        var strMail = (document.getElementById("login_email")).value;
-    
-        if (ValidateEmail(strMail)) {
+      var loggedInUser = trb.data.user.email;
+      console.log('loggedInUser:',loggedInUser);
+      var loginData = recDssState.getData("login");
+      if (loginData != null) {
+      	document.getElementById("login_email").value = loginData.email;
+      }
+      let validPassword = false;
+      
+      
 
-            /*  PENDING... REQUEST 
-            * Validate if the emails exists as an account 
-            */
+function submitLogin() {
+  recDssState.nextStep();
+}
+      
+function toogleEye(){
+	var eyePwd = document.getElementById("eyePwd");
+	var password = document.getElementById("password");
+	console.log('toggle function');
+	if (eyePwd.classList.contains('fa-eye-slash')) {
+		eyePwd.classList.remove('fa-eye-slash');
+		eyePwd.classList.add('fa-eye');
 
-            (document.getElementById("login_error")).style.display = 'none';
-            (document.getElementById("divPassword")).style.display = 'inline';
-    
-            // Goto step # 2
-            state.nextStep();
+		password.type = 'text';
+    } else {
+		eyePwd.classList.remove('fa-eye');
+		eyePwd.classList.add('fa-eye-slash');
 
-            (document.getElementById("login_text_1")).innerHTML = 'You’re almost there!';
-            (document.getElementById("login_text_2")).innerHTML = 'Create a password for your account.';
-    
-        } else {
-            var strMessageError = "You have entered an invalid email address!";
-            (document.getElementById("login_error")).innerHTML = strMessageError;
+		password.type = 'password';
+	}
+}
+      
+function validatePass(){
+  let userPwd = document.getElementById('password');
+  var minLength = document.getElementById("minLength");
+  var reqLetter = document.getElementById("reqLetter");
+  var reqNumber = document.getElementById("reqNumber");
+  var caseLetters = /[a-zA-Z]/;
+  var caseNumbers = /[0-9]/g;
+  if(userPwd.value.match(caseLetters)) {
+    reqLetter.classList.remove("pwd_error");
+    reqLetter.classList.add("pwd_pass");
+  } else {
+    reqLetter.classList.remove("pwd_pass");
+    reqLetter.classList.add("pwd_error");
+  }
+  if(userPwd.value.match(caseNumbers)) {
+    reqNumber.classList.remove("pwd_error");
+    reqNumber.classList.add("pwd_pass");
+  } else {
+    reqNumber.classList.remove("pwd_pass");
+    reqNumber.classList.add("pwd_error");
+  }
+  if(userPwd.value.length >= 6) {
+    minLength.classList.remove("pwd_error");
+    minLength.classList.add("pwd_pass");
+  } else {
+    minLength.classList.remove("pwd_pass");
+    minLength.classList.add("pwd_error");
+  }
+  if(userPwd.value.match(caseLetters) && userPwd.value.match(caseNumbers) && userPwd.value.length >= 6){
+  	validPassword = true;
+  }
+}
+
+(() => {
+  
+  function validateEmail(){
+    console.log("Validating email");
+
+      let email = document.getElementById('login_email').value;
+      if ( /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(email)){
+          /* Registering data in global recDssState */
+          recDssState.setData("login",  {
+                  email : email
+          });
+
+          // Simulating that user exists
+          document.getElementById("isNewUser").value = 1;
+          var userExistCheck = {
+            "url": "https://ssor.p2p.stage.int.tribops.com/consumers/user_exists",
+            "method": "GET",
+
+            "data": {
+              "email": email
+            },
+            "async": false
+          };
+          $.ajax(userExistCheck).done(function (response){
+            console.log(response);
+            if(response.exists){
+            	recDssState.setData("ssor_id",  {
+                  ssor_id : response.enc_ssor_id
+          		});
+              	var accountCheckResponse = {
+                    "error": "",
+                    "message": {
+                        "ssor_msg": {
+                            "success": false,
+                            "response_code": 4,
+                            "status": 503,
+                            "error": "Application error + Net::OpenTimeout",
+                            "message": "System not available: SSOR"
+                        },
+                        "mg2_msg": "",
+                        "recurly_msg": ""
+                    },
+                    "ssor_response_code": 0,
+                    "mg2_response_code": 0,
+                    "recurly_response_code": 1,
+                    "subs": {
+                        "ssor_mg2_subs": [],
+                        "recurly_subs": []
+                    }
+                };
+              	if(accountCheckResponse.recurly_response_code == 1){
+                	console.log('Show recurly message');
+                }
+            } else {
+            	return true;
+            }
+          });
+
+          // Simulating that is a valid user
+          return true;
+      }
+      alert('Invalid email');
+		
+      return false;
+  }
+  recDssState.addValidator(${step_validate_email}, validateEmail);
+  
+   recDssState.subscribe((step) => {
+       let isNewUser = parseInt(document.getElementById("isNewUser").value);
+
+        if (step == ${step_authenticate}) {
+          if (isNewUser) {
+              // adding registerUser
+              recDssState.addValidator(step, function(){
+                  console.log("Registering user");
+                  var settings = {
+                  "url": "https://ssor.p2p.stage.int.tribops.com/consumers/create_user",
+                  "method": "POST",
+
+                  "data": {
+                    "email": document.getElementById('login_email').value,
+                    "password": document.getElementById('password').value,
+                    "product_code": "dss_default",
+                    "host_url": "https://tribune.ssor.stage.trbdevcloud.com"
+                  },
+                };
+
+                $.ajax(settings).done(function (response)
+
+                {   console.log(response);
+                	recDssState.setData("createdUserData",  {
+                      user : response
+                    });	
+                }
+                );
+                  return true;
+              });
+          } else {
+              recDssState.addValidator(step, () => {
+                  console.log(validPassword);
+                  console.log("Validating password");
+                  return validPassword;
+              });
+          }
+      
+          document.getElementById('divPassword').style.display = 'inherit';
+          let userPwd = document.getElementById('password').value;
         }
-    }
 
-    function toogleEye(){
-        var eyePwd = document.getElementById("eyePwd");
-        var password = document.getElementById("password");
-
-        if (eyePwd.classList.contains('fa-eye-slash')) {
-            eyePwd.classList.remove('fa-eye-slash');
-            eyePwd.classList.add('fa-eye');
-
-            password.type = 'text';
-        } else {
-            eyePwd.classList.remove('fa-eye');
-            eyePwd.classList.add('fa-eye-slash');
-
-            password.type = 'password';
+        if (step == ${step_payment}) {
+            document.getElementById('${planBlockId}').style.display = 'none';
         }
-    }
-    
-    state.validateEmail = (mail) =>
-    {
-     return /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(mail);
-    }
 
-    state.subscribe((step) => {
-        if (step == 3) {
-            let login_module = document.getElementById('login_module');
-            login_module.style.display = 'none';
-        }
+        console.log("Execute action from module.");
     });
+  
+})();  
     </script>
