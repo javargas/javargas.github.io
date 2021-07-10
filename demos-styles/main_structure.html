@@ -132,13 +132,13 @@ const RecDssState = function() {
       });
     } else {
 
-      console.log("Results: ", results);
-      checker = true;
-      results.forEach(e => {
-        console.log("e: ", e);
-        if (!e)
-          checker = false;
-      });
+          console.log("Results: ", results);
+          checker = true;
+          results.forEach(e => {
+            console.log("e: ", e);
+            if (!e)
+              checker = false;
+          });
 
           console.log("Checker", checker);
           if (checker && results.length == validators[activeStep].length) {
@@ -155,21 +155,6 @@ const RecDssState = function() {
 
       let results = [];
       await validate(validators[activeStep], results);
-/*
-      Promise.all(results).then((values) => {
-          console.log(values);
-          */
-
-     // });
-/*
-    if (canContinue) {
-        console.log("continue to the next step: ", data);
-        saveData();
-
-        notify(++activeStep);
-    }
-
-    return canContinue;*/
   }
 
   function getData(key = null) {
