@@ -52,13 +52,14 @@
   @media (min-width: 1024px) {
     .payment_wrapper{
       display: grid;
-      grid-template-columns: auto 50%;
+      grid-template-columns: auto 40%;
       column-gap: 20px;
       margin-top: 20px;
+      width: 960px;
     }
 
     .button_next_step {
-  	    width: 570px;
+  	    width: 369px;
     }
 
     .payment_wrapper-item {
@@ -123,20 +124,44 @@ const RecDssState = function() {
     validators[step].push(validate);
   }
 
-  function nextStep() {
+  async function validate(lista, results)  {
+    if (lista.length > 0) {
+      lista[0]().then((value)=>{
+        results.push(value); 
+        validate(lista.slice(1, lista.length), results);
+      });
+    } else {
+
+      console.log("Results: ", results);
+      checker = true;
+      results.forEach(e => {
+        console.log("e: ", e);
+        if (!e)
+          checker = false;
+      });
+
+          console.log("Checker", checker);
+          if (checker && results.length == validators[activeStep].length) {
+              console.log("continue to the next step: ", data);
+              saveData();
+
+              notify(++activeStep);
+          }
+    }
+  }
+
+  async function nextStep() {
     let canContinue = true;
 
-    if (typeof validators[activeStep] != "undefined") {
-      validators[activeStep]
-      .forEach(
-          (validator) => {
-              if (!validator()) {
-                  canContinue = false;
-              }
-          }
-      );
-    }
+      let results = [];
+      await validate(validators[activeStep], results);
+/*
+      Promise.all(results).then((values) => {
+          console.log(values);
+          */
 
+     // });
+/*
     if (canContinue) {
         console.log("continue to the next step: ", data);
         saveData();
@@ -144,7 +169,7 @@ const RecDssState = function() {
         notify(++activeStep);
     }
 
-    return canContinue;
+    return canContinue;*/
   }
 
   function getData(key = null) {

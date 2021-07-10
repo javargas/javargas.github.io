@@ -48,6 +48,10 @@
     line-height: 24px;
     color: #36393D;
     opacity: 0.6;
+    padding: 0;
+    padding-top: calc(var(--base-ratio) * 3);
+    padding-bottom: calc(var(--base-ratio) * 2);
+    padding-left: calc(var(--base-ratio) * 3);
   }
 
   .payment_method>.button_method {
@@ -86,18 +90,7 @@
     border: none;
   }
 
-  input {
-    font-size: var(--typography-size);
-    font-family: inherit;
-    margin: 0;
-    padding: 0;
-    padding-top: calc(var(--base-ratio) * 3);
-    padding-bottom: calc(var(--base-ratio) * 2);
-    padding-left: calc(var(--base-ratio) * 3);
-    border: 1px solid #c3c3c3;
-  }
-
-  input::placeholder {
+  .input_text::placeholder {
     opacity: 0;
   }
 
@@ -112,14 +105,13 @@
     font-family: 'Open Sans';
   }
 
-  input:not(:placeholder-shown) ~ legend  {
+  .input_text:not(:placeholder-shown) ~ legend  {
     color: #60666c;
     background: white;
     transform: translateY(180%);
-    /*   padding: 0; */ /* optional */
   }
 
-  input:not(:placeholder-shown)  {
+  .input_text:not(:placeholder-shown)  {
     color: black;
     background-color: white;
     border: 1px solid #9BA1B3;
@@ -133,7 +125,7 @@
     transition: font-size 0.75s ease;
   }
 
-  input:not(:placeholder-shown) ~ legend > label  {
+  .input_text:not(:placeholder-shown) ~ legend > label  {
     font-size: calc(var(--typography-size) * 0.9);
   }
 
@@ -406,10 +398,10 @@
 
       <div class="card-item">
         <fieldset>
-          <input type="text"
+          <input type="number"
                  class="input_text"
                  placeholder="Phone number"
-                 id="phone_number"
+                 id="phone_number" 
                  data-recurly="phone_number" required/>
           <legend>
             <label for="phone_number">Phone number</label>
@@ -418,10 +410,10 @@
       </div>
       <div class="card-item2">
         <fieldset>
-          <input type="text"
+          <input type="number"
                  class="input_text"
                  placeholder="Zip code"
-                 id="postal_code"
+                 id="postal_code" 
                  data-recurly="postal_code" required/>
           <legend>
             <label for="postal_code">Zip code</label>
@@ -443,12 +435,11 @@
       </div>
       <div class="card-item2">
         <fieldset>
-          <input type="text"
-                 class="input_text"
-                 placeholder="Country"
-                 id="country"
-                 data-recurly="country"
-                 value="US" required/>
+            <select name="country" class="input_text"
+                id="country" onchange="countyList_onchange(this)"
+                data-recurly="country">
+              <option value="" selected="selected">Select Country</option>
+            </select>
           <legend>
             <label for="country">Country</label>
           </legend>
@@ -457,11 +448,12 @@
 
       <div class="card-item">
         <fieldset>
-          <input type="text"
-                 class="input_text"
-                 placeholder="State"
-                 id="state"
-                 data-recurly="state" value="Illinois" required/>
+          <select name="state" 
+                class="input_text"
+                id="state" onchange="stateList_onchange(this)"
+                data-recurly="state" >
+            <option value="" selected="selected">Select State</option>
+          </select>
           <legend>
             <label for="state">State</label>
           </legend>
@@ -469,11 +461,12 @@
       </div>
       <div class="card-item2">
         <fieldset>
-          <input type="text"
-                 class="input_text"
-                 placeholder="City"
-                 id="city"
-                 data-recurly="city" value="Chicago" required/>
+          <select name="city" 
+                class="input_text"
+                id="city" 
+                data-recurly="city" >
+            <option value="" selected="selected">Select City</option>
+          </select>
           <legend>
             <label for="city">City</label>
           </legend>
@@ -492,32 +485,131 @@
 
 
 <script>
-    let recurly_token = null;
+  let recurly_token = null;
+  let elements = null;
   (() => {
     
+    // A simple error handling function to expose errors to the customer
+    function recurlyErrors(err) {
+        $('#recurly-errors').text('The following fields appear to be invalid: ' + err.fields.join(', '));
+        $('#btn-submit-checkout-form').prop('disabled', false);
+        //$("#body-overlay").fadeOut(200);
+        //$('#btn-spinner').removeClass('spinner-border spinner-border-sm');
+        $.each(err.fields, function (i, field) {
+          $('[data-recurly=' + field + ']').addClass('error');
+        });
+      }
     
     if (typeof recDssState != "undefined"){
       
-      recDssState.addValidator(${step_payment}, () => {
-        
+      // Fields validation
+      recDssState.addValidator(${step_payment}, async () => {  
+        let err = {fields: []}
+        $('#recurly-errors').text("");
+
         if ($('#first_name').val() == '') {
-        	alert("First name required");
-          	return false;
+        	err.fields.push('firs_name');
         }
-        
-        console.log("Validating password");
+
+        if ($('#last_name').val() == '') {
+        	err.fields.push('last_name');
+        }
+
+        if ($('#phone_number').val() == '') {
+        	err.fields.push('phone_number');
+        }
+
+        if ($('#postal_code').val() == '') {
+        	err.fields.push('postal_code');
+        }
+
+        if ($('#address1').val() == '') {
+        	err.fields.push('address1');
+        }
+
+        if ($('#country').val() == '') {
+        	err.fields.push('country');
+        }
+
+        if ($('#state').val() == '') {
+        	err.fields.push('state');
+        }
+
+        if ($('#city').val() == '') {
+          err.fields.push('city');
+        }
+
+        if (err.fields.length > 0) {
+          recurlyErrors(err);
+          return false;
+        }
         return true;
       });
       
+      // Recurly validation and creation fo token
+      recDssState.addValidator(${step_payment}, async () => {
+          blnIsValid = null;
+
+          // On form submit, we stop submission to go get the token from Reculryjs
+          //checkout_form.on('submit', function (event) {
+            //$('#address1').val($('#postal_code').val()) //postal_code as address1
+            $("#body-overlay").fadeIn(100);
+            // Prevent the form from submitting while we retrieve the token from Recurly
+            event.preventDefault();
+            // Reset the errors display
+            $('#errors').text('');
+            $('input').removeClass('error');
+            // Disable the submit button
+            let form = document.getElementById('checkout-form');
+            $('#btn-submit-checkout-form').prop('disabled', true);
+            //$('#btn-spinner').addClass('spinner-border spinner-border-sm');
+            // Now we call recurly.token with the form. It goes to Recurly servers
+            // to tokenize the credit card information, then injects the token into the
+            // data-recurly="token" field above
+           recurly.token(elements, form, function (err, token) {
+              //console.log(token)
+              console.log('Token Information...')
+              console.log(token)
+              // send any errors to the error function below
+              if (err){ console.log("Recurly Error: ", err)
+                recurlyErrors(err);
+                blnIsValid = false;
+                console.log("Asignando blnIsValid [FALSE]", blnIsValid);
+              }else {
+                $('#btn-submit-checkout-form').prop('disabled', false);
+                // Otherwise we continue with the form submission i.e send data to DSS-Server
+                recurly_token = token['id'];
+                alert("token received, process the payment:"+ token['id'])
+                //sendDataToServer();
+                // no need of payment gateway for prod env it will be validated by reculry
+                // send form data to origin server
+                blnIsValid = true;
+                console.log("Asignando blnIsValid [TRUE]", blnIsValid);
+              }
+            });
+          //});
+
+          async function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+          }
+
+          await sleep(2000);
+
+          console.log("RESULT blnIsValid", blnIsValid);
+          return blnIsValid;
+
+      });
+
       recDssState.subscribe((step) => {
-        console.log("Execute action from module Payment.");
+        console.log("Execute action from module Payment.  Step: ", step);
         
         if (step == ${step_payment}) {  // load the payment form
           document.getElementById('${planBlockId}').style.display = 'inherit';
+
           // TODO: get this from metering
           recurly.configure("ewr1-43QSAsz9pJV10zjuvx5JG8");
           // Create a CardElement
-          let elements = recurly.Elements();
+          elements = recurly.Elements();
           let cardElement = elements.CardElement({
             style: {
               fontFamily: 'Open Sans',
@@ -528,63 +620,14 @@
           });
           cardElement.attach('[data-my-js-ref="recurly-element-card"]');
 
-          let checkout_form = $('#checkout-form');
           // When a customer hits their 'enter' key while using the card element
           cardElement.on('submit', function (event) {
-            //checkout_form.submit();
             recDssState.nextStep();
           });
-          // On form submit, we stop submission to go get the token from Reculryjs
-          checkout_form.on('submit', function (event) {
-            $('#address1').val($('#postal_code').val()) //postal_code as address1
-            $("#body-overlay").fadeIn(100);
-            // Prevent the form from submitting while we retrieve the token from Recurly
-            event.preventDefault();
-            // Reset the errors display
-            $('#errors').text('');
-            $('input').removeClass('error');
-            // Disable the submit button
-            let form = this;
-            $('#btn-submit-checkout-form').prop('disabled', true);
-            //$('#btn-spinner').addClass('spinner-border spinner-border-sm');
-            // Now we call recurly.token with the form. It goes to Recurly servers
-            // to tokenize the credit card information, then injects the token into the
-            // data-recurly="token" field above
-            recurly.token(elements, form, function (err, token) {
-              //console.log(token)
-              console.log('Token Information...')
-              console.log(token)
-              // send any errors to the error function below
-              if (err){
-                recurlyErrors(err);
-                recDssState.setStep(${step_payment}-1);
-              }else {
-                $('#btn-submit-checkout-form').prop('disabled', false);
-                // Otherwise we continue with the form submission i.e send data to DSS-Server
-                recurly_token = token['id'];
-                alert("token received, process the payment:"+ token['id'])
-                //sendDataToServer();
-                // no need of payment gateway for prod env it will be validated by reculry
-                // send form data to origin server
-              }
-            });
-          });
 
-          // A simple error handling function to expose errors to the customer
-          function recurlyErrors(err) {
-            $('#errors').text('The following fields appear to be invalid: ' + err.fields.join(', '));
-            $('#btn-submit-checkout-form').prop('disabled', false);
-            //$("#body-overlay").fadeOut(200);
-            //$('#btn-spinner').removeClass('spinner-border spinner-border-sm');
-            $.each(err.fields, function (i, field) {
-              $('[data-recurly=' + field + ']').addClass('error');
-            });
-          }
-          
           
         } else if (step == ${step_sendpayment}) {  // step 4  
-           let checkout_form = $('#checkout-form');
-           checkout_form.submit();
+      
            console.log("Seding data to Recurly server step 4", recurly_token);
            //sendDataToServer();
            //document.getElementById('${planBlockId}').style.display = 'none';
@@ -595,5 +638,57 @@
         }
       });
     }
+
   })();
+
+
+  var worldData = {
+        USA: {
+            California: ["Los Angeles", "San Diego", "Sacramento"],
+            Texas: ["Houston", "Austin"],
+            Florida: ["Miami", "Orlando", "Tampa"],
+            Illinois : ['Chicago']
+        },
+        India: {
+            Maharashtra: ["Mumbai", "Pune", "Nagpur"],
+            TamilNadu: ["Chennai", "Madurai"],
+            Karnataka: ["Bangalore", "Mangalore"],
+        },
+        Canada: {
+            Alberta: ["Calgary", "Edmonton", "Red Deer"],
+            BritishColumbia: ["Vancouver", "Kelowna"],
+            Manitoba: ["Winnipeg", "Brandon"],
+        },
+        Germany: {
+            Bavaria: ["Munich", "Nuremberg"],
+            NorthRhine: ["Cologne", "Düsseldorf"],
+        },
+    };
+
+        var countyList = document.getElementById("country");
+        for (var country in worldData) {
+            countyList.options[countyList.options.length] = new Option(country, country);
+        }
+        countyList_onchange = function (obj) { 
+            var stateList = document.getElementById("state");
+            var cityList = document.getElementById("city");
+            stateList.length = 1;
+            cityList.length = 1;
+            console.log("stateList: ", stateList);
+            if (obj.selectedIndex < 1) return;
+            for (var state in worldData[obj.value]) {
+                stateList.options[stateList.options.length] = new Option(state, state);
+            }
+        };
+       
+        stateList_onchange = function (obj) {
+            var countyList = document.getElementById("country");
+            var cityList = document.getElementById("city");
+            cityList.length = 1;
+            if (obj.selectedIndex < 1) return;
+            var city = worldData[countyList.value][obj.value];
+            for (var i = 0; i < city.length; i++) {
+                cityList.options[cityList.options.length] = new Option(city[i], city[i]);
+            }
+        };
 </script>
