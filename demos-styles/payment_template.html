@@ -485,7 +485,7 @@
 
 
 <script>
-  let recurly_token = null;
+  
   let elements = null;
   (() => {
     
@@ -548,7 +548,7 @@
       
       // Recurly validation and creation fo token
       recDssState.addValidator(${step_payment}, async () => {
-          blnIsValid = null;
+          let blnIsValid = null;
 
           // On form submit, we stop submission to go get the token from Reculryjs
           //checkout_form.on('submit', function (event) {
@@ -566,7 +566,7 @@
             // Now we call recurly.token with the form. It goes to Recurly servers
             // to tokenize the credit card information, then injects the token into the
             // data-recurly="token" field above
-           recurly.token(elements, form, function (err, token) {
+            recurly.token(elements, form, function (err, token) {
               //console.log(token)
               console.log('Token Information...')
               console.log(token)
@@ -589,11 +589,12 @@
             });
           //});
 
-          async function sleep(ms) {
+          async function waitToValid(ms) {
             return new Promise(resolve => setTimeout(resolve, ms));
           }
 
-          await sleep(500);
+          while (blnIsValid == null)
+            await waitToValid(250);
 
           console.log("RESULT blnIsValid", blnIsValid);
           return blnIsValid;
@@ -630,10 +631,8 @@
       
            console.log("Seding data to Recurly server step 4", recurly_token);
            //sendDataToServer();
-           //document.getElementById('${planBlockId}').style.display = 'none';
+           document.getElementById('${planBlockId}').style.display = 'none';
         } else {
-          
-          
           document.getElementById('${planBlockId}').style.display = 'none';
         }
       });
