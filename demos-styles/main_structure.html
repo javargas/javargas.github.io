@@ -132,29 +132,21 @@ const RecDssState = function() {
       });
     } else {
 
-          console.log("Results: ", results);
-          checker = true;
-          results.forEach(e => {
-            console.log("e: ", e);
-            if (!e)
-              checker = false;
-          });
+        console.log("Results: ", results);
+        checker = results.every(e => e == true)
 
-          console.log("Checker", checker);
-          if (checker && results.length == validators[activeStep].length) {
-              console.log("continue to the next step: ", data);
-              saveData();
+        console.log("Checker", checker);
+        if (checker && results.length == validators[activeStep].length) {
+            console.log("continue to the next step: ", activeStep, data);
+            saveData();
 
-              notify(++activeStep);
-          }
+            notify(++activeStep);
+        }
     }
   }
 
   async function nextStep() {
-    let canContinue = true;
-
-      let results = [];
-      await validate(validators[activeStep], results);
+      await validate(validators[activeStep], []);
   }
 
   function getData(key = null) {

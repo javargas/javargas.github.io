@@ -571,10 +571,9 @@
               console.log('Token Information...')
               console.log(token)
               // send any errors to the error function below
-              if (err){ console.log("Recurly Error: ", err)
+              if (err){ 
                 recurlyErrors(err);
                 blnIsValid = false;
-                console.log("Asignando blnIsValid [FALSE]", blnIsValid);
               }else {
                 $('#btn-submit-checkout-form').prop('disabled', false);
                 // Otherwise we continue with the form submission i.e send data to DSS-Server
@@ -584,7 +583,6 @@
                 // no need of payment gateway for prod env it will be validated by reculry
                 // send form data to origin server
                 blnIsValid = true;
-                console.log("Asignando blnIsValid [TRUE]", blnIsValid);
               }
             });
           //});
@@ -596,9 +594,7 @@
           while (blnIsValid == null)
             await waitToValid(250);
 
-          console.log("RESULT blnIsValid", blnIsValid);
           return blnIsValid;
-
       });
 
       recDssState.subscribe((step) => {
