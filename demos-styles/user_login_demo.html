@@ -1,0 +1,497 @@
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans');
+</style>
+<style>
+
+    .login_module {
+      width: 580px;
+      margin-top: 100px;
+      background-color: #FFFFFF;
+    }
+    
+    #login_text_1 {
+        left: 355px;
+        display: block;
+        width: 570px;
+        height: 38px;
+        font-family: Spectral;
+        font-style: normal;
+        font-weight: bold;
+        font-size: 30px;
+        margin-top: 50px;
+        line-height: 38px;
+        text-align: center;
+        color: #36393D;
+    }
+    
+    .login_errors {
+        font-family: Open Sans;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 13px;
+        line-height: 18px;
+        color: #B63125;
+    }
+    
+    #login_text_2 {
+        width: 570px;
+        height: 26px;
+        display: block;
+        font-family: Open Sans;
+        font-style: normal;
+        font-weight: normal;
+        margin-top: 20px;
+        font-size: 18px;
+        line-height: 26px;
+        text-align: center;
+        color: #60666C;
+    }
+    
+    .login_input {
+        width: 570px;
+        height: 60px;  display: block;
+        background: #F9F9F9;
+        border: 1px solid #9BA1B3;
+        box-sizing: border-box;
+        box-shadow: inset 0px 1px 4px rgba(0, 0, 0, 0.2);
+        margin-top: 20px;
+        border-radius: 4px;
+        font-family: Open Sans;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 16px;
+        line-height: 24px;
+        color: #36393D;
+        opacity: 0.6;
+        margin-bottom: 6px;
+    }
+    .input-wrapper{
+        position: relative;
+    }
+    
+    .input-icon{
+        position: absolute;
+        left: 543px;
+      	cursor: pointer;
+        opacity: 0.6;
+        top: calc(50% - 1.8em); /* Keep icon in center of input, regardless of the input height */
+    }
+    
+    .login_password {
+        padding-right: 17px;
+    }
+    
+    #divPassword {
+        display: none;
+    }
+    
+    .login_button {
+        width: 570px;
+        height: 60px;
+        background-color: #004E87;
+        border-radius: 4px;font-family: Open Sans;
+        font-style: normal;
+        font-size: 18px;
+        line-height: 24px;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        text-align: center;
+        color: #FFFFFF !important;
+    
+    }
+  .pwd_pass {
+  		font-size: 16px;
+    	color: #7cba61;
+    	display: block;
+    	font-family: 'Open Sans';
+  }
+  .pwd_error {
+  		font-size: 16px;
+    	color: #ff0000;
+    	display: block;
+    	font-family: 'Open Sans';
+  }
+  fieldset {
+  --typography-size: 16px;
+  --base-ratio: 4px;
+  font-family: monospace;
+  padding: 0;
+  margin: 0;
+  border: none;
+}
+
+input {
+  font-size: var(--typography-size);
+  font-family: inherit;
+  margin: 0;
+  padding: 0;
+  padding-top: calc(var(--base-ratio) * 3);
+  padding-bottom: calc(var(--base-ratio) * 2);
+  padding-left: calc(var(--base-ratio) * 3);
+  border: 1px solid #c3c3c3;
+}
+
+input::placeholder {
+  opacity: 0;
+}
+
+legend {
+  font-size: var(--typography-size);
+  padding: 0 var(--base-ratio);
+  margin-left: calc(2 * var(--base-ratio) + 1px);
+  transform: translateY(calc(220% + 3 * var(--base-ratio) + 1px));
+  background: transparent;
+  transition: all 0.75s ease;
+  color: #60666c;
+  font-family: 'Open Sans';
+}
+
+input:not(:placeholder-shown) ~ legend  {
+  color: #60666c;
+  background: white;
+  transform: translateY(155%);
+/*   padding: 0; */ /* optional */
+}
+
+label {
+  cursor: text;
+  font-size: var(--typography-size);
+  text-transform: capitalize;
+  transition: font-size 0.75s ease;
+}
+
+input:not(:placeholder-shown) ~ legend > label  {
+ font-size: calc(var(--typography-size) * 0.9);
+}
+  
+  .emailError{
+  	color: #ff0000;
+    font-size: 16px;
+    color: #ff0000;
+    display: block;
+    font-family: 'Open Sans';
+  }
+
+/* Just for demo */
+
+form {
+ margin: 0 auto;
+ width: fit-content;
+}
+
+.title {
+  font-size: 24px;
+  margin: 8px;
+}
+
+.actions {
+  width: 100%;
+  margin: 16px;
+  text-align: justify;
+}
+
+.actions > button {
+  width: 33%;
+  margin: 0 8px;
+}
+  .elepos {
+    position: absolute;
+    left: 2px;
+    padding-top: 3px;
+}
+  #error_messages{
+  	padding-left:20px;
+    margin-top: 10px;
+  }
+  .login_button{
+  	background-color: #004E87 !important;
+  }
+    </style>
+    <div class="login_module center" id='${planBlockId}'>
+        <div id="login_text_1">
+        Let's start with your email
+        </div>
+        
+        <div id="login_text_2">
+        This will be used to log in to our website and app. 
+        </div>
+        <fieldset>
+        <input type="text" 
+               class="login_input" 
+               placeholder="Email address"
+               id="login_email"
+                 />
+          <span class="emailError" id="emailErrorInfo"></span>
+    	<legend><label for="username">Email address</label></legend>
+ </fieldset>
+        <span class="emailError" id="login_error"></span>
+    
+        <div class="input-wrapper" id="divPassword">
+          <fieldset>
+            <input  type="password"
+                    class="login_input login_password"
+                    placeholder="Password"
+                    id="password"
+                    onkeyup="validatePass()"
+                    required />
+    		<legend><label for="username">Password</label></legend>
+                <label for="password" id="eyePwd" onClick="toogleEye()"
+                    class="fa input-icon fa-eye-slash">
+                </label>
+            
+ </fieldset>	<div id="error_messages">
+          		<span class="pwd_pass" id="minLength"><i id="error_ml" class="elepos fa fa-exclamation-circle" aria-hidden="true"></i>Minimum length is 6</span>
+                <span class="pwd_pass" id="reqLetter"><i id="error_rl" class="elepos fa fa-exclamation-circle" aria-hidden="true"></i>Include at least 1 letter</span>
+                <span class="pwd_pass" id="reqNumber"><i id="error_rn" class="elepos fa fa-exclamation-circle" aria-hidden="true"></i>Include at least 1 number</span>
+          </div>
+        </div>
+                
+        <input type="button" class="login_button" value="Continue" onClick="submitLogin()">
+        <input type="hidden" id="isNewUser" name="isNewUser" value="0">
+    </div>
+    <script>
+      setTimeout(function(){ 
+      	var loggedInUser = trb.data.user.email;
+        console.log('loggedInUser:',loggedInUser);
+        //var loginData = recDssState.getData("login");
+        if (loggedInUser != null) {
+          console.log('login email id:',  loggedInUser);
+          document.getElementById("login_email").value = loggedInUser;
+        }
+      }, 0);
+      
+      let validPassword = false;
+      document.getElementById("error_ml").style.display = "none";
+      document.getElementById("error_rl").style.display = "none";
+      document.getElementById("error_rn").style.display = "none";
+      
+
+function submitLogin() {
+  recDssState.nextStep();
+}
+      
+function toogleEye(){
+	var eyePwd = document.getElementById("eyePwd");
+	var password = document.getElementById("password");
+	console.log('toggle function');
+	if (eyePwd.classList.contains('fa-eye-slash')) {
+		eyePwd.classList.remove('fa-eye-slash');
+		eyePwd.classList.add('fa-eye');
+
+		password.type = 'text';
+    } else {
+		eyePwd.classList.remove('fa-eye');
+		eyePwd.classList.add('fa-eye-slash');
+
+		password.type = 'password';
+	}
+}
+      
+function validatePass(){
+  let userPwd = document.getElementById('password');
+  var minLength = document.getElementById("minLength");
+  var reqLetter = document.getElementById("reqLetter");
+  var reqNumber = document.getElementById("reqNumber");
+  var caseLetters = /[a-zA-Z]/;
+  var caseNumbers = /[0-9]/g;
+  if(userPwd.value.match(caseLetters)) {
+    document.getElementById("error_rl").style.display = "none";
+    reqLetter.classList.remove("pwd_error");
+    reqLetter.classList.add("pwd_pass");
+  } else {
+    document.getElementById("error_rl").style.display = "block";
+    reqLetter.classList.remove("pwd_pass");
+    reqLetter.classList.add("pwd_error");
+  }
+  if(userPwd.value.match(caseNumbers)) {
+    document.getElementById("error_rn").style.display = "none";
+    reqNumber.classList.remove("pwd_error");
+    reqNumber.classList.add("pwd_pass");
+  } else {
+    document.getElementById("error_rn").style.display = "block";
+    reqNumber.classList.remove("pwd_pass");
+    reqNumber.classList.add("pwd_error");
+  }
+  if(userPwd.value.length >= 6) {
+    document.getElementById("error_ml").style.display = "none";
+    minLength.classList.remove("pwd_error");
+    minLength.classList.add("pwd_pass");
+  } else {
+    document.getElementById("error_ml").style.display = "block";
+    minLength.classList.remove("pwd_pass");
+    minLength.classList.add("pwd_error");
+  }
+  if(userPwd.value.match(caseLetters) && userPwd.value.match(caseNumbers) && userPwd.value.length >= 6){
+  	validPassword = true;
+  }
+}
+
+(() => {
+  
+  let blnGoToPayment = false;
+      
+  async function validateEmail(){
+    console.log("Validating email");
+
+      let email = document.getElementById('login_email').value;
+      if ( /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(email)){
+          /* Registering data in global recDssState */
+          recDssState.setData("login",  {
+                  email : email
+          });
+
+          // Simulating that user exists
+          document.getElementById("isNewUser").value = 1;
+        	var loc = location;
+        	var stage = ~loc.hostname.indexOf('stage');
+        	var host = stage ? '.stage.int.tribops.com' : '.tribdss.com';
+        
+          var userExistCheck = {
+            "url": "https://ssor.p2p" + host + "/consumers/user_exists",
+            "method": "GET",
+
+            "data": {
+              "email": email
+            },
+            "async": false
+          };
+          let userExistCheckCall = userExist(userExistCheck);
+        console.log(userExistCheckCall);
+          var validationError = true;
+          //$.ajax(userExistCheck).done(function (response){
+          //  console.log(response);
+            if(userExistCheckCall.exists){
+                validationError = false;
+            	recDssState.setData("ssor_id",  {
+                  ssor_id: userExistCheckCall.ssor_id,
+                  enc_ssor_id : userExistCheckCall.enc_ssor_id
+          		});
+              	var userSystem = {
+                  //"url": "https://dss.p2p.stage.int.tribops.com/subscriptions/user/systemcheck/ctc",
+                  "url": "https://dss.p2p" + host + "/subscriptions/user/systemcheck/ctc",
+                  "method": "GET",
+
+                  "data": {
+                    "ssor_id": userExistCheckCall.enc_ssor_id
+                  },
+                  "async": false
+                };
+                let accountCheckResponse = userSystemCheck(userSystem);
+              	//$.ajax(userSystem).done(function (userSystemRes){
+                	console.log(accountCheckResponse);
+                //});
+              	
+              	var errorMessage = "";
+              	if(accountCheckResponse.ssor_response_code == 0){
+                    console.log('Service Failed, please check after sometime.');
+                  	errorMessage = "${serviceDown}";
+                } else if(accountCheckResponse.ssor_response_code == 2){
+                    console.log('Go for registration');
+                  	validationError = true;
+                } else if(accountCheckResponse.ssor_response_code == 1){
+                    if(accountCheckResponse.mg2_response_code == 0 && accountCheckResponse.recurly_response_code == 0){
+                        console.log('Service Failed, please check after sometime.');
+                      	errorMessage = "${serviceDown}";
+                    }else if(accountCheckResponse.mg2_response_code == 0 && accountCheckResponse.recurly_response_code == 1){
+                        console.log('Link for recurly');
+                      	errorMessage = "${recurlyExistMessage}" + "Login <a href='${recurlyLoginLink}'>here</a> or Reset your password <a href='${recurlyResetLink}'>here</a>";
+                    }else if(accountCheckResponse.mg2_response_code == 0 && accountCheckResponse.recurly_response_code == 2){
+                        console.log('Service Failed, please check after sometime.');
+                      	errorMessage = "${serviceDown}";
+                    }else if(accountCheckResponse.mg2_response_code == 1 && accountCheckResponse.recurly_response_code == 0){
+                        console.log('Link for MG2');
+                      	errorMessage = "${recurlyExistMessage}" + "Login <a href='${mg2LoginLink}'>here</a> or Reset your password <a href='${mg2ResetLink}'>here</a>";
+                    }else if(accountCheckResponse.mg2_response_code == 1 && accountCheckResponse.recurly_response_code == 1){
+                        console.log('Provide link for recurly');
+                      	errorMessage = "${recurlyExistMessage}" + "Login <a href='${recurlyLoginLink}'>here</a> or Reset your password <a href='${recurlyResetLink}'>here</a>";
+                    }else if(accountCheckResponse.mg2_response_code == 1 && accountCheckResponse.recurly_response_code == 2){
+                        console.log('Link for MG2');
+                      	errorMessage = "${recurlyExistMessage}" + "Login <a href='${mg2LoginLink}'>here</a> or Reset your password <a href='${mg2ResetLink}'>here</a>";
+                    }else if(accountCheckResponse.mg2_response_code == 2 && accountCheckResponse.recurly_response_code == 0){
+                        console.log('Service Failed, please check after sometime.');
+                      	errorMessage = "${serviceDown}";
+                    }else if(accountCheckResponse.mg2_response_code == 2 && accountCheckResponse.recurly_response_code == 1){
+                        console.log('Provide link for recurly');
+                      	errorMessage = "${recurlyExistMessage}" + "Login <a href='${recurlyLoginLink}'>here</a> or Reset your password <a href='${recurlyResetLink}'>here</a>";
+                    }else if(accountCheckResponse.mg2_response_code == 2 && accountCheckResponse.recurly_response_code == 2){
+                        console.log('Go for Payment');
+                      	//recDssState.setStep(${step_authenticate});
+                      	blnGoToPayment = true;
+                      	validationError = true;
+                    }
+                }
+                document.getElementById('login_error').innerHTML = errorMessage;
+            } else {
+            	return true;
+            }
+
+          // Simulating that is a valid user
+          // return true;
+          return validationError;
+      }
+      alert('Invalid email');
+		
+      return false;
+  }
+  recDssState.addValidator(${step_validate_email}, validateEmail);
+  
+   recDssState.subscribe((step) => {
+       let isNewUser = parseInt(document.getElementById("isNewUser").value);
+
+        if (step == ${step_authenticate}) {
+          
+          if (blnGoToPayment) {
+              console.log("Go to Payment");
+              recDssState.addValidator(${step_authenticate}, async ()=>{ return true; });
+              recDssState.nextStep();
+              return;
+          }
+          
+          if (isNewUser) {
+              // adding registerUser
+              recDssState.addValidator(step, async function(){
+                  console.log("Registering user");
+                  var userDetails = {
+                  "url": "https://ssor.p2p.stage.int.tribops.com/consumers/create_user",
+                  "method": "POST",
+				  "async": false,
+                  "data": {
+                    "email": document.getElementById('login_email').value,
+                    "password": document.getElementById('password').value,
+                    "product_code": "dss_default",
+                    "host_url": "https://tribune.ssor.stage.trbdevcloud.com"
+                  },
+                };
+				let createdUser = createUser(userDetails);
+                //$.ajax(userDetails).done(function (response)
+				if(createdUser.success){
+                //{  
+                  console.log(createdUser);
+                	recDssState.setData("createdUserData",  {
+                      user : createdUser
+                    });	
+                }
+                //});
+                  return true;
+              });
+          } else {
+              recDssState.addValidator(step, async () => {
+                  console.log(validPassword);
+                  console.log("Validating password");
+                  return validPassword;
+              });
+          }
+      
+          document.getElementById('divPassword').style.display = 'inherit';
+          let userPwd = document.getElementById('password').value;
+        }
+
+        if (step == ${step_payment}) {
+            document.getElementById('${planBlockId}').style.display = 'none';
+        }
+
+        console.log("Execute action from module.");
+    });
+})();  
+    </script>
