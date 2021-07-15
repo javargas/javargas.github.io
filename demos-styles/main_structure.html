@@ -129,7 +129,12 @@ const RecDssState = function() {
       if (typeof lista[0] != "undefined") {
         lista[0]().then((value)=>{
           results.push(value); 
-          validate(lista.slice(1, lista.length), results);
+
+          //if (value) {
+            validate(lista.slice(1, lista.length), results);
+          /*} else {
+            console.log("Fail validation, Length:", lista.length);
+          }*/
         });
       }
     } else {
