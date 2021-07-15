@@ -143,7 +143,7 @@
     }
 
     .payment_method>.button_method {
-      width: 280px;
+      width: 280px; 
     }
 
     #body_credit_card {
@@ -233,11 +233,18 @@
     margin-top: 20px;
     border-radius: 4px;
     width: 100%;
-      border: 1px solid #9ba1b3;
-      box-sizing: border-box;
-      background: #F9F9F9;
-      box-sizing: border-box;
-      box-shadow: inset 0px 1px 4px rgba(0, 0, 0, 0.2);
+    border: 1px solid #9ba1b3;
+    box-sizing: border-box;
+    background: #F9F9F9;
+    box-sizing: border-box;
+    box-shadow: inset 0px 1px 4px rgba(0, 0, 0, 0.2);
+  }
+
+  .input-selected {
+    color: black;
+    background-color: white;
+    border: 1px solid #9BA1B3;
+    box-shadow: none;
   }
 
   .recurly-element-focus {
@@ -265,6 +272,9 @@
     color: red;
   }
 
+  .pad-20 {
+    padding-top: 20px;
+  }
 
   .card-number>fieldset {
     position: relative;
@@ -293,13 +303,14 @@
   .recurly-hosted-field-cvv {
     background-repeat: no-repeat;
     background-position: 2px 3px;
-    background: url("data:image/svg+xml,%3Csvg width='8' height='23' viewBox='0 0 27 1' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10 0.8125C4.64844 0.8125 0.3125 5.1875 0.3125 10.5C0.3125 15.8516 4.64844 20.1875 10 20.1875C15.3125 20.1875 19.6875 15.8516 19.6875 10.5C19.6875 5.1875 15.3125 0.8125 10 0.8125ZM10 5.10938C10.8984 5.10938 11.6406 5.85156 11.6406 6.75C11.6406 7.6875 10.8984 8.39062 10 8.39062C9.0625 8.39062 8.35938 7.6875 8.35938 6.75C8.35938 5.85156 9.0625 5.10938 10 5.10938ZM12.1875 15.0312C12.1875 15.3047 11.9531 15.5 11.7188 15.5H8.28125C8.00781 15.5 7.8125 15.3047 7.8125 15.0312V14.0938C7.8125 13.8594 8.00781 13.625 8.28125 13.625H8.75V11.125H8.28125C8.00781 11.125 7.8125 10.9297 7.8125 10.6562V9.71875C7.8125 9.48438 8.00781 9.25 8.28125 9.25H10.7812C11.0156 9.25 11.25 9.48438 11.25 9.71875V13.625H11.7188C11.9531 13.625 12.1875 13.8594 12.1875 14.0938V15.0312Z' fill='%238990A1'/%3E%3C/svg%3E%0A") right / contain no-repeat;
+    background: url("data:image/svg+xml,%3Csvg width='8' height='25' viewBox='0 0 22 20' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10 0.8125C4.64844 0.8125 0.3125 5.1875 0.3125 10.5C0.3125 15.8516 4.64844 20.1875 10 20.1875C15.3125 20.1875 19.6875 15.8516 19.6875 10.5C19.6875 5.1875 15.3125 0.8125 10 0.8125ZM10 5.10938C10.8984 5.10938 11.6406 5.85156 11.6406 6.75C11.6406 7.6875 10.8984 8.39062 10 8.39062C9.0625 8.39062 8.35938 7.6875 8.35938 6.75C8.35938 5.85156 9.0625 5.10938 10 5.10938ZM12.1875 15.0312C12.1875 15.3047 11.9531 15.5 11.7188 15.5H8.28125C8.00781 15.5 7.8125 15.3047 7.8125 15.0312V14.0938C7.8125 13.8594 8.00781 13.625 8.28125 13.625H8.75V11.125H8.28125C8.00781 11.125 7.8125 10.9297 7.8125 10.6562V9.71875C7.8125 9.48438 8.00781 9.25 8.28125 9.25H10.7812C11.0156 9.25 11.25 9.48438 11.25 9.71875V13.625H11.7188C11.9531 13.625 12.1875 13.8594 12.1875 14.0938V15.0312Z' fill='%238990A1'/%3E%3C/svg%3E%0A") right / contain no-repeat;
   }
 
   .card-elem  ~  legend{
     color: #60666c;
     background: white;
     transform: translateY(180%);
+    /*display: none;*/
   }
   .card-month-year{
     display : grid;
@@ -312,6 +323,12 @@
 
   .card-year {
     grid-column:  2;
+  }
+  
+  /* error message text in bottom of input field */
+  .cc-checkout-form .input-error {
+    color: #B63125;
+    margin: 0 0 0 6px;
   }
 
 </style>
@@ -414,45 +431,51 @@
 
     </div>
   </div>
-  <form action="#" id="checkout-form" class="form">
+  <form action="#" id="checkout-form" class="form cc-checkout-form ">
     <div id="body_credit_card" class="payment_container">
 
       <div class="card-item">
         <fieldset>
           <input type="text"
-                 class="input_text"
-                 placeholder="First Name"
-                 id="first_name"
-                 data-recurly="first_name" required/>
+                    class="input_text"
+                    placeholder="First Name"
+                    minlength="1"
+                    maxlength="100"
+                    id="first_name"
+                    data-recurly="first_name"/> <!-- pattern="[a-zA-Z0-9]+" -->
           <legend>
             <label for="first_name">First Name</label>
           </legend>
+          <div class="input-error"></div>
         </fieldset>
       </div>
       
       <div class="card-item2">
         <fieldset>
           <input type="text"
-                 class="input_text"
-                 placeholder="Last Name"
-                 id="last_name"
-                 data-recurly="last_name" required/>
+                   class="input_text"
+                   placeholder="Last Name"
+                   minlength="1"
+                   maxlength="100"
+                   id="last_name"
+                   data-recurly="last_name"/> <!-- pattern="[a-zA-Z0-9]+" -->
           <legend>
             <label for="last_name">Last Name</label>
           </legend>
+          <div class="input-error"></div>
         </fieldset>
       </div>
 
-      <div class="card-number">
+      <div class="card-number pad-20">
         <fieldset>
           <div data-recurly="number" id="recurly-number" class="card-elem"></div>
           <legend>
-            <label for="credit_card">Credit or debit card</label>
+            <label for="credit_card"></label>
           </legend>
         </fieldset>
       </div>
 
-      <div class="card-date">
+      <div class="card-date pad-20">
         <fieldset>
           <div class="card-elem card-month-year">
           <div data-recurly="month" class="card-month"></div>
@@ -463,7 +486,7 @@
           </legend>
         </fieldset>
       </div>
-      <div class="card-cvv">
+      <div class="card-cvv pad-20">
         <fieldset>
           <div data-recurly="cvv" class="card-elem"></div>
           <legend>
@@ -478,26 +501,40 @@
 
       <div class="card-item">
         <fieldset>
-          <input type="number"
+          <!-- positive numbers only -->
+          <!-- TODO: validate via JS -->
+          <input type="text"
                  class="input_text"
-                 placeholder="Phone number"
-                 id="phone_number" 
-                 data-recurly="phone_number" required/>
+                 placeholder="Phone Number"
+                 min="0"
+                 maxlength="10"
+                 id="phone_number"
+                 title="please enter numbers only"
+                 pattern="[0-9]+"
+                 data-recurly="phone_number"/>
           <legend>
             <label for="phone_number">Phone number</label>
           </legend>
+          <div class="input-error"></div>
         </fieldset>
       </div>
       <div class="card-item2">
-        <fieldset>
-          <input type="number"
+        <fieldset> 
+          <!-- positive numbers only -->
+          <!-- TODO: validate via JS -->
+          <input type="text"
                  class="input_text"
-                 placeholder="Zip code"
-                 id="postal_code" 
-                 data-recurly="postal_code" required/>
+                 placeholder="Zip Code"
+                 min="0"
+                 maxlength="5"
+                 id="postal_code"
+                 title="please enter numbers only"
+                 pattern="[0-9]+"
+                 data-recurly="postal_code"/>
           <legend>
             <label for="postal_code">Zip code</label>
           </legend>
+          <div class="input-error"></div>
         </fieldset>
       </div>
 
@@ -507,7 +544,7 @@
     <input type="hidden"
            id="address1"
            name="address1"
-           data-recurly="address1"/>
+           data-recurly="address1" value="address1"/>
 
     <input type="hidden"
            placeholder="Country"
@@ -536,12 +573,16 @@
   
   let elements = null;
   let blnIsValid = null;
+  let errFields = []; // custom validatated invalid fields
+  let allFieldsValid = false; // check if all fields passes the custom validations
   (() => {
 
     document.getElementById('recurly-errors').style.display = 'none';
     
     // A simple error handling function to expose errors to the customer
-    function recurlyErrors(err) {
+    
+    /* Before custom validations
+     function recurlyErrors(err) {
         document.getElementById('recurly-errors').style.display = 'inherit';
         $('#recurly-errors').text('The following fields appear to be invalid: ' + err.fields.join(', '));
         $('#btn-submit-checkout-form').prop('disabled', false);
@@ -550,7 +591,81 @@
         $.each(err.fields, function (i, field) {
           $('[data-recurly=' + field + ']').addClass('error');
         });
+    }*/
+    
+    function recurlyErrors(err) {
+        document.getElementById('recurly-errors').style.display = 'inherit';
+        //$('#recurly-errors').text('The following fields appear to be invalid: ' + err.fields.join(', '));
+        uniq_fields = [...new Set(err.fields)] // remove duplicate fields(which are added on validateFormFields())
+        // remove address1 from fields (postal_code value is address1)
+        uniq_fields.splice($.inArray('address1', uniq_fields), 1)
+        // TODO: format below error message
+        $('#recurly-errors').text('The following fields appear to be invalid: ' + [...new Set(err.fields)].join(', '));
+
+        $('#btn-submit-checkout-form').prop('disabled', false);
+        //$("#body-overlay").fadeOut(200);
+        //$('#btn-spinner').removeClass('spinner-border spinner-border-sm');
+        $.each(uniq_fields, function (i, field) {
+          $('[data-recurly=' + field + ']').addClass('error');
+        });
+        errFields = [];
     }
+    
+    
+      // remove previously addedd error message on input change
+    function clearInputErrorMessage(){
+       $('.input_text').on('input', function(e){
+          $(this).removeClass('error');
+          $(this).siblings(".input-error").text(null);
+        });
+     }
+
+    // each field custom validation
+    function validateFormFields(){
+      // all fields required validation
+      $.each($('.input_text'), function() {
+        // console.log(this.id);
+        // remove previously assigned errors
+        $(this).removeClass('error');
+        $(this).siblings(".input-error").text(null);
+        if($(this).val() == '') {
+          let err_msg = $(this).attr('placeholder') + ' is required' // First Name is required
+          //console.log(err_msg);
+          $(this).addClass('error');
+          $(this).siblings(".input-error").text(err_msg);
+          allFieldsValid = false;
+          errFields.push($(this).data('recurly'))
+        } else {
+          // for first_name and last_name accept only letters and numbers
+          if ($(this).attr('id') === 'first_name' || 'last_name') onlyNumbersAndLetters($(this));
+        }
+      });
+      return (allFieldsValid) ? true : false;
+    }
+    
+    // accept only letters and numbers
+    function onlyNumbersAndLetters(ele) { 
+        // Only numbers, letters, hypens, periods, spaces and underscores are allowed
+        // let regexp = new RegExp("^[0-9A-Za-z_.-]+$");
+        // Only numbers, letters, hypens, periods, spaces and underscores are allowed
+        // let regexp = new RegExp("^[0-9A-Za-z_-]+$"); // removed period 
+        // let regexp =  new RegExp("^[0-9A-Za]+$"); 
+        // letters or numbers and must be exactly five characters long
+        // let regexp = /^[a-zA-Z0-9]{5}$/; // {5} adds the requirement that the string be 5 chars long 
+        let regexp = /^[a-zA-Z0-9]+$/;
+        if (regexp.test(ele.val())) {
+          allFieldsValid = true;
+        } else {
+          // let err_msg = "Only numbers, letters, hypens, periods, spaces and underscores are allowed"
+          let err_msg = "Only letters and numbers are allowed"
+          console.log(err_msg);
+          ele.addClass('error');
+          ele.siblings(".input-error").text(err_msg);
+          allFieldsValid = false;
+          errFields.push(ele.data('recurly'));
+         //   return false;
+        }
+    } 
     
     // build payload object
     function finalPayloadData(){
@@ -608,7 +723,6 @@
                   }
                   $('#btn-submit-checkout-form').prop('disabled', false); 
                   blnIsValid = true;
-                 
               },
               error: function (data) { 
                   console.log(data);
@@ -638,7 +752,7 @@
     if (typeof recDssState != "undefined"){
       
       // Fields validation
-      recDssState.addValidator(${step_payment}, async () => {  
+     /* recDssState.addValidator(${step_payment}, async () => {  
         let err = {fields: []}
         document.getElementById('recurly-errors').style.display = 'none';
         $('#recurly-errors').text("");
@@ -664,10 +778,13 @@
           return false;
         }
         return true;
-      });
+      }); */
+       
       
       // Recurly validation and fetch token on valid payment details
       recDssState.addValidator(${step_payment}, async () => {
+             validateFormFields(); // validate form fields
+             clearInputErrorMessage(); // clear input error messages
 
             // On form submit, we stop form submission to go get the token from Reculryjs
             //checkout_form.on('submit', function (event) {
@@ -688,24 +805,30 @@
             // data-recurly="token" field above
             console.log("before get token, form: ", form);
             recurly.token(/*elements,*/ form, function (err, token) {
+              allFieldsValid = false; // token recieved
               //console.log(token)
               console.log('Token Information...')
               console.log(token)
               // send any errors to the error function below
               if (err){ 
+                if(errFields.length > 0) err.fields.push(...errFields); // contact arrays => [1, 2] + [1, 4] => [1, 2, 4]
                 recurlyErrors(err);
                 blnIsValid = false;
 
+                $('#btn-submit-checkout-form').prop('disabled', false);
                 $('.error>.recurly-hosted-field').addClass('error');
                 $('.recurly-hosted-field').parent().removeClass('error');
 
               }else {
+                // Token received hide and clear error fields
+                $('#recurly-errors').text();
+                document.getElementById('recurly-errors').style.display = 'none';
                 $('#btn-submit-checkout-form').prop('disabled', false);
                 // Otherwise we continue with the form submission i.e send data to DSS-Server
                 recurly_token = token['id'];
                 console.log('Recurly Token received sending data to server..');
                 // save token to gloabal object
-                //recDssState.setData("recurlyToken", recurly_token);
+                // recDssState.setData("recurlyToken", recurly_token);
                 //alert("token received, process the payment:"+ token['id'])
                 sendDataToDssServer(); 
                 // no need of payment gateway for prod env it will be validated by reculry
@@ -783,6 +906,41 @@
               }
             }
           });
+
+          recurly.on('change', function (state) {
+            if (!state.fields.month.empty || !state.fields.year.empty) {
+              $('.card-month-year ~ legend ').show();
+              $('.card-date').removeClass('pad-20');
+              $('.recurly-hosted-field-month').addClass('input-selected');
+              $('.recurly-hosted-field-year').addClass('input-selected');
+            } else {
+              $('.card-month-year ~ legend ').hide();
+              $('.card-date').addClass('pad-20');
+              $('.recurly-hosted-field-month').removeClass('input-selected');
+              $('.recurly-hosted-field-year').removeClass('input-selected');
+            }
+
+            if (!state.fields.number.empty) {
+              $('[data-recurly=number] ~ legend ').html('Credit or debit card');
+              $('.card-number').removeClass('pad-20');
+              $('.recurly-hosted-field-number').addClass('input-selected');
+            } else {
+              $('[data-recurly=number] ~ legend ').html('');
+              $('.card-number').addClass('pad-20');
+              $('.recurly-hosted-field-number').removeClass('input-selected');
+            }
+
+            if (!state.fields.cvv.empty) {
+              $('[data-recurly=cvv] ~ legend ').show(); 
+              $('.card-cvv').removeClass('pad-20');
+              $('.recurly-hosted-field-cvv').addClass('input-selected');
+            } else {
+              $('[data-recurly=cvv] ~ legend ').hide();
+              $('.card-cvv').addClass('pad-20');
+              $('.recurly-hosted-field-cvv').removeClass('input-selected');
+            }
+          });
+
           // Create a CardElement
           /*elements = recurly.Elements();
           let cardElement = elements.CardElement({

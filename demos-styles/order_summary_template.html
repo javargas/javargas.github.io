@@ -1,0 +1,149 @@
+<style>
+    .offer_summary {
+      background: #FFFFFF;
+      border: 1px solid #9BA1B3;
+      box-sizing: border-box;
+      box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.13);
+      border-radius: 4px;
+      padding: 25px;
+      margin-top: 50px;
+    }
+
+    .full_access {
+      font-family: Spectral;
+      font-style: normal;
+      font-weight: bold;
+      font-size: 30px;
+      line-height: 34px;
+      margin-top: 10px;
+      text-transform: uppercase;
+      color: #36393D;
+    }
+
+    .offer {
+      font-weight: bold;
+      font-size: 15px;
+      line-height: 22px;
+      text-transform: uppercase;
+      color: #AAAAAA;
+    }
+                        
+    .payment_text {
+      font-family: Open Sans;
+      font-style: normal;
+      font-weight: normal;
+      font-size: 13px;
+      line-height: 18px;
+      color: #60666C;
+      margin-top: 10px;
+      margin-bottom: 10px;
+    }
+
+    .fineText {
+      display: grid;
+      grid-template-columns: auto 80px;
+      margin-top: 10px;
+    }
+
+    .change_offer {
+      font-family: Open Sans;
+      font-style: normal;
+      font-weight: normal;
+      font-size: 13px;
+      line-height: 18px;
+      color: #004E87;
+    }
+
+    .total {
+      font-weight: bold;
+      font-size: 16px;
+      line-height: 24px;
+      color: #36393D;
+    }
+
+    .offer_accept {
+      font-size: 13px;
+      line-height: 21px;
+      color: #60666C;
+      margin-top: 15px;
+    }
+
+    .div_start {
+      width: 570px;
+      text-align: center;
+      margin-top: 50px;
+    }
+    @media (max-width: 460px) {
+        .offer_summary, .offer_accept{
+          width: 280px;
+        }
+    }
+
+    @media (min-width: 460px)  and (max-width: 1024px) {
+      .offer_summary, .offer_accept {
+        width: 460px;
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .offer_summary, .offer_accept {
+        width: 360px;
+      }
+    }
+  </style>
+<div id="${moduleId}">
+  <div class="offer_summary center">
+    <div class="offer">
+      Offer summary
+    </div>
+    <div class="full_access">
+      FUll Digital Access
+    </div>
+          
+    <div class="payment_text">
+      <span class="change_offer"><b>99¢ for 4 weeks</b></span>, 
+      then $3.99/week. Cancel anytime.
+    </div>        
+
+    <div class="change_offer">
+      Change offer
+    </div>
+
+    <hr>
+
+    <div class="fineText">
+      <div class="total">Your total</div>
+      <div>$0.99</div>
+    </div>
+
+  </div>
+
+  <div class="offer_accept center">
+    By accepting this offer you are agreeing to a continuous subscription, 
+    which will automatically renew until you cancel. By providing... 
+    <span class="change_offer">View full Terms & Conditions</span>
+  </div>
+</div>
+<script>
+
+(()=>{
+recDssState.subscribe((step) => {
+
+if ('${stepCheckout}'.includes(step)) {
+console.log("Module: ${moduleId} continue to the next step: ", step);
+document.getElementById('${moduleId}').style.display = 'inherit';
+} else {
+document.getElementById('${moduleId}').style.display = 'none';
+}
+
+});
+
+if ('${stepCheckout}'.includes(1)) {
+document.getElementById('${moduleId}').style.display = 'inherit';
+} else {
+document.getElementById('${moduleId}').style.display = 'none';
+}
+
+})();
+
+</script>
