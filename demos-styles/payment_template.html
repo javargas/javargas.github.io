@@ -303,8 +303,9 @@
   .recurly-hosted-field-cvv {
     background-repeat: no-repeat;
     background-position: 2px 3px;
-    background: url("data:image/svg+xml,%3Csvg width='8' height='25' viewBox='0 0 22 20' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10 0.8125C4.64844 0.8125 0.3125 5.1875 0.3125 10.5C0.3125 15.8516 4.64844 20.1875 10 20.1875C15.3125 20.1875 19.6875 15.8516 19.6875 10.5C19.6875 5.1875 15.3125 0.8125 10 0.8125ZM10 5.10938C10.8984 5.10938 11.6406 5.85156 11.6406 6.75C11.6406 7.6875 10.8984 8.39062 10 8.39062C9.0625 8.39062 8.35938 7.6875 8.35938 6.75C8.35938 5.85156 9.0625 5.10938 10 5.10938ZM12.1875 15.0312C12.1875 15.3047 11.9531 15.5 11.7188 15.5H8.28125C8.00781 15.5 7.8125 15.3047 7.8125 15.0312V14.0938C7.8125 13.8594 8.00781 13.625 8.28125 13.625H8.75V11.125H8.28125C8.00781 11.125 7.8125 10.9297 7.8125 10.6562V9.71875C7.8125 9.48438 8.00781 9.25 8.28125 9.25H10.7812C11.0156 9.25 11.25 9.48438 11.25 9.71875V13.625H11.7188C11.9531 13.625 12.1875 13.8594 12.1875 14.0938V15.0312Z' fill='%238990A1'/%3E%3C/svg%3E%0A") right / contain no-repeat;
+    background: url("data:image/svg+xml,%3Csvg width='8' height='25' viewBox='0 0 22 20' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Ca href='javascript:showCVVPopup()'%3E%3Cpath d='M10 0.8125C4.64844 0.8125 0.3125 5.1875 0.3125 10.5C0.3125 15.8516 4.64844 20.1875 10 20.1875C15.3125 20.1875 19.6875 15.8516 19.6875 10.5C19.6875 5.1875 15.3125 0.8125 10 0.8125ZM10 5.10938C10.8984 5.10938 11.6406 5.85156 11.6406 6.75C11.6406 7.6875 10.8984 8.39062 10 8.39062C9.0625 8.39062 8.35938 7.6875 8.35938 6.75C8.35938 5.85156 9.0625 5.10938 10 5.10938ZM12.1875 15.0312C12.1875 15.3047 11.9531 15.5 11.7188 15.5H8.28125C8.00781 15.5 7.8125 15.3047 7.8125 15.0312V14.0938C7.8125 13.8594 8.00781 13.625 8.28125 13.625H8.75V11.125H8.28125C8.00781 11.125 7.8125 10.9297 7.8125 10.6562V9.71875C7.8125 9.48438 8.00781 9.25 8.28125 9.25H10.7812C11.0156 9.25 11.25 9.48438 11.25 9.71875V13.625H11.7188C11.9531 13.625 12.1875 13.8594 12.1875 14.0938V15.0312Z' fill='%238990A1'/%3E%3C/a%3E%3C/svg%3E") right / contain no-repeat;
   }
+
 
   .card-elem  ~  legend{
     color: #60666c;
@@ -488,7 +489,7 @@
       </div>
       <div class="card-cvv pad-20">
         <fieldset>
-          <div data-recurly="cvv" class="card-elem"></div>
+          <div data-recurly="cvv" class="card-elem" onclick="showCVVPopup()"></div>            
           <legend>
             <label for="cvv">CVV</label>
           </legend>
@@ -567,6 +568,84 @@
 
     <input type="hidden" data-recurly="token" name="recurly_token" id="recurly-token">
   </form>
+</div>
+
+<style>
+
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.modal-content {
+  background-color: #FFFFFF;
+  margin: 15% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%; /* Could be more or less, depending on screen size */
+  border-radius: 10px;
+}
+
+.modal-content > h1 {
+  font-family: Spectral;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 26px;
+  line-height: 32px;
+  text-align: center;
+  color: #202124;
+}
+
+.modal-content > p {
+  font-family: Open Sans;
+  font-style: normal;
+  font-weight: normal;
+  width: 490px;
+  font-size: 16px;
+  line-height: 24px;
+  color: #60666C;
+}
+
+/* The Close Button */
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+</style>
+
+<div id="myModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="close" onclick="closeModal()">&times;</span>
+    <h1>What is a CVV number?</h1>
+    <p class="center">A CVV, or card verification value, is the three or four-digit number on your credit or debit card that adds an extra layer of security when completing purchases online.</p>
+    <h1>How do I find it?</h1>
+    <p class="center">It is the three-digit number near the signature area on the back of your credit or debit card.</p>
+    <p class="center">For certain types of credit or debit cards, it could be a four-digit number on the front.</p>
+    <p>&nbsp;</p>
+  </div>
+
 </div>
 
 <script>
@@ -974,4 +1053,24 @@
     }
 
   })();
+
+function closeModal() {
+  var modal = document.getElementById("myModal");
+  modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  var modal = document.getElementById("myModal");
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
+
+  function showCVVPopup(){
+    console.log("Showing CVV Popup");
+    // Get the modal
+    var modal = document.getElementById("myModal");
+    modal.style.display = "block";
+  }
 </script>
