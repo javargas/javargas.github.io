@@ -506,12 +506,8 @@
           <!-- TODO: validate via JS -->
           <input type="text"
                  class="input_text"
-                 placeholder="Phone Number"
-                 min="0"
-                 maxlength="10"
+                 placeholder="Phone Number" 
                  id="phone_number"
-                 title="please enter numbers only"
-                 pattern="[0-9]+"
                  data-recurly="phone_number"/>
           <legend>
             <label for="phone_number">Phone number</label>
@@ -525,12 +521,8 @@
           <!-- TODO: validate via JS -->
           <input type="text"
                  class="input_text"
-                 placeholder="Zip Code"
-                 min="0"
-                 maxlength="5"
+                 placeholder="Zip Code" 
                  id="postal_code"
-                 title="please enter numbers only"
-                 pattern="[0-9]+"
                  data-recurly="postal_code"/>
           <legend>
             <label for="postal_code">Zip code</label>
@@ -592,9 +584,27 @@
   margin: 15% auto; /* 15% from the top and centered */
   padding: 20px;
   border: 1px solid #888;
-  width: 80%; /* Could be more or less, depending on screen size */
   border-radius: 10px;
 }
+
+
+@media (max-width: 460px) {
+        .modal-content {
+            width: 320px;
+        }
+    }
+
+    @media (min-width: 460px)  and (max-width: 1024px) {
+        .modal-content  {
+            width: 768px;
+        }
+    }
+
+  @media (min-width: 1024px) {
+    .modal-content {
+      width: 570px;
+    }
+  }
 
 .modal-content > h1 {
   font-family: Spectral;
@@ -717,6 +727,8 @@
         } else {
           // for first_name and last_name accept only letters and numbers
           if ($(this).attr('id') === 'first_name' || 'last_name') onlyNumbersAndLetters($(this));
+          if ($(this).attr('id') === 'phone_number') validatePhoneNumber($(this));
+          if ($(this).attr('id') === 'postal_code') validateZipCode($(this));
         }
       });
       return (allFieldsValid) ? true : false;
@@ -736,7 +748,8 @@
           allFieldsValid = true;
         } else {
           // let err_msg = "Only numbers, letters, hypens, periods, spaces and underscores are allowed"
-          let err_msg = "Only letters and numbers are allowed"
+          // let err_msg = "Only letters and numbers are allowed"
+          let err_msg = ele.attr('placeholder') + ' is invalid'
           console.log(err_msg);
           ele.addClass('error');
           ele.siblings(".input-error").text(err_msg);
@@ -745,6 +758,77 @@
          //   return false;
         }
     } 
+    
+     // TODO: cleanup code, move common code to seperate function.
+    function validateZipCode(ele){
+      let regexp = /^[0-9]+$/ // only postive numbers
+      let zipCode = ele.val();
+      let errMsg = '';
+      let zipCodeIsValid = false;
+      if (regexp.test(zipCode)) { // only numbers regexp passed
+        if(zipCode.length === 5){ // 5 digit number passed
+          zipCodeIsValid = true;
+        } else {
+          console.log('Zip Code must be 5 digits');
+          // errMsg = 'must be 5 digits'
+        }
+      } else {
+        zipCodeIsValid = false;
+        console.log('Zip Code accepts only numbers');
+        // errMsg = 'accepts only numbers'
+      }
+      if (!zipCodeIsValid){
+        //console.log(errMsg);
+        errMsg = ele.attr('placeholder') + ' is invalid'
+        ele.addClass('error');
+        ele.siblings(".input-error").text(errMsg);
+        allFieldsValid = false;
+        errFields.push(ele.data('recurly'));
+        allFieldsValid = false;
+        //   return false;
+      }
+    }
+
+    // TODO: cleanup code, move common code to seperate function.
+    function validatePhoneNumber(ele) {
+      // let regexp = /^[1-9][0-9]*/ // first char can;t be zero
+      let pregexp = /^[0-9]+$/ // only postive numbers
+      let phoneNumber = ele.val().replace(/-/g, ""); // remove hypens
+      let phoneNumberIsValid = false;
+      let perrMsg = '';
+      if (pregexp.test(phoneNumber)) { // only numbers regexp passed
+        if(phoneNumber.length === 10){ // 10 digit number passed
+          if (phoneNumber.charAt(0) === '0' ||  phoneNumber.charAt(0) === '1') {
+            console.log('Phone numner First number cannot be a 0 or 1');
+            // perrMsg = 'First number cannot be a 0 or 1'
+          } else{
+            phoneNumberIsValid = true;
+          }
+        } else {
+          console.log('Phone numner must be 10 digits');
+          // perrMsg = 'must be 10 digits'
+        }
+      } else {
+        phoneNumberIsValid = false;
+        console.log('Phone numner accepts only numbers');
+        // errMsg = 'accepts only numbers'
+      }
+
+      if (phoneNumberIsValid){
+        allFieldsValid = true;
+        //TODO: format input value to 444-555-6666
+        // $('#phone_number').val(phoneNumber.replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3'))
+      } else {
+        //console.log(errMsg);
+        perrMsg = ele.attr('placeholder') + ' is invalid'
+        ele.addClass('error');
+        ele.siblings(".input-error").text(perrMsg);
+        allFieldsValid = false;
+        errFields.push(ele.data('recurly'));
+        allFieldsValid = false;
+        //   return false;
+      }
+    }
     
     // build payload object
     function finalPayloadData(){
