@@ -267,9 +267,8 @@
   }
 
   .error{
-    background: rgba(182, 49, 37, 0.12);
-    border: 1px solid #B63125;
-    color: red;
+    background: rgba(182, 49, 37, 0.12) !important;
+    border: 1px solid #B63125 !important;
   }
 
   .pad-20 {
@@ -683,21 +682,23 @@
     }*/
     
     function recurlyErrors(err) {
-        document.getElementById('recurly-errors').style.display = 'inherit';
-        //$('#recurly-errors').text('The following fields appear to be invalid: ' + err.fields.join(', '));
-        uniq_fields = [...new Set(err.fields)] // remove duplicate fields(which are added on validateFormFields())
-        // remove address1 from fields (postal_code value is address1)
-        uniq_fields.splice($.inArray('address1', uniq_fields), 1)
-        // TODO: format below error message
-        $('#recurly-errors').text('The following fields appear to be invalid: ' + [...new Set(err.fields)].join(', '));
-
-        $('#btn-submit-checkout-form').prop('disabled', false);
-        //$("#body-overlay").fadeOut(200);
-        //$('#btn-spinner').removeClass('spinner-border spinner-border-sm');
-        $.each(uniq_fields, function (i, field) {
-          $('[data-recurly=' + field + ']').addClass('error');
-        });
-        errFields = [];
+      document.getElementById('recurly-errors').style.display = 'inherit';
+      //$('#recurly-errors').text('The following fields appear to be invalid: ' + err.fields.join(', '));
+      uniq_fields = [...new Set(err.fields)] // remove duplicate fields(which are added on validateFormFields()) 
+      // remove address1 from fields (postal_code value is address1)
+      uniq_fields = $.grep(uniq_fields, function(value) {
+        return value != 'address1';
+      });
+       // TODO: format below error message
+      $('#recurly-errors').text('The following fields appear to be invalid: ' + [...new Set(err.fields)].join(', '));
+      $('#btn-submit-checkout-form').prop('disabled', false);
+      //$("#body-overlay").fadeOut(200);
+      //$('#btn-spinner').removeClass('spinner-border spinner-border-sm');
+      $.each(uniq_fields, function (i, field) {
+        // console.log('field '+ field)
+        $('[data-recurly=' + field + ']').addClass('error');
+      });
+      errFields = [];
     }
     
     
@@ -830,6 +831,22 @@
       }
     }
     
+    
+    
+    // Assuming "?offercode=400w56d&rec_medium=Modal&rec_source=MD&rec_offer=CWDS26"
+    // let urlParams = new URLSearchParams(window.location.search);
+    // console.log(urlParams.has('offercode')); // true
+    // NOTE:  While URLSearchParams is ideal, not all browsers supports.
+    // below is the custom function to get the query param values by its name
+    // getUrlParameter('offercode'); // => "400w56d"
+    function getUrlParameter(name) {
+      name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+      var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+      var results = regex.exec(location.search);
+      return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+    };
+    
+    
     // build payload object
     function finalPayloadData(){
         let final_payload = {}
@@ -851,14 +868,14 @@
         }
         final_payload["market"] = {
           // Invoice > PO Number
-          "name": "Chicago Tribune", // recDssState.getData("params").market, // "Chicago Tribune", // 
-          // TODO: get this value from recDssState
-          "code": "ct" // Invoice > Note to Customer
+          "name": recDssState.getData("current_market").name, // "Chicago Tribune" 
+          // Invoice > Note to Customer
+          "code": recDssState.getData("current_market").code // "ct" 
         }
         final_payload["sub_custom_fields"] = { //TODO: get this data from URL params
-          "campaign-medium": "Modal",
-          "campaign-offer": "RECU21",
-          "campaign-source": "MD",
+          "campaign-medium": getUrlParameter('rec_medium'),
+          "campaign-offer": getUrlParameter('rec_offer'),
+          "campaign-source": getUrlParameter('rec_source'),
           "max-logins": 3
         }
 
@@ -968,10 +985,7 @@
             // data-recurly="token" field above
             console.log("before get token, form: ", form);
             recurly.token(/*elements,*/ form, function (err, token) {
-              allFieldsValid = false; // token recieved
-              //console.log(token)
-              console.log('Token Information...')
-              console.log(token)
+              allFieldsValid = false; // token recieved 
               // send any errors to the error function below
               if (err){ 
                 if(errFields.length > 0) err.fields.push(...errFields); // contact arrays => [1, 2] + [1, 4] => [1, 2, 4]
@@ -983,6 +997,9 @@
                 $('.recurly-hosted-field').parent().removeClass('error');
 
               }else {
+                //console.log(token)
+                console.log('Token Information...')
+                console.log(token)
                 // Token received hide and clear error fields
                 $('#recurly-errors').text();
                 document.getElementById('recurly-errors').style.display = 'none';
