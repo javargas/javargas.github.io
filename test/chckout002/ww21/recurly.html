@@ -5,6 +5,7 @@
   </head>
   <body>  
     <script src="/recurly/js/jquery.js"></script>  
+    <script src="https://ssor.trb.stage.tribdev.com/reg/tribune/chiarc.js" async></script>
     <script>
 
     let planData;
@@ -29,26 +30,24 @@
           market = temp[temp.length - 2];
         }
  
-        fetch(domain2 + '/meter/' +planCode + '.json'/*, {mode: 'no-cors'}*/)
+        fetch(domain2 + '/meter/' +planCode + '.json'/*, {mode: 'no-cors'}*/)  // Plan json
         .then(response => response.json())
         .then(data => { 
             planData = data; 
             console.log("planData: ", planData);  // 
 
-            if (typeof loadplanJson != "undefined"){
-              loadplanJson(planData)
+            if (typeof loadplanJson != "undefined"){  // 
+              loadplanJson(planData);  
             }
 
         } );
 
         (document.head || document.documentElement).appendChild(ssor);
-        (document.head || document.documentElement).appendChild(dss); // 
+        (document.head || document.documentElement).appendChild(dss); // checkout page
         
     })();
 
     </script>
-
-    <script src="https://ssor.trb.stage.tribdev.com/reg/tribune/chiarc.js" async></script>
     <script>
       ((window.trb || (trb = {})).registration || (trb.registration = [])).push(function(reg) {
         console.log('testing on reg init');
