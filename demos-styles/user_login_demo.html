@@ -1,19 +1,48 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans');
 </style>
 <style>
 
     .login_module {
-      width: 580px;
       margin-top: 100px;
       background-color: #FFFFFF;
+    }
+
+    @media (max-width: 460px) {
+        .login_module{
+            width: 280px;
+        }
+
+        .input-icon {
+            left: 253px;
+        }
+    }
+
+    @media (min-width: 460px)  and (max-width: 1024px) {
+        .login_module {
+            width: 460px;
+        }
+
+        .input-icon {
+            left: 433px;
+        }
+    }
+
+    @media (min-width: 1024px) {
+        .login_module{
+            width: 570px;
+        }
+
+        .input-icon {
+            left: 543px;
+        }
     }
     
     #login_text_1 {
         left: 355px;
         display: block;
-        width: 570px;
         height: 38px;
         font-family: Spectral;
         font-style: normal;
@@ -35,7 +64,6 @@
     }
     
     #login_text_2 {
-        width: 570px;
         height: 26px;
         display: block;
         font-family: Open Sans;
@@ -49,7 +77,7 @@
     }
     
     .login_input {
-        width: 570px;
+        width: 100%;
         height: 60px;  display: block;
         background: #F9F9F9;
         border: 1px solid #9BA1B3;
@@ -72,7 +100,6 @@
     
     .input-icon{
         position: absolute;
-        left: 543px;
       	cursor: pointer;
         opacity: 0.6;
         top: calc(50% - 1.8em); /* Keep icon in center of input, regardless of the input height */
@@ -87,7 +114,7 @@
     }
     
     .login_button {
-        width: 570px;
+        width: 100%;
         height: 60px;
         background-color: #004E87;
         border-radius: 4px;font-family: Open Sans;
@@ -111,74 +138,20 @@
     	color: #ff0000;
     	display: block;
     	font-family: 'Open Sans';
+      text-align: left;
   }
-  fieldset {
-  --typography-size: 16px;
-  --base-ratio: 4px;
-  font-family: monospace;
-  padding: 0;
-  margin: 0;
-  border: none;
-}
-
-input {
-  font-size: var(--typography-size);
-  font-family: inherit;
-  margin: 0;
-  padding: 0;
-  padding-top: calc(var(--base-ratio) * 3);
-  padding-bottom: calc(var(--base-ratio) * 2);
-  padding-left: calc(var(--base-ratio) * 3);
-  border: 1px solid #c3c3c3;
-}
-
-input::placeholder {
-  opacity: 0;
-}
-
-legend {
-  font-size: var(--typography-size);
-  padding: 0 var(--base-ratio);
-  margin-left: calc(2 * var(--base-ratio) + 1px);
-  transform: translateY(calc(220% + 3 * var(--base-ratio) + 1px));
-  background: transparent;
-  transition: all 0.75s ease;
-  color: #60666c;
-  font-family: 'Open Sans';
-}
-
-input:not(:placeholder-shown) ~ legend  {
-  color: #60666c;
-  background: white;
-  transform: translateY(155%);
-/*   padding: 0; */ /* optional */
-}
-
-label {
-  cursor: text;
-  font-size: var(--typography-size);
-  text-transform: capitalize;
-  transition: font-size 0.75s ease;
-}
-
-input:not(:placeholder-shown) ~ legend > label  {
- font-size: calc(var(--typography-size) * 0.9);
-}
   
   .emailError{
   	color: #ff0000;
     font-size: 16px;
     color: #ff0000;
     display: block;
+    margin-top: 10px;
     font-family: 'Open Sans';
+    text-align: left;
   }
 
 /* Just for demo */
-
-form {
- margin: 0 auto;
- width: fit-content;
-}
 
 .title {
   font-size: 24px;
@@ -203,10 +176,53 @@ form {
   #error_messages{
   	padding-left:20px;
     margin-top: 10px;
+    text-align: left;
   }
   .login_button{
   	background-color: #004E87 !important;
   }
+  .error_border{
+  	border: 1px solid #B63125;
+  }
+  .error-block {
+    width: 100%;
+    background: rgba(182, 49, 37, 0.12);
+    border: 1px solid #B63125;
+    box-sizing: border-box;
+    border-radius: 4px;
+    padding: 0 8px 8px 8px;
+    display: flex;
+    align-items: baseline;
+    text-align: left;
+}
+
+.icon-block{
+    flex: 5%;
+}
+
+.message-block {
+    flex: 95%;
+}
+
+.error-icon {
+    color: red;
+    font-size: 18px;
+}
+.dnone {
+    display:none;
+}
+  .user-block {
+    font-size: 15px;
+    margin-top: 40px;
+    color: #60666C;
+    text-align: left;
+}
+
+.loggedUserDetail{
+    margin-top: -9px;
+    font-weight: 800;
+    color: #000;
+}
     </style>
     <div class="login_module center" id='${planBlockId}'>
         <div id="login_text_1">
@@ -216,18 +232,33 @@ form {
         <div id="login_text_2">
         This will be used to log in to our website and app. 
         </div>
-        <fieldset>
+        <fieldset id="userEmailField">
         <input type="text" 
                class="login_input" 
                placeholder="Email address"
                id="login_email"
+               onfocus="removeError()"
                  />
           <span class="emailError" id="emailErrorInfo"></span>
     	<legend><label for="username">Email address</label></legend>
  </fieldset>
-        <span class="emailError" id="login_error"></span>
-    
+        <span class="pwd_error" id="login_error"><i class="fa fa-exclamation-circle" aria-hidden="true"></i>Enter a valid email address</span>
+    	<div id="user-block" class="user-block dnone">
+          <p>You're logged in as</p>
+          <p id="loggedUserDetail" class="loggedUserDetail"></p>
+      </div>
+      <div id="error-block" class="error-block dnone">
+            <div class="icon-block">
+                <i class="error-icon fa fa-exclamation-circle" aria-hidden="true"></i>
+            </div>
+            <div class="message-block">
+                <span class="emailError" id="service_error">
+                    
+                </span>
+            </div>
+        </div>
         <div class="input-wrapper" id="divPassword">
+          
           <fieldset>
             <input  type="password"
                     class="login_input login_password"
@@ -246,6 +277,7 @@ form {
                 <span class="pwd_pass" id="reqNumber"><i id="error_rn" class="elepos fa fa-exclamation-circle" aria-hidden="true"></i>Include at least 1 number</span>
           </div>
         </div>
+      	<span class="emailError" id="service_error2"></span>
                 
         <input type="button" class="login_button" value="Continue" onClick="submitLogin()">
         <input type="hidden" id="isNewUser" name="isNewUser" value="0">
@@ -253,28 +285,30 @@ form {
     <script>
       setTimeout(function(){ 
       	var loggedInUser = trb.data.user.email;
-        console.log('loggedInUser:',loggedInUser);
+        document.getElementById("login_error").style.display = "none";
         //var loginData = recDssState.getData("login");
         if (loggedInUser != null) {
-          console.log('login email id:',  loggedInUser);
           document.getElementById("login_email").value = loggedInUser;
+          document.getElementById("login_text_1").innerHTML = "${welcome_msg}";
+          document.getElementById("login_text_2").innerHTML = "${welcome_msg2}";
         }
       }, 0);
       
       let validPassword = false;
+      let btnContinueEnable = true;
       document.getElementById("error_ml").style.display = "none";
       document.getElementById("error_rl").style.display = "none";
       document.getElementById("error_rn").style.display = "none";
-      
 
 function submitLogin() {
-  recDssState.nextStep();
+    if(btnContinueEnable){
+        recDssState.nextStep();
+    }
 }
       
 function toogleEye(){
 	var eyePwd = document.getElementById("eyePwd");
 	var password = document.getElementById("password");
-	console.log('toggle function');
 	if (eyePwd.classList.contains('fa-eye-slash')) {
 		eyePwd.classList.remove('fa-eye-slash');
 		eyePwd.classList.add('fa-eye');
@@ -286,6 +320,11 @@ function toogleEye(){
 
 		password.type = 'password';
 	}
+}
+      
+function removeError(){
+  document.getElementById("login_email").classList.remove('error_border');
+  document.getElementById("login_error").style.display = "none";
 }
       
 function validatePass(){
@@ -326,21 +365,39 @@ function validatePass(){
   	validPassword = true;
   }
 }
+      
+function existedUser(){
+	document.getElementById('divPassword').style.display = 'none';
+    document.getElementById("login_text_1").innerHTML = "${welcome_msg}";
+    document.getElementById("login_text_2").innerHTML = "${userExistMsg}";
+  	document.getElementById('error-block').style.display = 'none';
+  	
+}
 
+function setState(){
+	let marketCode = recDssState.getData('params').market;
+    recDssState.setData("current_market",  {
+      code : marketCode,
+      name : recDssState.getData('markets')[marketCode].name
+    });
+	recDssState.setData('login', null );
+  	recDssState.setData('ssor_id', null );
+}
+      
 (() => {
   
   let blnGoToPayment = false;
-      
+  let ExistedUser = false;
+  setState();
   async function validateEmail(){
     console.log("Validating email");
-
+	  
       let email = document.getElementById('login_email').value;
-      if ( /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/.test(email)){
+      if ( /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email)){
           /* Registering data in global recDssState */
           recDssState.setData("login",  {
                   email : email
           });
-
           // Simulating that user exists
           document.getElementById("isNewUser").value = 1;
         	var loc = location;
@@ -356,11 +413,11 @@ function validatePass(){
             },
             "async": false
           };
-          let userExistCheckCall = userExist(userExistCheck);
-        console.log(userExistCheckCall);
+          
+        
+          let userExistCheckCall = trb.registration.utils.page.userExist(userExistCheck);
+          
           var validationError = true;
-          //$.ajax(userExistCheck).done(function (response){
-          //  console.log(response);
             if(userExistCheckCall.exists){
                 validationError = false;
             	recDssState.setData("ssor_id",  {
@@ -368,7 +425,6 @@ function validatePass(){
                   enc_ssor_id : userExistCheckCall.enc_ssor_id
           		});
               	var userSystem = {
-                  //"url": "https://dss.p2p.stage.int.tribops.com/subscriptions/user/systemcheck/ctc",
                   "url": "https://dss.p2p" + host + "/subscriptions/user/systemcheck/ctc",
                   "method": "GET",
 
@@ -377,70 +433,151 @@ function validatePass(){
                   },
                   "async": false
                 };
-                let accountCheckResponse = userSystemCheck(userSystem);
-              	//$.ajax(userSystem).done(function (userSystemRes){
-                	console.log(accountCheckResponse);
-                //});
+                let accountCheckResponse = trb.registration.utils.page.userSystemCheck(userSystem);
               	
               	var errorMessage = "";
               	if(accountCheckResponse.ssor_response_code == 0){
-                    console.log('Service Failed, please check after sometime.');
                   	errorMessage = "${serviceDown}";
+                    btnContinueEnable = false;
                 } else if(accountCheckResponse.ssor_response_code == 2){
-                    console.log('Go for registration');
                   	validationError = true;
                 } else if(accountCheckResponse.ssor_response_code == 1){
                     if(accountCheckResponse.mg2_response_code == 0 && accountCheckResponse.recurly_response_code == 0){
-                        console.log('Service Failed, please check after sometime.');
-                      	errorMessage = "${serviceDown}";
+                        errorMessage = "${serviceDown}";
+                        btnContinueEnable = false;
                     }else if(accountCheckResponse.mg2_response_code == 0 && accountCheckResponse.recurly_response_code == 1){
-                        console.log('Link for recurly');
-                      	errorMessage = "${recurlyExistMessage}" + "Login <a href='${recurlyLoginLink}'>here</a> or Reset your password <a href='${recurlyResetLink}'>here</a>";
+                        btnContinueEnable = false;
+                      	errorMessage = "${recurlyExistMessage}" + "Login <a href='${recurlyLoginLink}'>here</a> or Reset your password <a href='${recurlyResetLink}'>here.</a>";
                     }else if(accountCheckResponse.mg2_response_code == 0 && accountCheckResponse.recurly_response_code == 2){
-                        console.log('Service Failed, please check after sometime.');
+                        btnContinueEnable = false;
                       	errorMessage = "${serviceDown}";
                     }else if(accountCheckResponse.mg2_response_code == 1 && accountCheckResponse.recurly_response_code == 0){
-                        console.log('Link for MG2');
-                      	errorMessage = "${recurlyExistMessage}" + "Login <a href='${mg2LoginLink}'>here</a> or Reset your password <a href='${mg2ResetLink}'>here</a>";
+                        btnContinueEnable = false;
+                      	errorMessage = "${recurlyExistMessage}" + "Login <a href='${mg2LoginLink}'>here</a> or Reset your password <a href='${mg2ResetLink}'>here.</a>";
                     }else if(accountCheckResponse.mg2_response_code == 1 && accountCheckResponse.recurly_response_code == 1){
-                        console.log('Provide link for recurly');
-                      	errorMessage = "${recurlyExistMessage}" + "Login <a href='${recurlyLoginLink}'>here</a> or Reset your password <a href='${recurlyResetLink}'>here</a>";
+                        btnContinueEnable = false;
+                      	errorMessage = "${recurlyExistMessage}" + "Login <a href='${recurlyLoginLink}'>here</a> or Reset your password <a href='${recurlyResetLink}'>here.</a>";
                     }else if(accountCheckResponse.mg2_response_code == 1 && accountCheckResponse.recurly_response_code == 2){
-                        console.log('Link for MG2');
-                      	errorMessage = "${recurlyExistMessage}" + "Login <a href='${mg2LoginLink}'>here</a> or Reset your password <a href='${mg2ResetLink}'>here</a>";
+                        btnContinueEnable = false;
+                      	errorMessage = "${recurlyExistMessage}" + "Login <a href='${mg2LoginLink}'>here</a> or Reset your password <a href='${mg2ResetLink}'>here.</a>";
                     }else if(accountCheckResponse.mg2_response_code == 2 && accountCheckResponse.recurly_response_code == 0){
-                        console.log('Service Failed, please check after sometime.');
-                      	errorMessage = "${serviceDown}";
+                        errorMessage = "${serviceDown}";
+                        btnContinueEnable = false;
                     }else if(accountCheckResponse.mg2_response_code == 2 && accountCheckResponse.recurly_response_code == 1){
-                        console.log('Provide link for recurly');
-                      	errorMessage = "${recurlyExistMessage}" + "Login <a href='${recurlyLoginLink}'>here</a> or Reset your password <a href='${recurlyResetLink}'>here</a>";
+                        btnContinueEnable = false;
+                      	errorMessage = "${recurlyExistMessage}" + "Login <a href='${recurlyLoginLink}'>here</a> or Reset your password <a href='${recurlyResetLink}'>here.</a>";
                     }else if(accountCheckResponse.mg2_response_code == 2 && accountCheckResponse.recurly_response_code == 2){
-                        console.log('Go for Payment');
-                      	//recDssState.setStep(${step_authenticate});
-                      	blnGoToPayment = true;
+                        blnGoToPayment = true;
                       	validationError = true;
+                      	ExistedUser = true;
                     }
                 }
-                document.getElementById('login_error').innerHTML = errorMessage;
+                document.getElementById('service_error2').innerHTML = errorMessage;
             } else {
             	return true;
             }
 
-          // Simulating that is a valid user
           // return true;
           return validationError;
       }
-      alert('Invalid email');
-		
+	  document.getElementById("login_email").classList.add('error_border');
+      document.getElementById("login_error").style.display = "block";
       return false;
   }
-  recDssState.addValidator(${step_validate_email}, validateEmail);
+  
   
    recDssState.subscribe((step) => {
        let isNewUser = parseInt(document.getElementById("isNewUser").value);
-
         if (step == ${step_authenticate}) {
           
+          if(ExistedUser){
+            document.getElementById('divPassword').style.display = 'none';
+            document.getElementById("login_text_1").innerHTML = "${welcome_msg}";
+          	document.getElementById("login_text_2").innerHTML = "${userExistMsg}";
+          	return;
+          }
+          
+          if (trb.data.user.email != null) {
+            var loc = location;
+        	var stage = ~loc.hostname.indexOf('stage');
+            var host = stage ? '.stage.int.tribops.com' : '.tribdss.com';
+
+            var userExistCheck = {
+              "url": "https://ssor.p2p" + host + "/consumers/user_exists",
+              "method": "GET",
+
+              "data": {
+                "email": trb.data.user.email
+              },
+              "async": false
+            };
+
+
+            let userExistCheckCall = trb.registration.utils.page.userExist(userExistCheck);
+            if(userExistCheckCall.exists){
+              	
+                recDssState.setData("login",  {
+                      email : trb.data.user.email
+              });
+            	recDssState.setData("ssor_id",  {
+                  ssor_id: userExistCheckCall.ssor_id,
+                  enc_ssor_id : userExistCheckCall.enc_ssor_id
+          		});
+              	var userSystem = {
+                  "url": "https://dss.p2p" + host + "/subscriptions/user/systemcheck/ctc",
+                  "method": "GET",
+
+                  "data": {
+                    "ssor_id": userExistCheckCall.enc_ssor_id
+                  },
+                  "async": false
+                };
+              let accountCheckResponse = trb.registration.utils.page.userSystemCheck(userSystem);
+              var errorMessage = "";
+              	if(accountCheckResponse.ssor_response_code == 0){
+                    errorMessage = "${serviceDown}";
+                    btnContinueEnable = false;
+                } else if(accountCheckResponse.ssor_response_code == 2){
+                    validationError = true;
+                } else if(accountCheckResponse.ssor_response_code == 1){
+                  	document.getElementById('userEmailField').style.display = "none";
+                    if(accountCheckResponse.mg2_response_code == 0 && accountCheckResponse.recurly_response_code == 0){
+                        errorMessage = "${serviceDown}";
+                        btnContinueEnable = false;
+                    }else if(accountCheckResponse.mg2_response_code == 0 && accountCheckResponse.recurly_response_code == 1){
+                        errorMessage = "${recurlyExistMessage}" + "Manage your subscription <a href='${recurlyLoginLink}'>here</a> or Reset your password <a href='${recurlyResetLink}'>here.</a>";
+                    }else if(accountCheckResponse.mg2_response_code == 0 && accountCheckResponse.recurly_response_code == 2){
+                        errorMessage = "${serviceDown}";
+                        btnContinueEnable = false;
+                    }else if(accountCheckResponse.mg2_response_code == 1 && accountCheckResponse.recurly_response_code == 0){
+                        btnContinueEnable = false;
+                      	errorMessage = "${recurlyExistMessage}" + "Manage your subscription <a href='${mg2LoginLink}'>here</a> or Reset your password <a href='${mg2ResetLink}'>here.</a>";
+                    }else if(accountCheckResponse.mg2_response_code == 1 && accountCheckResponse.recurly_response_code == 1){
+                        btnContinueEnable = false;
+                      	errorMessage = "${recurlyExistMessage}" + "Manage your subscription <a href='${recurlyLoginLink}'>here</a> or Reset your password <a href='${recurlyResetLink}'>here.</a>";
+                    }else if(accountCheckResponse.mg2_response_code == 1 && accountCheckResponse.recurly_response_code == 2){
+                        ExistedUser = true;
+                      	errorMessage = "${recurlyExistMessage}" + "Manage your subscription <a href='${mg2LoginLink}'>here</a> or Reset your password <a href='${mg2ResetLink}'>here.</a>";
+                    }else if(accountCheckResponse.mg2_response_code == 2 && accountCheckResponse.recurly_response_code == 0){
+                        errorMessage = "${serviceDown}";
+                        btnContinueEnable = false;
+                    }else if(accountCheckResponse.mg2_response_code == 2 && accountCheckResponse.recurly_response_code == 1){
+                        btnContinueEnable = false;
+                      	errorMessage = "${recurlyExistMessage}" + "Manage your subscription <a href='${recurlyLoginLink}'>here</a> or Reset your password <a href='${recurlyResetLink}'>here.</a>";
+                    }else if(accountCheckResponse.mg2_response_code == 2 && accountCheckResponse.recurly_response_code == 2){
+                        blnGoToPayment = true;
+                      	validationError = true;
+                      	ExistedUser = true;
+                      	existedUser();
+                    }
+                }
+                document.getElementById("user-block").classList.remove('dnone');
+                document.getElementById("error-block").classList.remove('dnone');
+              	document.getElementById('loggedUserDetail').innerHTML = trb.data.user.email;
+                document.getElementById('service_error').innerHTML = errorMessage;
+            }
+            return;
+          }
           if (blnGoToPayment) {
               console.log("Go to Payment");
               recDssState.addValidator(${step_authenticate}, async ()=>{ return true; });
@@ -463,21 +600,20 @@ function validatePass(){
                     "host_url": "https://tribune.ssor.stage.trbdevcloud.com"
                   },
                 };
-				let createdUser = createUser(userDetails);
+				let createdUser = trb.registration.utils.page.createUser(userDetails);
                 //$.ajax(userDetails).done(function (response)
 				if(createdUser.success){
                 //{  
-                  console.log(createdUser);
-                	recDssState.setData("createdUserData",  {
-                      user : createdUser
-                    });	
+                  	recDssState.setData("ssor_id",  {
+                      ssor_id: createdUser.masterId,
+                      enc_ssor_id : createdUser.encryptedMasterId
+                    });
                 }
                 //});
                   return true;
               });
           } else {
               recDssState.addValidator(step, async () => {
-                  console.log(validPassword);
                   console.log("Validating password");
                   return validPassword;
               });
@@ -493,5 +629,14 @@ function validatePass(){
 
         console.log("Execute action from module.");
     });
+  
+  if (trb.data.user.email == null) {
+    console.log('Adding first step validation for email');
+  	recDssState.addValidator(${step_validate_email}, validateEmail);
+  } else {
+  	 recDssState.nextStep();
+     console.log('console after next step');
+  }
+  
 })();  
     </script>
